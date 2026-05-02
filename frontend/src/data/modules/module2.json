@@ -1,0 +1,29 @@
+{
+  "module_title": "Simplifying Expressions",
+  "module_description": "Learn how to combine like terms.",
+  "total_screens": 3,
+  "screens": [
+    {
+      "title": "Like Terms",
+      "type": "story",
+      "difficulty": "beginner",
+      "reward": { "screen_completion_points": 10 }
+    },
+    {
+      "title": "Combining Terms",
+      "type": "story",
+      "difficulty": "beginner",
+      "reward": { "screen_completion_points": 10 }
+    },
+    {
+      "title": "Simplify Expression",
+      "type": "quiz",
+      "difficulty": "beginner",
+      "reward": { "screen_completion_points": 20 }
+    }
+  ],
+  "module_rewards": {
+    "completion_points": 60,
+    "completion_badge": "Simplifier"
+  }
+}

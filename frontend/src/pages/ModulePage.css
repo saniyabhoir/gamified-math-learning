@@ -149,3 +149,118 @@
     font-size: 0.78rem;
   }
 }
+
+/* ============================================================
+   ADDITIONS to frontend/src/pages/ModulePage.css
+   Append these rules to the existing ModulePage.css file
+   ============================================================ */
+
+/* ── Back button ── */
+.mp-back-btn {
+  position: fixed;
+  top: 70px; /* below ProgressBar */
+  left: 1rem;
+  z-index: 50;
+  background: rgba(11, 15, 26, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 100px;
+  color: rgba(255, 255, 255, 0.5);
+  font-family: var(--font-body, 'Nunito', sans-serif);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.mp-back-btn:hover {
+  color: var(--mp-gold, #e8a838);
+  border-color: rgba(232, 168, 56, 0.4);
+  background: rgba(11, 15, 26, 0.95);
+}
+
+/* ── Loading screen ── */
+.mp-loader {
+  min-height: 100vh;
+  background: var(--mp-bg, #0b0f1a);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  font-family: var(--font-body, 'Nunito', sans-serif);
+}
+
+.mp-loader-spinner {
+  width: 44px;
+  height: 44px;
+  border: 4px solid rgba(255, 255, 255, 0.06);
+  border-top-color: var(--mp-gold, #e8a838);
+  border-radius: 50%;
+  animation: mpSpin 0.8s linear infinite;
+}
+
+@keyframes mpSpin {
+  to { transform: rotate(360deg); }
+}
+
+.mp-loader-text {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.3);
+  margin: 0;
+}
+
+/* ── Error screen ── */
+.mp-error {
+  min-height: 100vh;
+  background: var(--mp-bg, #0b0f1a);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  font-family: var(--font-body, 'Nunito', sans-serif);
+  text-align: center;
+  padding: 2rem;
+}
+
+.mp-error-icon {
+  font-size: 3rem;
+}
+
+.mp-error-title {
+  font-family: var(--font-display, 'Cinzel', serif);
+  font-size: 1.5rem;
+  color: var(--mp-text, #e8edf4);
+  margin: 0;
+}
+
+.mp-error-sub {
+  font-size: 0.9rem;
+  color: var(--mp-text-muted, #7a8aaa);
+  margin: 0;
+}
+
+.mp-error-btn {
+  margin-top: 0.5rem;
+  padding: 0.7rem 1.8rem;
+  background: linear-gradient(135deg, var(--mp-gold, #e8a838) 0%, #c87820 100%);
+  border: none;
+  border-radius: 12px;
+  color: #0b0f1a;
+  font-family: var(--font-body, 'Nunito', sans-serif);
+  font-size: 0.95rem;
+  font-weight: 900;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 8px 24px rgba(232, 168, 56, 0.4);
+}
+
+.mp-error-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(232, 168, 56, 0.55);
+}

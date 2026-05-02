@@ -1,0 +1,481 @@
+/* frontend/src/components/common/ModuleCard.css */
+
+/* ── Card shell ── */
+.mc-card {
+  position: relative;
+  background: var(--theme-grad);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 28px;
+  padding: 2rem;
+  overflow: hidden;
+  cursor: pointer;
+  transition:
+    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.35s ease,
+    border-color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  min-height: 560px;
+  outline: none;
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mc-card:focus-visible {
+  box-shadow: 0 0 0 3px var(--theme-accent, #e8a838);
+}
+
+.mc-card--hover {
+  transform: translateY(-8px) scale(1.01);
+  box-shadow:
+    0 40px 100px rgba(0, 0, 0, 0.65),
+    0 0 60px var(--theme-glow, rgba(232, 168, 56, 0.2)),
+    0 0 0 1px var(--theme-accent, #e8a838) inset;
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.mc-card--complete {
+  border-color: rgba(74, 222, 128, 0.2);
+}
+
+/* ── Decorative elements ── */
+.mc-watermark {
+  position: absolute;
+  top: -0.5rem;
+  right: 1.5rem;
+  font-family: 'Cinzel', 'Georgia', serif;
+  font-size: 9rem;
+  font-weight: 700;
+  color: var(--theme-accent, #e8a838);
+  opacity: 0.04;
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+  z-index: 0;
+}
+
+.mc-card--hover .mc-watermark {
+  opacity: 0.07;
+}
+
+.mc-glow-orb {
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--theme-glow, rgba(232,168,56,0.15)) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  transition: transform 0.35s ease;
+}
+
+.mc-card--hover .mc-glow-orb {
+  transform: scale(1.3);
+}
+
+/* All content above decoratives */
+.mc-ribbon,
+.mc-title-block,
+.mc-progress-section,
+.mc-stats-grid,
+.mc-concepts,
+.mc-completion-badge,
+.mc-actions {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Ribbon (top row) ── */
+.mc-ribbon {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.mc-module-num {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.mc-num-label {
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.mc-num-val {
+  font-family: 'Cinzel', 'Georgia', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--theme-accent, #e8a838);
+  line-height: 1;
+  text-shadow: 0 0 20px var(--theme-glow, rgba(232,168,56,0.4));
+}
+
+.mc-ribbon-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.4rem;
+}
+
+.mc-diff-pill {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  border: 1px solid;
+  border-radius: 100px;
+  padding: 0.25rem 0.7rem;
+}
+
+.mc-badge-pill {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  border-radius: 100px;
+  padding: 0.22rem 0.65rem;
+}
+
+.mc-badge-pill--done {
+  background: rgba(74, 222, 128, 0.15);
+  color: #4ade80;
+  border: 1px solid rgba(74, 222, 128, 0.3);
+}
+
+/* ── Title block ── */
+.mc-title-block {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.mc-module-icon {
+  font-size: 2.2rem;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 12px var(--theme-glow, rgba(232,168,56,0.5)));
+}
+
+.mc-title {
+  font-family: 'Cinzel', 'Georgia', serif;
+  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+  font-weight: 700;
+  color: #e8edf4;
+  margin: 0 0 0.4rem;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+}
+
+.mc-desc {
+  font-size: 0.83rem;
+  color: #6b7a99;
+  margin: 0;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── Progress ── */
+.mc-progress-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.mc-progress-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.mc-progress-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.mc-progress-pct {
+  font-size: 1.1rem;
+  font-weight: 900;
+  font-family: 'Cinzel', serif;
+}
+
+.mc-bar-track {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.mc-bar-fill {
+  height: 100%;
+  border-radius: 100px;
+  transition: width 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 10px currentColor;
+}
+
+.mc-progress-sub {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.25);
+  font-weight: 600;
+}
+
+/* ── Stats grid ── */
+.mc-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7rem;
+}
+
+.mc-stat {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  padding: 0.75rem 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.mc-card--hover .mc-stat {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.mc-stat-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.mc-stat-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+}
+
+.mc-stat-val {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--accent, #e8a838);
+  line-height: 1;
+}
+
+.mc-stat-lbl {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.28);
+}
+
+/* ── Key concepts ── */
+.mc-concepts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.mc-concepts-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.28);
+}
+
+.mc-concept-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.mc-concept-tag {
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 0.25rem 0.6rem;
+  color: rgba(255, 255, 255, 0.5);
+  transition: background 0.2s, color 0.2s;
+}
+
+.mc-card--hover .mc-concept-tag {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ── Completion badge ── */
+.mc-completion-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 14px;
+  padding: 0.8rem 1rem;
+}
+
+.mc-badge-icon {
+  font-size: 1.6rem;
+  flex-shrink: 0;
+}
+
+.mc-badge-name {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #e8edf4;
+  line-height: 1.2;
+}
+
+.mc-badge-sub {
+  display: block;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.3);
+  margin-top: 0.15rem;
+}
+
+/* ── Actions ── */
+.mc-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin-top: auto;
+}
+
+/* Main CTA */
+.mc-cta {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 1.3rem;
+  border: none;
+  border-radius: 14px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.mc-cta-icon {
+  font-size: 1.1rem;
+  font-weight: 900;
+}
+
+.mc-cta--start {
+  background: linear-gradient(135deg, var(--accent, #e8a838) 0%, #c87820 100%);
+  color: #0b0f1a;
+  box-shadow: 0 8px 24px var(--glow, rgba(232,168,56,0.35));
+}
+
+.mc-cta--start:hover {
+  box-shadow: 0 12px 36px var(--glow, rgba(232,168,56,0.5));
+  transform: translateY(-1px);
+}
+
+.mc-cta--continue {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--accent, #e8a838);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.mc-cta--continue:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--accent, #e8a838);
+}
+
+.mc-cta--replay {
+  background: rgba(74, 222, 128, 0.1);
+  color: #4ade80;
+  border: 1px solid rgba(74, 222, 128, 0.25);
+}
+
+.mc-cta--replay:hover {
+  background: rgba(74, 222, 128, 0.18);
+}
+
+/* Game buttons */
+.mc-games {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+}
+
+.mc-game-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.9rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.mc-game-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.mc-game-icon {
+  font-size: 1rem;
+}
+
+.mc-game-label {
+  flex: 1;
+  text-align: left;
+}
+
+.mc-game-badge {
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 0.15rem 0.35rem;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .mc-card {
+    padding: 1.5rem;
+    min-height: auto;
+    gap: 1.1rem;
+  }
+
+  .mc-stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .mc-watermark {
+    font-size: 6rem;
+  }
+}

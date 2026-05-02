@@ -1,707 +1,793 @@
-
 {
-  "module_id": "M1",
-  "module_title": "Introduction to Algebra",
-  "module_order": 1,
-  "module_description": "Students learn the foundations of algebra through story-based conceptual teaching, progressive quizzes, and a final mastery challenge.",
-  "estimated_completion_time": "45-60 minutes",
-
-  "module_rewards": {
-    "completion_badge": "Algebra Explorer",
-    "completion_points": 100
+  "module_id": "module_1",
+  "title": "The Number Kingdom",
+  "subtitle": "A Journey Into Place Value",
+  "version": "2.0.0",
+  "theme": {
+    "primary_color": "#6C63FF",
+    "secondary_color": "#F7B731",
+    "bg_gradient": "linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)",
+    "font_style": "rounded",
+    "mood": "wonder"
   },
-
-  "final_challenge": {
-    "challenge_id": "M1_FINAL",
-    "title": "Algebra Detective Challenge",
-    "status": "placeholder",
-    "description": "Students solve a final mystery using all Module 1 concepts.",
-    "future_game_type": "logic_challenge"
+  "characters": {
+    "NOVA": {
+      "id": "NOVA",
+      "name": "Nova",
+      "role": "mentor",
+      "description": "A warm, enthusiastic young robot with glowing blue eyes. Nova loves numbers and gets genuinely excited when a student understands something new. Nova speaks in simple, encouraging language and uses relatable analogies.",
+      "avatar": "nova_robot",
+      "color": "#6C63FF",
+      "personality_tags": ["encouraging", "curious", "warm", "playful"]
+    },
+    "ZAP": {
+      "id": "ZAP",
+      "name": "Zap",
+      "role": "companion",
+      "description": "A small, energetic lightning-bolt sprite who is always learning alongside the student. Zap asks the questions the student might be afraid to ask, and celebrates every small win loudly.",
+      "avatar": "zap_sprite",
+      "color": "#F7B731",
+      "personality_tags": ["excitable", "curious", "relatable", "cheerful"]
+    },
+    "KING_DECI": {
+      "id": "KING_DECI",
+      "name": "King Deci",
+      "role": "world_character",
+      "description": "The wise ruler of the Number Kingdom. King Deci is calm, dignified, and speaks in riddles that Nova helps the student decode.",
+      "avatar": "king_deci",
+      "color": "#E17055",
+      "personality_tags": ["wise", "regal", "warm", "mysterious"]
+    }
   },
-
-  "total_screens": 5,
-
+  "meta": {
+    "subject": "Mathematics",
+    "grade_level": "Grade 2-3",
+    "curriculum_standard": "Place Value – Ones, Tens, Hundreds",
+    "estimated_duration_minutes": 35,
+    "learning_objectives": [
+      "Identify the ones, tens, and hundreds place in a number",
+      "Understand that position determines value",
+      "Read and write numbers up to 999",
+      "Compare numbers using place value reasoning",
+      "Decompose numbers into expanded form"
+    ],
+    "prerequisite_modules": [],
+    "next_module": "module_2",
+    "tags": ["place_value", "number_sense", "foundational"]
+  },
+  "progression": {
+    "total_screens": 14,
+    "xp_per_screen": 10,
+    "max_xp": 200,
+    "badge_unlock": "place_value_explorer",
+    "completion_reward": {
+      "badge_id": "place_value_explorer",
+      "badge_name": "Place Value Explorer",
+      "badge_description": "You mastered the secret language of numbers!",
+      "badge_icon": "badge_explorer",
+      "xp_awarded": 50
+    }
+  },
+  "analytics": {
+    "module_start_event": "module_1_started",
+    "module_complete_event": "module_1_completed",
+    "concept_tags": ["place_value", "ones", "tens", "hundreds", "expanded_form", "comparison"],
+    "mistake_log_enabled": true,
+    "hint_usage_tracked": true,
+    "time_per_screen_tracked": true
+  },
   "screens": [
     {
-  "screen_id": "M1_S1",
-  "screen_order": 1,
-  "title": "The Mystery Box",
-  "objective": "Students discover unknown values and learn to solve hidden quantity problems.",
-  "difficulty": "beginner",
-  "concept_tags": ["unknown_values"],
-
-  "assets": {
-    "background": "sweet_shop_bg",
-    "character_portraits": {
-      "meena": "meena_default",
-      "arjun": "arjun_thinking"
-    },
-    "visual_states": {
-      "jar_closed": "jar_closed",
-      "jar_plus": "jar_plus_2",
-      "jar_open": "jar_open"
-    }
-  },
-
-  "story_segments": [
-    {
-      "segment_id": "M1_S1_SEG1",
-      "speaker": "Meena Aunty",
-      "portrait": "meena",
-      "text": "I added 2 laddoos to this jar. Now there are 5.",
-      "background": "sweet_shop_bg",
-      "visual_state": "jar_closed",
-      "trigger": "next"
-    },
-    {
-      "segment_id": "M1_S1_SEG2",
-      "speaker": "Meena Aunty",
-      "portrait": "meena",
-      "text": "Can you figure out how many laddoos were there before?",
-      "background": "sweet_shop_bg",
-      "visual_state": "jar_plus",
-      "trigger": "next"
-    },
-    {
-      "segment_id": "M1_S1_SEG3",
-      "speaker": "Arjun",
-      "portrait": "arjun",
-      "text": "If adding 2 made 5, then there must have been 3 before!",
-      "background": "sweet_shop_bg",
-      "visual_state": "jar_open",
-      "trigger": "next"
-    },
-    {
-      "segment_id": "M1_S1_SEG4",
-      "speaker": "Narrator",
-      "portrait": null,
-      "text": "This hidden starting number is called an unknown value.",
-      "background": "sweet_shop_bg",
-      "visual_state": "jar_open",
-      "trigger": "next"
-    }
-  ],
-
-  "concept_explanation": {
-    "title": "Understanding Unknown Values",
-    "main_rule": "Unknown values are hidden quantities that can be solved by reversing operations.",
-    "examples": [
-      {
-        "expression": "x + 2 = 5",
-        "solution": "x = 3"
+      "screen_id": "s1_opening",
+      "screen_index": 1,
+      "type": "story",
+      "scene": {
+        "background": "bg_number_kingdom_gate",
+        "bg_gradient": "linear-gradient(160deg, #0f0c29, #302b63, #24243e)",
+        "ambient": "stars_twinkling",
+        "music": "theme_wonder"
       },
-      {
-        "expression": "x + 4 = 9",
-        "solution": "x = 5"
+      "dialogue": [
+        {
+          "character": "NOVA",
+          "expression": "excited",
+          "text": "Oh wow — you made it! Welcome, welcome! I've been waiting for you.",
+          "pause_after": 600
+        },
+        {
+          "character": "NOVA",
+          "expression": "warm",
+          "text": "I'm Nova. And this... is the Number Kingdom. Every number you've ever seen — 5, 27, 304 — they all have a secret. A secret hiding in their digits.",
+          "pause_after": 800
+        },
+        {
+          "character": "ZAP",
+          "expression": "bouncing",
+          "text": "Ooh, secrets?! I love secrets! Does 7 have a secret? What about 100?",
+          "pause_after": 400
+        },
+        {
+          "character": "NOVA",
+          "expression": "laughing",
+          "text": "Ha! Yes, Zap — all of them! And by the time we finish today, you'll be able to read the secret language of every number up to 999.",
+          "pause_after": 600
+        },
+        {
+          "character": "NOVA",
+          "expression": "encouraging",
+          "text": "Ready? Let's go in.",
+          "pause_after": 0
+        }
+      ],
+      "xp_value": 5,
+      "analytics_event": "screen_s1_opening_viewed"
+    },
+    {
+      "screen_id": "s2_ones_intro",
+      "screen_index": 2,
+      "type": "story_concept",
+      "scene": {
+        "background": "bg_kingdom_courtyard",
+        "bg_gradient": "linear-gradient(135deg, #1a1a2e, #2d2d6e)",
+        "ambient": "soft_glow"
       },
-      {
-        "expression": "x + 6 = 10",
-        "solution": "x = 4"
-      }
-    ]
-  },
-
-  "quiz_questions": [
-    {
-      "question_id": "M1_S1_Q1",
-      "question_type": "MCQ",
-      "question_text": "A basket had some mangoes. 4 more were added. Now there are 9. How many were there at the start?",
-      "options": ["4", "5", "9", "13"],
-      "correct_answer": "5",
-      "feedback_correct": "Correct! 9 - 4 = 5.",
-      "feedback_incorrect": "Work backwards from the final total.",
-      "points": 5,
-      "mistake_tracking": {
-        "concept_tag": "unknown_values",
-        "error_type": "reverse_operation_failure",
-        "revision_priority": "high"
-      }
-    },
-    {
-      "question_id": "M1_S1_Q2",
-      "question_type": "MCQ",
-      "question_text": "Which situation contains an unknown value?",
-      "options": [
-        "5 + 3 = 8",
-        "A box has some coins and 3 more are added to make 10",
-        "2 × 6 = 12",
-        "7 - 2 = 5"
-      ],
-      "correct_answer": "A box has some coins and 3 more are added to make 10",
-      "feedback_correct": "Correct! The starting value is hidden.",
-      "feedback_incorrect": "Look for a hidden quantity.",
-      "points": 5,
-      "mistake_tracking": {
-        "concept_tag": "unknown_values",
-        "error_type": "unknown_identification_failure",
-        "revision_priority": "medium"
-      }
-    },
-    {
-      "question_id": "M1_S1_Q3",
-      "question_type": "MCQ",
-      "question_text": "Meena Aunty's jar had some biscuits. She added 6. Now it has 10. What was the starting number?",
-      "options": ["6", "16", "4", "10"],
-      "correct_answer": "4",
-      "feedback_correct": "Correct! 10 - 6 = 4.",
-      "feedback_incorrect": "Reverse the addition to find the starting amount.",
-      "points": 5,
-      "mistake_tracking": {
-        "concept_tag": "unknown_values",
-        "error_type": "reverse_operation_failure",
-        "revision_priority": "high"
-      }
-    }
-  ],
-
-  "reward": {
-    "screen_completion_points": 20,
-    "badge": "Mystery Solver"
-  },
-
-  "progression": {
-    "screen_completion_percentage": 20,
-    "next_screen": "M1_S2"
-  },
-
-  "common_misconceptions": [
-    "Adding instead of reversing operations",
-    "Using final value as initial value",
-    "Ignoring hidden starting values"
-  ]
-},
-
-    {
-  "screen_id": "M1_S2",
-  "screen_order": 2,
-  "title": "Why Variables Were Invented",
-  "objective": "Students understand variables as symbols representing changing quantities.",
-  "difficulty": "beginner",
-  "concept_tags": ["variables"],
-
-  "assets": {
-    "background": "sweet_shop_counter",
-    "character_portraits": {
-      "meena": "meena_default",
-      "arjun": "arjun_excited"
-    }
-  },
-
-  "story_segments": [
-    {
-      "segment_id": "M1_S2_SEG1",
-      "speaker": "Meena Aunty",
-      "portrait": "meena",
-      "text": "Every laddoo costs 10 rupees, but customers buy different amounts.",
-      "background": "sweet_shop_counter",
-      "trigger": "next"
-    },
-    {
-      "segment_id": "M1_S2_SEG2",
-      "speaker": "Arjun",
-      "portrait": "arjun",
-      "text": "Instead of calculating every case separately, let's use n for number of laddoos!",
-      "background": "sweet_shop_counter",
-      "trigger": "next"
-    },
-    {
-      "segment_id": "M1_S2_SEG3",
-      "speaker": "Narrator",
-      "portrait": null,
-      "text": "10n means total cost for any number of laddoos.",
-      "background": "formula_board",
-      "trigger": "next"
-    },
-    {
-      "segment_id": "M1_S2_SEG4",
-      "speaker": "Narrator",
-      "portrait": null,
-      "text": "Variables help us write one rule that works for many situations.",
-      "background": "formula_board",
-      "trigger": "next"
-    }
-  ],
-
-  "concept_explanation": {
-    "title": "What Are Variables?",
-    "main_rule": "Variables are symbols that represent values that can change.",
-    "examples": [
-      {
-        "expression": "10n",
-        "meaning": "10 times number of laddoos"
+      "concept": {
+        "id": "ones_place",
+        "title": "The Ones Place",
+        "tag": "place_value"
       },
-      {
-        "expression": "15p",
-        "meaning": "15 times number of pencils"
+      "dialogue": [
+        {
+          "character": "NOVA",
+          "expression": "curious",
+          "text": "Look at this number: 7. Just one digit. Simple, right?",
+          "pause_after": 500
+        },
+        {
+          "character": "NOVA",
+          "expression": "teaching",
+          "text": "That 7 lives in the ONES place. It means we have 7 single things — 7 stars, 7 steps, 7 anything you like.",
+          "pause_after": 700
+        },
+        {
+          "character": "ZAP",
+          "expression": "thinking",
+          "text": "So... the ones place is just counting one by one?",
+          "pause_after": 400
+        },
+        {
+          "character": "NOVA",
+          "expression": "delighted",
+          "text": "Exactly! You've already got it, Zap. The ones place holds individual units — single pieces. Every number starts with a ones place.",
+          "pause_after": 600
+        },
+        {
+          "character": "NOVA",
+          "expression": "warm",
+          "text": "Think of it like this: if numbers were a castle, the ones place is the front door. Every number walks in through ones.",
+          "pause_after": 0
+        }
+      ],
+      "visual_highlight": {
+        "type": "digit_spotlight",
+        "number": "7",
+        "highlight_position": "ones",
+        "label": "ONES",
+        "color": "#6C63FF"
       },
-      {
-        "expression": "20x",
-        "meaning": "20 times quantity x"
-      }
-    ]
-  },
-
-  "quiz_questions": [
-    {
-      "question_id": "M1_S2_Q1",
-      "question_type": "MCQ",
-      "question_text": "Each pencil costs 15 rupees. Which expression shows total cost?",
-      "options": ["15 + p", "15p", "p + 15", "150"],
-      "correct_answer": "15p",
-      "feedback_correct": "Correct! p represents quantity.",
-      "feedback_incorrect": "Use multiplication for repeated pricing.",
-      "points": 5,
-      "mistake_tracking": {
-        "concept_tag": "variables",
-        "error_type": "variable_representation_failure",
-        "revision_priority": "high"
-      }
+      "xp_value": 10,
+      "analytics_event": "screen_s2_ones_intro_viewed"
     },
     {
-      "question_id": "M1_S2_Q2",
-      "question_type": "MCQ",
-      "question_text": "What does x stand for in 20x?",
-      "options": [
-        "The cost of one item",
-        "The number of items",
-        "The total bill",
-        "A fixed charge"
-      ],
-      "correct_answer": "The number of items",
-      "feedback_correct": "Correct! x represents changing quantity.",
-      "feedback_incorrect": "x tracks the number of items.",
-      "points": 5,
-      "mistake_tracking": {
-        "concept_tag": "variables",
-        "error_type": "variable_meaning_confusion",
-        "revision_priority": "medium"
-      }
-    },
-    {
-      "question_id": "M1_S2_Q3",
-      "question_type": "MCQ",
-      "question_text": "Which situation needs a variable?",
-      "options": [
-        "A fixed 50 rupee entrance fee",
-        "The cost of buying any number of samosas",
-        "The number 7",
-        "A building age"
-      ],
-      "correct_answer": "The cost of buying any number of samosas",
-      "feedback_correct": "Correct! Variables help when quantities change.",
-      "feedback_incorrect": "Look for changing quantities.",
-      "points": 5,
-      "mistake_tracking": {
-        "concept_tag": "variables",
-        "error_type": "variable_application_failure",
-        "revision_priority": "high"
-      }
-    },
-    {
-      "question_id": "M1_S2_Q4",
-      "question_type": "MCQ",
-      "question_text": "If n = 3 in 10n, what is the total?",
-      "options": ["10", "3", "30", "13"],
-      "correct_answer": "30",
-      "feedback_correct": "Correct! 10 × 3 = 30.",
-      "feedback_incorrect": "Multiply 10 by n.",
-      "points": 5,
-      "mistake_tracking": {
-        "concept_tag": "variables",
-        "error_type": "substitution_failure",
-        "revision_priority": "high"
-      }
-    }
-  ],
-
-  "reward": {
-    "screen_completion_points": 20,
-    "badge": "Variable Explorer"
-  },
-
-  "progression": {
-    "screen_completion_percentage": 40,
-    "next_screen": "M1_S3"
-  },
-
-  "common_misconceptions": [
-    "Treating variables as labels only",
-    "Ignoring multiplication",
-    "Confusing variables with constants"
-  ]
-},
-
-
-{
-  "screen_id": "M1_S3",
-  "screen_order": 3,
-  "title": "Meet Constants",
-  "objective": "Students distinguish constants from variables.",
-  "difficulty": "intermediate",
-  "concept_tags": ["constants"],
-
-  "assets": {
-    "background": "math_classroom",
-    "character_portraits": {
-      "meena": "meena_default",
-      "arjun": "arjun_thinking"
-    }
-  },
-
-  "story_segments": [
-    {
-      "segment_id": "M1_S3_SEG1",
-      "speaker": "Arjun",
-      "portrait": "arjun",
-      "text": "In 10n, n changes depending on the customer. But the 10 always stays the same.",
-      "background": "math_classroom",
-      "trigger": "next"
-    },
-    {
-      "segment_id": "M1_S3_SEG2",
-      "speaker": "Meena Aunty",
-      "portrait": "meena",
-      "text": "Exactly! The fixed number that never changes is called a constant.",
-      "background": "math_classroom",
-      "trigger": "next"
-    },
-    {
-      "segment_id": "M1_S3_SEG3",
-      "speaker": "Narrator",
-      "portrait": null,
-      "text": "Variables change. Constants stay fixed.",
-      "background": "math_classroom",
-      "trigger": "next"
-    }
-  ],
-
-  "concept_explanation": {
-    "title": "What Are Constants?",
-    "main_rule": "Constants are fixed numerical values that do not change.",
-    "examples": [
-      {
-        "expression": "8x",
-        "constant": "8"
+      "screen_id": "s3_ones_quiz",
+      "screen_index": 3,
+      "type": "quiz",
+      "scene": {
+        "background": "bg_kingdom_courtyard",
+        "bg_gradient": "linear-gradient(135deg, #1a1a2e, #2d2d6e)"
       },
-      {
-        "expression": "6y + 3",
-        "constants": ["6", "3"]
-      }
-    ]
-  },
-
-  "quiz_questions": [
-    {
-      "question_id": "M1_S3_Q1",
-      "question_type": "MCQ",
-      "question_text": "In the expression 8x, which part is the constant?",
-      "options": ["x", "8", "Both", "Neither"],
-      "correct_answer": "8",
-      "feedback_correct": "Correct! 8 is fixed.",
-      "feedback_incorrect": "The constant is the fixed numerical value.",
-      "points": 5
-    },
-    {
-      "question_id": "M1_S3_Q2",
-      "question_type": "MCQ",
-      "question_text": "What is a constant?",
-      "options": [
-        "A value that changes",
-        "A value that stays fixed",
-        "A mystery symbol",
-        "A variable"
-      ],
-      "correct_answer": "A value that stays fixed",
-      "feedback_correct": "Correct! Constants never change.",
-      "feedback_incorrect": "Constants are fixed values.",
-      "points": 5
-    },
-    {
-      "question_id": "M1_S3_Q3",
-      "question_type": "MCQ",
-      "question_text": "In 6y + 3, how many constants are there?",
-      "options": ["1", "2", "0", "3"],
-      "correct_answer": "2",
-      "feedback_correct": "Correct! 6 and 3 are both constants.",
-      "feedback_incorrect": "Look for all fixed numerical values.",
-      "points": 5
-    }
-  ],
-
-  "reward": {
-    "screen_completion_points": 20,
-    "badge": "Constant Collector"
-  },
-
-  "progression": {
-    "screen_completion_percentage": 60,
-    "next_screen": "M1_S4"
-  },
-
-  "common_misconceptions": [
-    "Thinking only standalone numbers are constants",
-    "Confusing variables with constants"
-  ]
-},
-
-    {
-  "screen_id": "M1_S4",
-  "screen_order": 4,
-  "title": "Meet Terms",
-  "objective": "Students identify terms in algebraic expressions.",
-  "difficulty": "intermediate",
-  "concept_tags": ["terms"],
-
-  "assets": {
-    "background": "receipt_board",
-    "character_portraits": {
-      "meena": "meena_default",
-      "arjun": "arjun_thinking"
-    }
-  },
-
-  "story_segments": [
-    {
-      "segment_id": "M1_S4_SEG1",
-      "speaker": "Meena Aunty",
-      "portrait": "meena",
-      "text": "A customer bought 3 boxes of laddoos and paid 5 rupees packaging fee.",
-      "background": "receipt_board",
-      "trigger": "next"
-    },
-    {
-      "segment_id": "M1_S4_SEG2",
-      "speaker": "Arjun",
-      "portrait": "arjun",
-      "text": "That means the bill can be written as 3x + 5.",
-      "background": "receipt_board",
-      "trigger": "next"
-    },
-    {
-      "segment_id": "M1_S4_SEG3",
-      "speaker": "Narrator",
-      "portrait": null,
-      "text": "Each separate part separated by plus or minus signs is called a term.",
-      "background": "receipt_board",
-      "trigger": "next"
-    }
-  ],
-
-  "concept_explanation": {
-    "title": "What Are Terms?",
-    "main_rule": "Terms are the individual parts of an expression separated by addition or subtraction.",
-    "examples": [
-      {
-        "expression": "3x + 5",
-        "terms": ["3x", "5"]
+      "quiz": {
+        "quiz_id": "q_ones_identify",
+        "concept_tag": "ones_place",
+        "question_type": "multiple_choice",
+        "question": "Which digit is in the ONES place in the number 9?",
+        "number_display": "9",
+        "highlight_positions": true,
+        "options": [
+          { "id": "a", "text": "0", "correct": false },
+          { "id": "b", "text": "9", "correct": true },
+          { "id": "c", "text": "1", "correct": false },
+          { "id": "d", "text": "10", "correct": false }
+        ],
+        "hint": "There's only one digit here — where does it live?",
+        "feedback_correct": {
+          "character": "NOVA",
+          "expression": "celebrating",
+          "text": "Yes! 9 is in the ones place. You're reading the kingdom's language already!"
+        },
+        "feedback_incorrect": {
+          "character": "NOVA",
+          "expression": "gentle",
+          "text": "Not quite — when a number has just one digit, it always lives in the ones place. So 9 is our answer!"
+        },
+        "mistake_log_key": "ones_place_identification"
       },
-      {
-        "expression": "4a + 2b + 7",
-        "terms": ["4a", "2b", "7"]
-      }
-    ]
-  },
-
-  "quiz_questions": [
-    {
-      "question_id": "M1_S4_Q1",
-      "question_type": "MCQ",
-      "question_text": "How many terms are in the expression 3x + 5?",
-      "options": ["1", "2", "3", "5"],
-      "correct_answer": "2",
-      "feedback_correct": "Correct! 3x and 5 are separate terms.",
-      "feedback_incorrect": "Count the parts separated by plus or minus signs.",
-      "points": 5
+      "xp_value": 15,
+      "analytics_event": "screen_s3_ones_quiz_attempted"
     },
     {
-      "question_id": "M1_S4_Q2",
-      "question_type": "MCQ",
-      "question_text": "Which of these is NOT a term?",
-      "options": ["3x", "5", "+ sign", "y"],
-      "correct_answer": "+ sign",
-      "feedback_correct": "Correct! Plus signs separate terms but are not terms themselves.",
-      "feedback_incorrect": "Terms are meaningful algebraic parts, not separators.",
-      "points": 5
-    },
-    {
-      "question_id": "M1_S4_Q3",
-      "question_type": "MCQ",
-      "question_text": "How many terms does 4a + 2b + 7 have?",
-      "options": ["2", "3", "4", "6"],
-      "correct_answer": "3",
-      "feedback_correct": "Correct! 4a, 2b, and 7 are terms.",
-      "feedback_incorrect": "Separate by plus signs to count terms.",
-      "points": 5
-    },
-    {
-      "question_id": "M1_S4_Q4",
-      "question_type": "MCQ",
-      "question_text": "In x + y + 8, which is the full list of terms?",
-      "options": [
-        "x and y",
-        "x, y, and 8",
-        "x, +, y, +, and 8",
-        "Just 8"
-      ],
-      "correct_answer": "x, y, and 8",
-      "feedback_correct": "Correct! All meaningful parts are terms.",
-      "feedback_incorrect": "Ignore plus signs when listing terms.",
-      "points": 5
-    }
-  ],
-
-  "reward": {
-    "screen_completion_points": 25,
-    "badge": "Term Tracker"
-  },
-
-  "progression": {
-    "screen_completion_percentage": 80,
-    "next_screen": "M1_S5"
-  },
-
-  "common_misconceptions": [
-    "Treating operators as terms",
-    "Ignoring standalone constants as terms"
-  ]
-},
-
-    {
-  "screen_id": "M1_S5",
-  "screen_order": 5,
-  "title": "Like Terms and Unlike Terms",
-  "objective": "Students classify and group like and unlike terms.",
-  "difficulty": "advanced",
-  "concept_tags": ["like_terms", "unlike_terms"],
-
-  "assets": {
-    "background": "sorting_station",
-    "character_portraits": {
-      "meena": "meena_default",
-      "arjun": "arjun_excited"
-    }
-  },
-
-  "story_segments": [
-    {
-      "segment_id": "M1_S5_SEG1",
-      "speaker": "Meena Aunty",
-      "portrait": "meena",
-      "text": "I have 3 laddoo jars, 5 more laddoo jars, and 2 barfi jars.",
-      "background": "sorting_station",
-      "trigger": "next"
-    },
-    {
-      "segment_id": "M1_S5_SEG2",
-      "speaker": "Arjun",
-      "portrait": "arjun",
-      "text": "We can combine laddoo jars together, but barfi jars stay separate!",
-      "background": "sorting_station",
-      "trigger": "next"
-    },
-    {
-      "segment_id": "M1_S5_SEG3",
-      "speaker": "Narrator",
-      "portrait": null,
-      "text": "Terms with the same variable are called like terms. Different variables are unlike terms.",
-      "background": "sorting_station",
-      "trigger": "next"
-    }
-  ],
-
-  "concept_explanation": {
-    "title": "Like Terms",
-    "main_rule": "Like terms have identical variables and powers. Unlike terms have different variables.",
-    "examples": [
-      {
-        "expression": "3x + 5x",
-        "classification": "like terms"
+      "screen_id": "s4_tens_intro",
+      "screen_index": 4,
+      "type": "story_concept",
+      "scene": {
+        "background": "bg_kingdom_tower",
+        "bg_gradient": "linear-gradient(160deg, #0f2027, #203a43, #2c5364)",
+        "ambient": "rising_sparkles"
       },
-      {
-        "expression": "3x + 2y",
-        "classification": "unlike terms"
+      "concept": {
+        "id": "tens_place",
+        "title": "The Tens Place",
+        "tag": "place_value"
       },
-      {
-        "expression": "4a + 7a",
-        "classification": "like terms"
-      }
-    ]
-  },
-
-  "quiz_questions": [
-    {
-      "question_id": "M1_S5_Q1",
-      "question_type": "MCQ",
-      "question_text": "Which pair are like terms?",
-      "options": [
-        "3x and 5x",
-        "3x and 3y",
-        "2a and 5b",
-        "x and y"
+      "dialogue": [
+        {
+          "character": "NOVA",
+          "expression": "excited",
+          "text": "Now we climb higher! Look at this number: 37.",
+          "pause_after": 500
+        },
+        {
+          "character": "NOVA",
+          "expression": "teaching",
+          "text": "Two digits! The 7 on the right is still in the ones place — we know that now. But that 3 on the left? It's in the TENS place.",
+          "pause_after": 700
+        },
+        {
+          "character": "ZAP",
+          "expression": "surprised",
+          "text": "The tens place? So does the 3 mean... 3?",
+          "pause_after": 400
+        },
+        {
+          "character": "NOVA",
+          "expression": "teaching",
+          "text": "Great question! No — that's the kingdom's magic. In the tens place, every digit is worth ten times more. So that 3 doesn't mean 3... it means 3 TENS, which is 30!",
+          "pause_after": 800
+        },
+        {
+          "character": "ZAP",
+          "expression": "amazed",
+          "text": "Woah. So 37 is really 30 and 7 put together?",
+          "pause_after": 400
+        },
+        {
+          "character": "NOVA",
+          "expression": "celebrating",
+          "text": "You just discovered expanded form! 37 = 30 + 7. The position of a digit decides its power. That's the secret of the Number Kingdom.",
+          "pause_after": 0
+        }
       ],
-      "correct_answer": "3x and 5x",
-      "feedback_correct": "Correct! Both have variable x.",
-      "feedback_incorrect": "Like terms must share the same variable.",
-      "points": 5
+      "visual_highlight": {
+        "type": "digit_spotlight",
+        "number": "37",
+        "highlight_position": "tens",
+        "label": "TENS",
+        "color": "#F7B731",
+        "secondary_highlight": {
+          "position": "ones",
+          "label": "ONES",
+          "color": "#6C63FF"
+        }
+      },
+      "xp_value": 10,
+      "analytics_event": "screen_s4_tens_intro_viewed"
     },
     {
-      "question_id": "M1_S5_Q2",
-      "question_type": "MCQ",
-      "question_text": "Why are 4y and 7y like terms?",
-      "options": [
-        "They have the same number",
-        "They have the same variable",
-        "They are both big numbers",
-        "They look similar"
-      ],
-      "correct_answer": "They have the same variable",
-      "feedback_correct": "Correct! Variables determine like terms.",
-      "feedback_incorrect": "The variable matters, not the coefficient.",
-      "points": 5
+      "screen_id": "s5_tens_quiz",
+      "screen_index": 5,
+      "type": "quiz",
+      "scene": {
+        "background": "bg_kingdom_tower",
+        "bg_gradient": "linear-gradient(160deg, #0f2027, #203a43, #2c5364)"
+      },
+      "quiz": {
+        "quiz_id": "q_tens_identify",
+        "concept_tag": "tens_place",
+        "question_type": "multiple_choice",
+        "question": "In the number 54, what is the value of the digit in the TENS place?",
+        "number_display": "54",
+        "highlight_positions": true,
+        "options": [
+          { "id": "a", "text": "5", "correct": false },
+          { "id": "b", "text": "4", "correct": false },
+          { "id": "c", "text": "50", "correct": true },
+          { "id": "d", "text": "45", "correct": false }
+        ],
+        "hint": "The digit 5 is in the tens place. How much is one 5 worth in the tens place?",
+        "feedback_correct": {
+          "character": "ZAP",
+          "expression": "cheering",
+          "text": "50! Because 5 tens = 50. You're speaking kingdom language now!"
+        },
+        "feedback_incorrect": {
+          "character": "NOVA",
+          "expression": "gentle",
+          "text": "Remember — in the tens place, each digit is worth that many groups of ten. 5 in the tens place means 5 × 10 = 50."
+        },
+        "mistake_log_key": "tens_place_value"
+      },
+      "xp_value": 15,
+      "analytics_event": "screen_s5_tens_quiz_attempted"
     },
     {
-      "question_id": "M1_S5_Q3",
-      "question_type": "MCQ",
-      "question_text": "Are 5a and 5b like terms?",
-      "options": [
-        "Yes, because numbers match",
-        "No, because variables differ",
-        "Yes, because both have 5",
-        "Cannot tell"
+      "screen_id": "s6_hundreds_intro",
+      "screen_index": 6,
+      "type": "story_concept",
+      "scene": {
+        "background": "bg_kingdom_palace",
+        "bg_gradient": "linear-gradient(135deg, #1a0533, #3d1a6e, #6a0dad)",
+        "ambient": "golden_particles"
+      },
+      "concept": {
+        "id": "hundreds_place",
+        "title": "The Hundreds Place",
+        "tag": "place_value"
+      },
+      "dialogue": [
+        {
+          "character": "KING_DECI",
+          "expression": "regal",
+          "text": "Ah. Young explorers reach my throne at last. Welcome to the Palace of Hundreds.",
+          "pause_after": 700
+        },
+        {
+          "character": "ZAP",
+          "expression": "awestruck",
+          "text": "Whoa. It's... so big in here.",
+          "pause_after": 400
+        },
+        {
+          "character": "KING_DECI",
+          "expression": "warm",
+          "text": "Indeed. For in the hundreds place, everything is grander. A single digit here commands one hundred times its face value.",
+          "pause_after": 700
+        },
+        {
+          "character": "NOVA",
+          "expression": "teaching",
+          "text": "He means — look at the number 342. The 3 on the far left is in the hundreds place. It's worth 3 × 100 = 300!",
+          "pause_after": 600
+        },
+        {
+          "character": "ZAP",
+          "expression": "thinking",
+          "text": "So 342 is really 300... plus 40... plus 2?",
+          "pause_after": 400
+        },
+        {
+          "character": "NOVA",
+          "expression": "overjoyed",
+          "text": "300 + 40 + 2. You just wrote expanded form for a three-digit number! King Deci, I think our explorer is ready.",
+          "pause_after": 600
+        },
+        {
+          "character": "KING_DECI",
+          "expression": "approving",
+          "text": "Hmm. Perhaps they are.",
+          "pause_after": 0
+        }
       ],
-      "correct_answer": "No, because variables differ",
-      "feedback_correct": "Correct! Different variables mean unlike terms.",
-      "feedback_incorrect": "Same coefficients do not make terms alike.",
-      "points": 5
+      "visual_highlight": {
+        "type": "digit_spotlight",
+        "number": "342",
+        "highlight_position": "hundreds",
+        "label": "HUNDREDS",
+        "color": "#E17055",
+        "secondary_highlights": [
+          { "position": "tens", "label": "TENS", "color": "#F7B731" },
+          { "position": "ones", "label": "ONES", "color": "#6C63FF" }
+        ]
+      },
+      "xp_value": 10,
+      "analytics_event": "screen_s6_hundreds_intro_viewed"
     },
     {
-      "question_id": "M1_S5_Q4",
-      "question_type": "MCQ",
-      "question_text": "Which is a like term for 3x?",
-      "options": ["3y", "3", "7x", "x + 3"],
-      "correct_answer": "7x",
-      "feedback_correct": "Correct! Same variable x.",
-      "feedback_incorrect": "Look for terms with x.",
-      "points": 5
+      "screen_id": "s7_hundreds_quiz",
+      "screen_index": 7,
+      "type": "quiz",
+      "scene": {
+        "background": "bg_kingdom_palace",
+        "bg_gradient": "linear-gradient(135deg, #1a0533, #3d1a6e, #6a0dad)"
+      },
+      "quiz": {
+        "quiz_id": "q_hundreds_identify",
+        "concept_tag": "hundreds_place",
+        "question_type": "multiple_choice",
+        "question": "In the number 726, what is the value of the digit in the HUNDREDS place?",
+        "number_display": "726",
+        "highlight_positions": true,
+        "options": [
+          { "id": "a", "text": "7", "correct": false },
+          { "id": "b", "text": "70", "correct": false },
+          { "id": "c", "text": "700", "correct": true },
+          { "id": "d", "text": "720", "correct": false }
+        ],
+        "hint": "The digit 7 is in the hundreds place. Each one in the hundreds place is worth 100.",
+        "feedback_correct": {
+          "character": "KING_DECI",
+          "expression": "approving",
+          "text": "700. Correct. The kingdom's wisdom flows through you."
+        },
+        "feedback_incorrect": {
+          "character": "NOVA",
+          "expression": "gentle",
+          "text": "The 7 sits in the hundreds place, so it's worth 7 × 100 = 700. Position is everything!"
+        },
+        "mistake_log_key": "hundreds_place_value"
+      },
+      "xp_value": 15,
+      "analytics_event": "screen_s7_hundreds_quiz_attempted"
+    },
+    {
+      "screen_id": "s8_expanded_form",
+      "screen_index": 8,
+      "type": "story_concept",
+      "scene": {
+        "background": "bg_kingdom_library",
+        "bg_gradient": "linear-gradient(135deg, #0d1b2a, #1b4332, #40916c)",
+        "ambient": "floating_books"
+      },
+      "concept": {
+        "id": "expanded_form",
+        "title": "Expanded Form",
+        "tag": "expanded_form"
+      },
+      "dialogue": [
+        {
+          "character": "NOVA",
+          "expression": "curious",
+          "text": "Now that you know ones, tens, and hundreds — here's the kingdom's most powerful spell: Expanded Form.",
+          "pause_after": 600
+        },
+        {
+          "character": "NOVA",
+          "expression": "teaching",
+          "text": "When we write a number in expanded form, we break it apart to show what each digit is really worth. So 483 becomes 400 + 80 + 3.",
+          "pause_after": 800
+        },
+        {
+          "character": "ZAP",
+          "expression": "excited",
+          "text": "It's like taking a number apart like a puzzle!",
+          "pause_after": 400
+        },
+        {
+          "character": "NOVA",
+          "expression": "warm",
+          "text": "Exactly, Zap! And when you put it back together, you understand exactly WHY the number is that size. 400 and 80 and 3 — that's how big 483 really is.",
+          "pause_after": 0
+        }
+      ],
+      "visual_highlight": {
+        "type": "expanded_form_breakdown",
+        "number": "483",
+        "breakdown": [
+          { "digit": "4", "place": "hundreds", "value": 400, "color": "#E17055" },
+          { "digit": "8", "place": "tens", "value": 80, "color": "#F7B731" },
+          { "digit": "3", "place": "ones", "value": 3, "color": "#6C63FF" }
+        ],
+        "expression": "400 + 80 + 3 = 483"
+      },
+      "xp_value": 10,
+      "analytics_event": "screen_s8_expanded_form_viewed"
+    },
+    {
+      "screen_id": "s9_expanded_form_quiz",
+      "screen_index": 9,
+      "type": "quiz",
+      "scene": {
+        "background": "bg_kingdom_library",
+        "bg_gradient": "linear-gradient(135deg, #0d1b2a, #1b4332, #40916c)"
+      },
+      "quiz": {
+        "quiz_id": "q_expanded_form",
+        "concept_tag": "expanded_form",
+        "question_type": "multiple_choice",
+        "question": "Which of these is the expanded form of 256?",
+        "number_display": "256",
+        "highlight_positions": true,
+        "options": [
+          { "id": "a", "text": "2 + 5 + 6", "correct": false },
+          { "id": "b", "text": "200 + 50 + 6", "correct": true },
+          { "id": "c", "text": "20 + 50 + 6", "correct": false },
+          { "id": "d", "text": "200 + 5 + 6", "correct": false }
+        ],
+        "hint": "Think about each digit's place value: 2 is in the hundreds, 5 is in the tens, 6 is in the ones.",
+        "feedback_correct": {
+          "character": "ZAP",
+          "expression": "jumping",
+          "text": "200 + 50 + 6! You broke the number open like a treasure chest!"
+        },
+        "feedback_incorrect": {
+          "character": "NOVA",
+          "expression": "gentle",
+          "text": "Check each digit's home: 2 is in hundreds (200), 5 is in tens (50), and 6 is in ones (6). So the answer is 200 + 50 + 6."
+        },
+        "mistake_log_key": "expanded_form_construction"
+      },
+      "xp_value": 15,
+      "analytics_event": "screen_s9_expanded_form_quiz_attempted"
+    },
+    {
+      "screen_id": "s10_comparison_intro",
+      "screen_index": 10,
+      "type": "story_concept",
+      "scene": {
+        "background": "bg_kingdom_arena",
+        "bg_gradient": "linear-gradient(135deg, #2d1b69, #5c2a9d, #9b59b6)",
+        "ambient": "crowd_cheer"
+      },
+      "concept": {
+        "id": "number_comparison",
+        "title": "Comparing Numbers",
+        "tag": "comparison"
+      },
+      "dialogue": [
+        {
+          "character": "NOVA",
+          "expression": "dramatic",
+          "text": "The Number Kingdom holds a grand contest each year — the Number Showdown! Two numbers face off, and the crowd asks: which one is GREATER?",
+          "pause_after": 700
+        },
+        {
+          "character": "ZAP",
+          "expression": "excited",
+          "text": "Oh! Is it like a fight? Do they have swords?",
+          "pause_after": 300
+        },
+        {
+          "character": "NOVA",
+          "expression": "amused",
+          "text": "Ha! Not quite. We compare them using place value. Always start from the left — the hundreds place first, then tens, then ones.",
+          "pause_after": 700
+        },
+        {
+          "character": "NOVA",
+          "expression": "teaching",
+          "text": "Look at 547 and 539. Both start with 5 in the hundreds — a tie. Move to the tens: 4 vs 3. 4 is bigger! So 547 is greater than 539.",
+          "pause_after": 800
+        },
+        {
+          "character": "ZAP",
+          "expression": "amazed",
+          "text": "You didn't even need to count all the way up! You just looked at the digits.",
+          "pause_after": 400
+        },
+        {
+          "character": "NOVA",
+          "expression": "warm",
+          "text": "That's place value working for you. It's faster, smarter, and way more powerful.",
+          "pause_after": 0
+        }
+      ],
+      "visual_highlight": {
+        "type": "number_comparison",
+        "number_a": "547",
+        "number_b": "539",
+        "comparison_result": "greater",
+        "comparison_symbol": ">",
+        "step_through": [
+          { "place": "hundreds", "digit_a": "5", "digit_b": "5", "result": "tie" },
+          { "place": "tens", "digit_a": "4", "digit_b": "3", "result": "a_wins" }
+        ]
+      },
+      "xp_value": 10,
+      "analytics_event": "screen_s10_comparison_intro_viewed"
+    },
+    {
+      "screen_id": "s11_comparison_quiz",
+      "screen_index": 11,
+      "type": "quiz",
+      "scene": {
+        "background": "bg_kingdom_arena",
+        "bg_gradient": "linear-gradient(135deg, #2d1b69, #5c2a9d, #9b59b6)"
+      },
+      "quiz": {
+        "quiz_id": "q_comparison",
+        "concept_tag": "number_comparison",
+        "question_type": "multiple_choice",
+        "question": "Which symbol correctly compares 382 and 328?",
+        "number_display": "382 ___ 328",
+        "options": [
+          { "id": "a", "text": "382 < 328", "correct": false },
+          { "id": "b", "text": "382 = 328", "correct": false },
+          { "id": "c", "text": "382 > 328", "correct": true }
+        ],
+        "hint": "Both numbers have 3 in the hundreds place — a tie! Now look at the tens: 8 vs 2. Which is larger?",
+        "feedback_correct": {
+          "character": "NOVA",
+          "expression": "celebrating",
+          "text": "382 > 328! You compared the tens place perfectly. The crowd goes wild!"
+        },
+        "feedback_incorrect": {
+          "character": "NOVA",
+          "expression": "gentle",
+          "text": "Start at hundreds: 3 = 3, tie. Move to tens: 8 vs 2. Since 8 > 2, we know 382 > 328."
+        },
+        "mistake_log_key": "number_comparison"
+      },
+      "xp_value": 15,
+      "analytics_event": "screen_s11_comparison_quiz_attempted"
+    },
+    {
+      "screen_id": "s12_challenge_round",
+      "screen_index": 12,
+      "type": "quiz",
+      "scene": {
+        "background": "bg_kingdom_throne_room",
+        "bg_gradient": "linear-gradient(160deg, #0a0a0a, #1a0533, #3d0b6e)",
+        "ambient": "golden_glow"
+      },
+      "quiz": {
+        "quiz_id": "q_challenge_all_places",
+        "concept_tag": "place_value",
+        "question_type": "multiple_choice",
+        "difficulty": "challenge",
+        "question": "King Deci holds the number 605. He says: 'Tell me — what is the value of the digit in the TENS place?'",
+        "number_display": "605",
+        "options": [
+          { "id": "a", "text": "60", "correct": false },
+          { "id": "b", "text": "0", "correct": true },
+          { "id": "c", "text": "6", "correct": false },
+          { "id": "d", "text": "5", "correct": false }
+        ],
+        "hint": "Look carefully at the middle digit of 605. What digit sits in the tens place?",
+        "feedback_correct": {
+          "character": "KING_DECI",
+          "expression": "impressed",
+          "text": "The tens place holds a 0. Zero tens — a worthy test, and you passed. The kingdom recognizes your skill."
+        },
+        "feedback_incorrect": {
+          "character": "NOVA",
+          "expression": "gentle",
+          "text": "Tricky one! The digit in the tens place is 0 — and 0 tens equals 0. Zero is a real and important digit. Well spotted for next time!"
+        },
+        "mistake_log_key": "zero_as_placeholder"
+      },
+      "xp_value": 20,
+      "analytics_event": "screen_s12_challenge_quiz_attempted"
+    },
+    {
+      "screen_id": "s13_review_bridge",
+      "screen_index": 13,
+      "type": "story",
+      "scene": {
+        "background": "bg_kingdom_sunset_bridge",
+        "bg_gradient": "linear-gradient(160deg, #f7971e, #ffd200, #f7971e)",
+        "ambient": "warm_light"
+      },
+      "dialogue": [
+        {
+          "character": "ZAP",
+          "expression": "reflective",
+          "text": "Nova... when we started today, I thought numbers were just... numbers. But they have addresses! The ones place, the tens place, the hundreds place.",
+          "pause_after": 600
+        },
+        {
+          "character": "NOVA",
+          "expression": "warm",
+          "text": "Exactly right, Zap. And you — ",
+          "pause_after": 200,
+          "address_player": true,
+          "address_text": "and you — you understood it all. I watched you."
+        },
+        {
+          "character": "NOVA",
+          "expression": "encouraging",
+          "text": "You know what ones, tens, and hundreds really mean. You can expand a number, compare numbers, and even spot when a zero is doing an important job.",
+          "pause_after": 700
+        },
+        {
+          "character": "ZAP",
+          "expression": "cheerful",
+          "text": "Can we come back to the Number Kingdom?",
+          "pause_after": 400
+        },
+        {
+          "character": "NOVA",
+          "expression": "excited",
+          "text": "Oh, absolutely. Module 2 waits just beyond that bridge. And it's even more interesting.",
+          "pause_after": 0
+        }
+      ],
+      "xp_value": 10,
+      "analytics_event": "screen_s13_review_bridge_viewed"
+    },
+    {
+      "screen_id": "s14_completion",
+      "screen_index": 14,
+      "type": "completion",
+      "scene": {
+        "background": "bg_kingdom_celebration",
+        "bg_gradient": "linear-gradient(135deg, #6C63FF, #a78bfa, #c4b5fd)",
+        "ambient": "confetti"
+      },
+      "dialogue": [
+        {
+          "character": "NOVA",
+          "expression": "celebrating",
+          "text": "You did it! You've completed Module 1: The Number Kingdom. Every number up to 999 no longer has any secrets from you.",
+          "pause_after": 600
+        },
+        {
+          "character": "KING_DECI",
+          "expression": "proud",
+          "text": "By royal decree — this explorer has earned the title of Place Value Explorer. The kingdom salutes you.",
+          "pause_after": 700
+        },
+        {
+          "character": "ZAP",
+          "expression": "ecstatic",
+          "text": "YEAH! We did it! Numbers will never be the same again!",
+          "pause_after": 0
+        }
+      ],
+      "reward": {
+        "badge_id": "place_value_explorer",
+        "badge_name": "Place Value Explorer",
+        "badge_description": "Mastered the secret language of numbers — ones, tens, and hundreds!",
+        "badge_icon": "badge_explorer",
+        "xp_awarded": 50,
+        "animation": "badge_unlock_burst"
+      },
+      "summary": {
+        "concepts_mastered": [
+          "Ones Place",
+          "Tens Place",
+          "Hundreds Place",
+          "Expanded Form",
+          "Comparing Numbers"
+        ],
+        "total_xp_possible": 200,
+        "next_module_teaser": "In Module 2, we'll discover what happens when numbers start adding together..."
+      },
+      "analytics_event": "screen_s14_completion_viewed"
     }
   ],
-
-  "reward": {
-    "screen_completion_points": 30,
-    "badge": "Like Term Master"
+  "character_meta_additions": {
+    "_note": "Add these entries to StoryCard.jsx CHARACTER_META if not already present",
+    "NOVA": {
+      "display_name": "Nova",
+      "avatar_key": "nova_robot",
+      "bubble_color": "#6C63FF",
+      "text_color": "#FFFFFF",
+      "position": "left"
+    },
+    "ZAP": {
+      "display_name": "Zap",
+      "avatar_key": "zap_sprite",
+      "bubble_color": "#F7B731",
+      "text_color": "#1a1a2e",
+      "position": "right"
+    },
+    "KING_DECI": {
+      "display_name": "King Deci",
+      "avatar_key": "king_deci",
+      "bubble_color": "#E17055",
+      "text_color": "#FFFFFF",
+      "position": "center"
+    }
   },
-
-  "progression": {
-    "screen_completion_percentage": 100,
-    "next_screen": "MODULE_2"
-  },
-
-  "common_misconceptions": [
-    "Combining unlike terms",
-    "Grouping by coefficients only",
-    "Ignoring variable identity"
-  ]
+  "bg_gradient_additions": {
+    "_note": "Add these BG_GRADIENT keys to StoryCard.jsx BG_GRADIENTS map if not already present",
+    "bg_number_kingdom_gate": "linear-gradient(160deg, #0f0c29, #302b63, #24243e)",
+    "bg_kingdom_courtyard": "linear-gradient(135deg, #1a1a2e, #2d2d6e)",
+    "bg_kingdom_tower": "linear-gradient(160deg, #0f2027, #203a43, #2c5364)",
+    "bg_kingdom_palace": "linear-gradient(135deg, #1a0533, #3d1a6e, #6a0dad)",
+    "bg_kingdom_library": "linear-gradient(135deg, #0d1b2a, #1b4332, #40916c)",
+    "bg_kingdom_arena": "linear-gradient(135deg, #2d1b69, #5c2a9d, #9b59b6)",
+    "bg_kingdom_throne_room": "linear-gradient(160deg, #0a0a0a, #1a0533, #3d0b6e)",
+    "bg_kingdom_sunset_bridge": "linear-gradient(160deg, #f7971e, #ffd200, #f7971e)",
+    "bg_kingdom_celebration": "linear-gradient(135deg, #6C63FF, #a78bfa, #c4b5fd)"
+  }
 }
-  ]
-}
-

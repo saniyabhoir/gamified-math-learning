@@ -1,0 +1,29 @@
+{
+  "module_title": "Multiplication of Expressions",
+  "module_description": "Multiply algebraic expressions step by step.",
+  "total_screens": 3,
+  "screens": [
+    {
+      "title": "Multiplying Terms",
+      "type": "story",
+      "difficulty": "intermediate",
+      "reward": { "screen_completion_points": 10 }
+    },
+    {
+      "title": "Distributive Law",
+      "type": "story",
+      "difficulty": "intermediate",
+      "reward": { "screen_completion_points": 10 }
+    },
+    {
+      "title": "Solve Multiplication",
+      "type": "quiz",
+      "difficulty": "intermediate",
+      "reward": { "screen_completion_points": 25 }
+    }
+  ],
+  "module_rewards": {
+    "completion_points": 70,
+    "completion_badge": "Multiplier"
+  }
+}

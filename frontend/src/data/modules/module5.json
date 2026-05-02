@@ -1,0 +1,29 @@
+{
+  "module_title": "Real-Life Applications",
+  "module_description": "Apply algebra in real-world problems.",
+  "total_screens": 3,
+  "screens": [
+    {
+      "title": "Word Problems",
+      "type": "story",
+      "difficulty": "advanced",
+      "reward": { "screen_completion_points": 10 }
+    },
+    {
+      "title": "Modeling Situations",
+      "type": "story",
+      "difficulty": "advanced",
+      "reward": { "screen_completion_points": 10 }
+    },
+    {
+      "title": "Solve Real Problem",
+      "type": "quiz",
+      "difficulty": "advanced",
+      "reward": { "screen_completion_points": 30 }
+    }
+  ],
+  "module_rewards": {
+    "completion_points": 100,
+    "completion_badge": "Problem Solver"
+  }
+}

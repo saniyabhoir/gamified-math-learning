@@ -1,0 +1,29 @@
+{
+  "module_title": "Substitution & Evaluation",
+  "module_description": "Replace variables with values and solve.",
+  "total_screens": 3,
+  "screens": [
+    {
+      "title": "What is Substitution?",
+      "type": "story",
+      "difficulty": "intermediate",
+      "reward": { "screen_completion_points": 10 }
+    },
+    {
+      "title": "Evaluating Expressions",
+      "type": "story",
+      "difficulty": "intermediate",
+      "reward": { "screen_completion_points": 10 }
+    },
+    {
+      "title": "Solve by Substitution",
+      "type": "quiz",
+      "difficulty": "intermediate",
+      "reward": { "screen_completion_points": 25 }
+    }
+  ],
+  "module_rewards": {
+    "completion_points": 70,
+    "completion_badge": "Evaluator"
+  }
+}
