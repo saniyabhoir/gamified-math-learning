@@ -1,0 +1,151 @@
+/* frontend/src/pages/ModulePage.css */
+/* ============================================================
+   Global Design Tokens — imported first so all child
+   components can reference them via var(--...)
+   ============================================================ */
+:root {
+  /* Color palette */
+  --mp-bg:           #0b0f1a;
+  --mp-surface:      #131929;
+  --mp-surface-2:    #1e2d45;
+  --mp-border:       rgba(255,255,255,0.07);
+
+  /* Accent */
+  --mp-gold:         #e8a838;
+  --mp-gold-dim:     #c8882a;
+  --mp-gold-glow:    rgba(232,168,56,0.25);
+  --mp-teal:         #3ecfcf;
+  --mp-teal-dim:     #2aabab;
+  --mp-teal-glow:    rgba(62,207,207,0.2);
+
+  /* State colors */
+  --mp-success:      #4ade80;
+  --mp-danger:       #f87171;
+  --mp-xp-bar:       #e8a838;
+
+  /* Typography */
+  --font-display:    'Cinzel', 'Georgia', serif;
+  --font-body:       'Nunito', 'Segoe UI', sans-serif;
+
+  /* Text */
+  --mp-text:         #e8edf4;
+  --mp-text-muted:   #7a8aaa;
+  --mp-text-dim:     #4a5870;
+
+  /* Radii / shadows */
+  --radius-sm:       10px;
+  --radius-md:       16px;
+  --radius-lg:       24px;
+  --shadow-card:     0 20px 60px rgba(0,0,0,0.55);
+  --shadow-glow-gold: 0 0 24px rgba(232,168,56,0.35);
+  --shadow-glow-teal: 0 0 24px rgba(62,207,207,0.3);
+}
+
+/* ============================================================
+   Page wrapper
+   ============================================================ */
+.module-page {
+  min-height: 100vh;
+  background: var(--mp-bg);
+  font-family: var(--font-body);
+  color: var(--mp-text);
+  /* leave room at top for fixed ProgressBar (64px) */
+  padding-top: 64px;
+  box-sizing: border-box;
+}
+
+/* Page fade transitions */
+.mp-fade-in {
+  animation: mpFadeIn 0.38s ease forwards;
+}
+.mp-fade-out {
+  animation: mpFadeOut 0.38s ease forwards;
+}
+@keyframes mpFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes mpFadeOut {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-6px); }
+}
+
+/* ============================================================
+   Module Header
+   ============================================================ */
+.module-header {
+  padding: 0.75rem 2rem 0.5rem;
+  background: linear-gradient(to bottom, rgba(11,15,26,0.9), transparent);
+  position: relative;
+  z-index: 10;
+}
+
+.module-breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.3rem;
+}
+
+.module-badge {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mp-gold);
+  background: rgba(232,168,56,0.12);
+  padding: 0.3rem 0.75rem;
+  border-radius: 100px;
+  border: 1px solid rgba(232,168,56,0.25);
+}
+
+.breadcrumb-sep {
+  color: var(--mp-text-dim);
+  font-size: 1rem;
+}
+
+.screen-title-badge {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--mp-teal);
+  letter-spacing: 0.04em;
+}
+
+.phase-pill {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.2rem 0.6rem;
+  border-radius: 100px;
+  background: rgba(255,255,255,0.06);
+  color: var(--mp-text-muted);
+  border: 1px solid var(--mp-border);
+}
+
+.screen-objective {
+  font-size: 0.82rem;
+  color: var(--mp-text-muted);
+  margin: 0;
+  line-height: 1.5;
+  max-width: 720px;
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width: 768px) {
+  .module-header {
+    padding: 0.6rem 1rem 0.4rem;
+  }
+  .module-badge {
+    font-size: 0.68rem;
+  }
+  .screen-objective {
+    font-size: 0.78rem;
+  }
+}

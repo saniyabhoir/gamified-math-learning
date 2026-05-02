@@ -1,0 +1,415 @@
+/* frontend/src/components/learning/StoryCard.css */
+/* ============================================================
+   StoryCard — Visual Novel Layout
+   Character portrait left, dialogue box bottom-right.
+   Backgrounds: 1920×1080 preferred. Portraits: 600×900 min.
+   ============================================================ */
+
+/* ── Root card ── */
+.story-card {
+  position: relative;
+  width: 100%;
+  min-height: calc(100vh - 64px); /* 64px = fixed ProgressBar */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+  font-family: var(--font-body, 'Nunito', sans-serif);
+}
+
+/* Segment fade transitions */
+.seg-fade-in  { animation: segIn  0.3s ease forwards; }
+.seg-fade-out { animation: segOut 0.28s ease forwards; }
+@keyframes segIn  { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+@keyframes segOut { from { opacity:1; } to { opacity:0; } }
+
+/* ── Background ── */
+.sc-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-color: #0b0f1a; /* fallback colour */
+  /* CSS gradient from --sc-bg-gradient is layered second */
+  background-image: var(--sc-bg-gradient, linear-gradient(#0b0f1a, #0b0f1a));
+  will-change: transform;
+  transform: scale(1.03); /* slight scale hides edge artifacts */
+  transition: background-image 0.4s ease;
+}
+
+.sc-bg-overlay {
+  position: absolute;
+  inset: 0;
+  /* Vignette + readability gradient */
+  background:
+    radial-gradient(ellipse 80% 70% at 70% 50%, transparent 30%, rgba(8,12,22,0.55) 100%),
+    linear-gradient(to top,  rgba(5,8,16,0.97) 0%, rgba(5,8,16,0.6) 35%, rgba(5,8,16,0.15) 65%, transparent 100%),
+    linear-gradient(to right, rgba(5,8,16,0.85) 0%, transparent 45%);
+}
+
+/* ── Segment progress dots ── */
+.sc-progress-dots {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  z-index: 20;
+  background: rgba(0,0,0,0.4);
+  padding: 0.35rem 0.75rem;
+  border-radius: 100px;
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.07);
+}
+.sc-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.18);
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+.sc-dot--active {
+  background: var(--mp-gold, #e8a838);
+  box-shadow: 0 0 8px var(--mp-gold, #e8a838);
+  width: 18px;
+  border-radius: 100px;
+}
+.sc-dot--done {
+  background: rgba(232,168,56,0.45);
+}
+.sc-seg-count {
+  font-family: var(--font-body, 'Nunito', sans-serif);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.5);
+  margin-left: 0.2rem;
+}
+
+/* ── Visual state badge ── */
+.sc-visual-badge {
+  position: absolute;
+  top: 1.2rem;
+  left: 1.5rem;
+  z-index: 20;
+  font-family: var(--font-body, 'Nunito', sans-serif);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--mp-teal, #3ecfcf);
+  background: rgba(62,207,207,0.1);
+  border: 1px solid rgba(62,207,207,0.25);
+  padding: 0.3rem 0.75rem;
+  border-radius: 100px;
+  backdrop-filter: blur(6px);
+}
+
+/* ── Character portrait ── */
+.sc-portrait-frame {
+  position: absolute;
+  bottom: 0;
+  left: 3vw;
+  width: clamp(180px, 30vw, 360px);
+  height: clamp(280px, 70vh, 680px);
+  z-index: 15;
+  pointer-events: none;
+  /* entrance animation */
+  animation: portraitIn 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards;
+}
+@keyframes portraitIn {
+  from { opacity:0; transform:translateX(-20px) scale(0.97); }
+  to   { opacity:1; transform:none; }
+}
+
+.sc-portrait-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  border-radius: 0;
+  z-index: 2;
+}
+
+/* Fallback portrait when no image asset */
+.sc-portrait-fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px 18px 0 0;
+  overflow: hidden;
+}
+.sc-portrait-emoji {
+  font-size: clamp(3.5rem, 8vw, 7rem);
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 8px 24px rgba(0,0,0,0.6));
+}
+.sc-portrait-glow {
+  position: absolute;
+  bottom: -30%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 50%;
+  border-radius: 50%;
+  opacity: 0.35;
+  filter: blur(30px);
+}
+
+/* Bottom accent gradient that blends portrait into background */
+.sc-portrait-accent {
+  position: absolute;
+  inset: 40% 0 0 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* ── Dialogue box ── */
+.sc-dialogue {
+  position: relative;
+  z-index: 20;
+  margin: 0 0 0 clamp(200px, 32vw, 400px);
+  margin-right: clamp(1rem, 3vw, 3rem);
+  margin-bottom: clamp(1.2rem, 3vh, 2.5rem);
+  background: rgba(10,14,26,0.88);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px;
+  padding: clamp(1.2rem, 2.5vw, 2rem);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.04);
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+.sc-dialogue:hover {
+  border-color: rgba(255,255,255,0.15);
+}
+
+/* Narrator dialogue — full width, centred */
+.sc-dialogue--narrator {
+  margin-left: clamp(1rem, 5vw, 6rem);
+  background: rgba(15,12,38,0.9);
+  border-color: rgba(167,139,250,0.2);
+  text-align: center;
+  align-items: center;
+}
+
+/* ── Speaker header ── */
+.sc-speaker {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.sc-speaker-emoji {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+.sc-speaker-name {
+  font-family: var(--font-display, 'Cinzel', serif);
+  font-size: clamp(0.85rem, 1.6vw, 1.1rem);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+.sc-narrator-tag {
+  font-family: var(--font-body, 'Nunito', sans-serif);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: rgba(167,139,250,0.7);
+  background: rgba(167,139,250,0.1);
+  padding: 0.2rem 0.5rem;
+  border-radius: 100px;
+  margin-left: auto;
+}
+
+/* ── Dialogue text ── */
+.sc-text {
+  font-family: var(--font-body, 'Nunito', sans-serif);
+  font-size: clamp(0.98rem, 1.8vw, 1.15rem);
+  line-height: 1.75;
+  color: #e8edf4;
+  margin: 0;
+  flex: 1;
+  min-height: 3.5em;
+  white-space: pre-wrap;
+}
+
+/* Typewriter cursor blink */
+.sc-cursor {
+  display: inline-block;
+  color: var(--mp-gold, #e8a838);
+  font-weight: 300;
+  animation: cursorBlink 0.75s steps(2,start) infinite;
+  margin-left: 1px;
+  vertical-align: baseline;
+}
+@keyframes cursorBlink {
+  0%, 100% { opacity:1; }
+  50%       { opacity:0; }
+}
+
+/* ── Action button row ── */
+.sc-btn-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+  margin-top: auto;
+}
+.sc-btn-row--visible {
+  opacity: 1;
+  transform: none;
+  pointer-events: all;
+}
+
+.sc-btn {
+  font-family: var(--font-body, 'Nunito', sans-serif);
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  border: none;
+  border-radius: 12px;
+  padding: 0.7rem 1.6rem;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  position: relative;
+  overflow: hidden;
+}
+.sc-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0);
+  transition: background 0.2s ease;
+}
+.sc-btn:hover::after { background: rgba(255,255,255,0.08); }
+.sc-btn:active       { transform: scale(0.97); }
+
+/* Primary (Next) button */
+.sc-btn--primary {
+  background: var(--mp-surface-2, #1e2d45);
+  color: var(--mp-teal, #3ecfcf);
+  border: 1px solid rgba(62,207,207,0.3);
+  box-shadow: 0 0 16px rgba(62,207,207,0.12);
+}
+.sc-btn--primary:hover {
+  border-color: rgba(62,207,207,0.6);
+  box-shadow: 0 0 24px rgba(62,207,207,0.25);
+}
+
+/* CTA (Start Quiz) button */
+.sc-btn--cta {
+  background: linear-gradient(135deg, #e8a838 0%, #c87820 100%);
+  color: #0b0f1a;
+  font-weight: 900;
+  box-shadow: 0 6px 20px rgba(232,168,56,0.45);
+}
+.sc-btn--cta:hover {
+  box-shadow: 0 8px 30px rgba(232,168,56,0.65);
+  transform: translateY(-1px);
+}
+
+.sc-skip-hint {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.3);
+  cursor: pointer;
+  font-style: italic;
+  user-select: none;
+  transition: color 0.2s;
+}
+.sc-skip-hint:hover { color: rgba(255,255,255,0.55); }
+
+/* ── Progress strip (bottom) ── */
+.sc-strip {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(255,255,255,0.06);
+  z-index: 25;
+}
+.sc-strip-fill {
+  height: 100%;
+  background: linear-gradient(to right, var(--mp-gold, #e8a838), #ff9f43);
+  transition: width 0.4s ease;
+  border-radius: 0 3px 3px 0;
+}
+
+/* ── Complete state ── */
+.story-card--complete {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--mp-bg, #0b0f1a);
+}
+
+/* ============================================================
+   Responsive — Mobile
+   ============================================================ */
+@media (max-width: 768px) {
+  .sc-portrait-frame {
+    left: 50%;
+    transform: translateX(-50%);
+    width: clamp(120px, 45vw, 240px);
+    height: clamp(180px, 38vh, 320px);
+    bottom: auto;
+    top: 5vh;
+  }
+  .sc-dialogue {
+    margin: 0;
+    margin-top: calc(38vh + 60px);
+    border-radius: 20px 20px 0 0;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    min-height: 220px;
+  }
+  .sc-dialogue--narrator {
+    margin-left: 0;
+  }
+  .sc-portrait-accent {
+    display: none;
+  }
+  .sc-bg-overlay {
+    background:
+      linear-gradient(to bottom, rgba(5,8,16,0.3) 0%, rgba(5,8,16,0.75) 40%, rgba(5,8,16,0.98) 70%, rgba(5,8,16,1) 100%);
+  }
+  .sc-btn-row {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .sc-dialogue {
+    padding: 1rem;
+    border-radius: 16px 16px 0 0;
+  }
+  .sc-text {
+    font-size: 0.95rem;
+  }
+  .sc-speaker-name {
+    font-size: 0.85rem;
+  }
+  .sc-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
