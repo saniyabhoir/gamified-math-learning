@@ -1,15 +1,15 @@
 // frontend/src/pages/Dashboard.jsx
-import React, { useContext, useMemo, useState, useEffect } from "react";
+import React, { useContext, useMemo, useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../App";
 import ModuleCard from "../components/common/ModuleCard";
+import { getGameStatSummary } from "../utils/GameMatrics";
 import "./Dashboard.css";
 
-// ─── Lazy module loader ────────────────────────────────────────────────────
-// Dynamically imports module JSON. Falls back gracefully if file doesn't exist.
+// ─── Module IDs ────────────────────────────────────────────────────────────────
 const MODULE_IDS = [1, 2, 3, 4, 5];
 
-// Placeholder module data for modules without a JSON file yet
+// ─── Placeholder for unbuilt modules ──────────────────────────────────────────
 const createPlaceholderModule = (id) => ({
   module_title: `Module ${id}`,
   module_description: "This module is coming soon. Stay tuned for new content!",
@@ -23,8 +23,9 @@ const createPlaceholderModule = (id) => ({
   _placeholder: true,
 });
 
-// ─── Progress storage helpers ──────────────────────────────────────────────
-const getProgressKey = (userId, moduleId) => `mq_progress_u${userId}_m${moduleId}`;
+// ─── Progress storage helpers ─────────────────────────────────────────────────
+const getProgressKey = (userId, moduleId) =>
+  `mq_progress_u${userId}_m${moduleId}`;
 
 const loadProgress = (userId, moduleId) => {
   try {
@@ -35,12 +36,18 @@ const loadProgress = (userId, moduleId) => {
   }
 };
 
-// ─── Stats summary bar ─────────────────────────────────────────────────────
-const HeroStats = ({ modules, progressMap }) => {
+// ─── Hero Stats Bar ───────────────────────────────────────────────────────────
+const HeroStats = ({ modules, progressMap, gameStats }) => {
   const totalXP = Object.values(progressMap).reduce(
     (sum, p) => sum + (p.totalPoints || 0),
     0
   );
+  const gameXP = Object.values(gameStats).reduce(
+    (sum, g) => sum + (g?.rewardPoints || 0),
+    0
+  );
+  const allXP = totalXP + gameXP;
+
   const completedModules = modules.filter((m) => {
     const p = progressMap[m.id] || {};
     const total = m.data.total_screens || 0;
@@ -60,10 +67,15 @@ const HeroStats = ({ modules, progressMap }) => {
       ? Math.round((completedScreensAll / totalScreensAll) * 100)
       : 0;
 
+  const totalGameStars = Object.values(gameStats).reduce(
+    (sum, g) => sum + (g?.stars || 0),
+    0
+  );
+
   return (
     <div className="db-hero-stats">
       <div className="db-hero-stat">
-        <span className="db-hero-stat-val">{totalXP.toLocaleString()}</span>
+        <span className="db-hero-stat-val">{allXP.toLocaleString()}</span>
         <span className="db-hero-stat-lbl">Total XP</span>
       </div>
       <div className="db-hero-stat-div" aria-hidden="true" />
@@ -76,72 +88,132 @@ const HeroStats = ({ modules, progressMap }) => {
       <div className="db-hero-stat-div" aria-hidden="true" />
       <div className="db-hero-stat">
         <span className="db-hero-stat-val">{overallPct}%</span>
-        <span className="db-hero-stat-lbl">Overall Progress</span>
+        <span className="db-hero-stat-lbl">Progress</span>
+      </div>
+      <div className="db-hero-stat-div" aria-hidden="true" />
+      <div className="db-hero-stat">
+        <span className="db-hero-stat-val">
+          {totalGameStars > 0 ? `${totalGameStars}★` : "—"}
+        </span>
+        <span className="db-hero-stat-lbl">Game Stars</span>
       </div>
     </div>
   );
 };
 
-// ─── Dashboard ─────────────────────────────────────────────────────────────
+// ─── Deck pagination dots ──────────────────────────────────────────────────────
+const DeckDots = ({ total, active }) => (
+  <div className="db-deck-dots">
+    {Array.from({ length: total }).map((_, i) => (
+      <div
+        key={i}
+        className={`db-deck-dot ${i === active ? "db-deck-dot--active" : ""}`}
+      />
+    ))}
+  </div>
+);
+
+// ─── Dashboard ─────────────────────────────────────────────────────────────────
 const Dashboard = () => {
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
-
   const [modules, setModules] = useState([]);
   const [progressMap, setProgressMap] = useState({});
+  const [gameStats, setGameStats] = useState({});
   const [loading, setLoading] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeCard, setActiveCard] = useState(0);
+  const deckRef = useRef(null);
 
-  // Load modules dynamically
+  // ── Load all modules ─────────────────────────────────────────────────────
   useEffect(() => {
     const loadModules = async () => {
       const results = [];
       for (const id of MODULE_IDS) {
         try {
-          // Dynamic import — works with CRA's code splitting
           const data = await import(`../data/modules/module${id}.json`);
           results.push({ id, data: data.default || data });
         } catch {
-          // Module JSON doesn't exist yet — use placeholder
-          if (id === 1) {
-            // Module 1 must exist; log a warning
-            console.warn(`module${id}.json not found — using placeholder`);
-          }
           results.push({ id, data: createPlaceholderModule(id) });
         }
       }
       setModules(results);
       setLoading(false);
     };
-
     loadModules();
   }, []);
 
-  // Load progress for each module
+  // ── Load progress + game stats ────────────────────────────────────────────
   useEffect(() => {
-    if (!user || modules.length === 0) return;
-    const map = {};
-    modules.forEach(({ id }) => {
-      map[id] = loadProgress(user.id, id);
-    });
-    setProgressMap(map);
-  }, [user, modules]);
+    if (!user?.id || modules.length === 0) return;
+    const pm = {};
+    const gm = {};
+    for (const m of modules) {
+      pm[m.id] = loadProgress(user.id, m.id);
+      gm[m.id] = getGameStatSummary(user.id, m.id);
+    }
+    setProgressMap(pm);
+    setGameStats(gm);
+  }, [modules, user]);
 
-  const greeting = useMemo(() => {
-    const hour = new Date().getHours();
-    if (hour < 12) return "Good morning";
-    if (hour < 18) return "Good afternoon";
-    return "Good evening";
-  }, []);
+  // ── Track active card via scroll ──────────────────────────────────────────
+  useEffect(() => {
+    const deck = deckRef.current;
+    if (!deck) return;
+    const handleScroll = () => {
+      const children = deck.querySelectorAll(".mc-card");
+      let closest = 0;
+      let minDist = Infinity;
+      const deckCenter = deck.scrollLeft + deck.clientWidth / 2;
+      children.forEach((child, i) => {
+        const cardCenter = child.offsetLeft + child.offsetWidth / 2;
+        const dist = Math.abs(deckCenter - cardCenter);
+        if (dist < minDist) {
+          minDist = dist;
+          closest = i;
+        }
+      });
+      setActiveCard(closest);
+    };
+    deck.addEventListener("scroll", handleScroll, { passive: true });
+    return () => deck.removeEventListener("scroll", handleScroll);
+  }, [modules]);
 
-  const handleLogout = () => {
-    logout();
-    navigate("/login");
-  };
+  // ── Close menu on outside click ───────────────────────────────────────────
+  useEffect(() => {
+    if (!menuOpen) return;
+    const handler = () => setMenuOpen(false);
+    document.addEventListener("click", handler);
+    return () => document.removeEventListener("click", handler);
+  }, [menuOpen]);
+
+  // ── Memoised user initials ────────────────────────────────────────────────
+  const userInitial = useMemo(
+    () => (user?.username || user?.name || "S")[0].toUpperCase(),
+    [user]
+  );
+  const userName = user?.username || user?.name || "Student";
+
+  if (loading) {
+    return (
+      <div className="db-root">
+        <div className="db-bg-fx">
+          <div className="db-orb db-orb-1" />
+          <div className="db-orb db-orb-2" />
+          <div className="db-orb db-orb-3" />
+          <div className="db-grid-lines" />
+        </div>
+        <div className="db-loader">
+          <div className="db-loader-spinner" />
+          <p className="db-loader-text">Loading your academy…</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="db-root">
-      {/* ── Animated background ── */}
+    <div className="db-root" onClick={() => setMenuOpen(false)}>
+      {/* ── Background ── */}
       <div className="db-bg-fx" aria-hidden="true">
         <div className="db-orb db-orb-1" />
         <div className="db-orb db-orb-2" />
@@ -150,30 +222,40 @@ const Dashboard = () => {
       </div>
 
       {/* ── Navbar ── */}
-      <nav className="db-nav" role="navigation" aria-label="Main navigation">
+      <nav className="db-nav">
         <div className="db-nav-brand">
-          <span className="db-nav-logo">⚡</span>
+          <span className="db-nav-logo">🧮</span>
           <span className="db-nav-name">MathQuest</span>
         </div>
-
-        <div className="db-nav-center" aria-hidden="true">
-          <span className="db-nav-breadcrumb">Dashboard</span>
+        <div className="db-nav-center">
+          <span className="db-nav-breadcrumb">Academy Dashboard</span>
         </div>
-
-        <div className="db-nav-right">
-          <div className="db-nav-user" onClick={() => setMenuOpen((p) => !p)}>
-            <span className="db-nav-avatar">{user?.avatar || "🧙"}</span>
-            <span className="db-nav-username">{user?.displayName}</span>
-            <span className="db-nav-chevron">{menuOpen ? "▴" : "▾"}</span>
-          </div>
-
+        <div className="db-nav-right" onClick={(e) => e.stopPropagation()}>
+          <button
+            className="db-nav-user"
+            onClick={() => setMenuOpen((o) => !o)}
+            aria-haspopup="true"
+            aria-expanded={menuOpen}
+          >
+            <span className="db-nav-avatar">👤</span>
+            <span className="db-nav-username">{userName}</span>
+            <span className="db-nav-chevron">{menuOpen ? "▲" : "▼"}</span>
+          </button>
           {menuOpen && (
             <div className="db-nav-dropdown">
+              <div className="db-nav-dropdown-user">
+                <div className="db-nav-dropdown-avatar">{userInitial}</div>
+                <div className="db-nav-dropdown-info">
+                  <span className="db-nav-dropdown-name">{userName}</span>
+                  <span className="db-nav-dropdown-role">Student</span>
+                </div>
+              </div>
+              <div className="db-nav-dropdown-divider" />
               <button
-                className="db-nav-drop-item"
-                onClick={handleLogout}
+                className="db-nav-dropdown-item db-nav-dropdown-item--danger"
+                onClick={logout}
               >
-                <span>🚪</span> Sign Out
+                Sign Out
               </button>
             </div>
           )}
@@ -181,74 +263,54 @@ const Dashboard = () => {
       </nav>
 
       {/* ── Main content ── */}
-      <main className="db-main" role="main">
-        {/* Hero section */}
-        <header className="db-hero">
-          <div className="db-hero-text">
-            <p className="db-hello">{greeting}, {user?.displayName} 👋</p>
-            <h1 className="db-hero-title">Your Learning Dashboard</h1>
-            <p className="db-hero-sub">
-              Track your progress, master new concepts, and level up your math skills
+      <main className="db-main">
+        {/* Welcome section */}
+        <div className="db-welcome">
+          <div className="db-welcome-text">
+            <h1 className="db-welcome-title">
+              Welcome back, <span className="db-welcome-name">{userName}</span>
+            </h1>
+            <p className="db-welcome-sub">
+              Class 8 Algebra Academy · {modules.length} modules available
             </p>
           </div>
-
-          {modules.length > 0 && (
-            <HeroStats modules={modules} progressMap={progressMap} />
-          )}
-        </header>
+          <HeroStats
+            modules={modules}
+            progressMap={progressMap}
+            gameStats={gameStats}
+          />
+        </div>
 
         {/* Section header */}
         <div className="db-section-header">
-          <div>
-            <h2 className="db-section-title">Available Modules</h2>
-            <p className="db-section-sub">
-              {modules.filter((m) => !m.data._placeholder).length} modules available
-            </p>
-          </div>
-          <div className="db-filter-chips">
-            <span className="db-chip db-chip--active">All</span>
-            <span className="db-chip">In Progress</span>
-            <span className="db-chip">Completed</span>
+          <h2 className="db-section-title">Your Modules</h2>
+          <p className="db-section-sub">
+            {activeCard + 1} of {modules.length} · Scroll or swipe to explore
+          </p>
+        </div>
+
+        {/* ── Card deck ── */}
+        <div className="db-deck-wrapper">
+          <div className="db-deck" ref={deckRef}>
+            {modules.map((m) => (
+              <ModuleCard
+                key={m.id}
+                moduleId={m.id}
+                moduleData={m.data}
+                progressData={progressMap[m.id] || {}}
+              />
+            ))}
           </div>
         </div>
 
-        {/* Module cards grid */}
-        {loading ? (
-          <div className="db-loading" role="status" aria-live="polite">
-            <div className="db-loading-spinner" />
-            <p>Loading your modules…</p>
-          </div>
-        ) : (
-          <div className="db-cards-grid">
-            {modules.map(({ id, data }, idx) => (
-              <div
-                key={id}
-                className="db-card-wrapper"
-                style={{ animationDelay: `${idx * 0.07}s` }}
-              >
-                <ModuleCard
-                  moduleData={data}
-                  moduleId={id}
-                  progressData={progressMap[id] || {}}
-                />
-                {data._placeholder && (
-                  <div className="db-card-locked-overlay" aria-label="Module coming soon">
-                    <span className="db-card-lock-icon">🔐</span>
-                    <span className="db-card-lock-text">Coming Soon</span>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
-      </main>
+        {/* Pagination dots */}
+        <DeckDots total={modules.length} active={activeCard} />
 
-      {/* ── Footer ── */}
-      <footer className="db-footer" role="contentinfo">
-        <span>MathQuest © {new Date().getFullYear()}</span>
-        <span className="db-footer-sep">·</span>
-        <span>Gamified Learning Platform</span>
-      </footer>
+        {/* Footer hint */}
+        <p className="db-deck-hint">
+          ← Scroll to explore all modules →
+        </p>
+      </main>
     </div>
   );
 };

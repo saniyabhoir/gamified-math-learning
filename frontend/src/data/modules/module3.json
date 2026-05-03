@@ -1,29 +1,959 @@
 {
-  "module_title": "Multiplication of Expressions",
-  "module_description": "Multiply algebraic expressions step by step.",
-  "total_screens": 3,
+  "module_id": "M3",
+  "module_title": "Multiplication of Algebraic Expressions",
+  "module_order": 3,
+  "module_description": "Students move from combining like terms to multiplying them — building intuition through Arjun's school garden, his uncle's Robotics Factory, and the chaos of Chintu's legendary bracket mistake. Area, exponents, and the distributive property — all through story.",
+  "estimated_completion_time": "50-65 minutes",
+  "module_rewards": {
+    "completion_badge": "Junior Engineer Champion",
+    "completion_points": 135
+  },
+  "final_challenge": {
+    "challenge_id": "M3_FINAL",
+    "title": "Algebra Arena — Area Puzzle Challenge",
+    "status": "placeholder",
+    "description": "Students face timed area puzzles, expansion duels, and mastery challenges combining every Module 3 skill — monomial multiplication, distributive property, dual-bracket expansion, and simplification.",
+    "future_game_type": "arena_challenge"
+  },
+  "total_screens": 5,
   "screens": [
     {
-      "title": "Multiplying Terms",
-      "type": "story",
-      "difficulty": "intermediate",
-      "reward": { "screen_completion_points": 10 }
+      "screen_id": "M3_S1",
+      "screen_order": 1,
+      "title": "The Expanding Garden",
+      "objective": "Students build the intuition that multiplying variable expressions produces area — visual and concrete — before any formal rule is introduced. Arjun's garden shows that multiplication of monomials always yields another monomial.",
+      "difficulty": "beginner",
+      "concept_tags": ["monomial_multiplication", "area_model", "intro_to_products"],
+      "assets": {
+        "background": "school_garden_bg",
+        "character_portraits": {
+          "arjun": "arjun_excited",
+          "teacher": "teacher_default"
+        }
+      },
+      "story_segments": [
+        {
+          "segment_id": "M3_S1_SEG1",
+          "speaker": "Narrator",
+          "portrait": null,
+          "text": "Arjun's school was redesigning its garden for Science Week. Every student in Class 7 had been given a rectangular plot to plan. The length of each plot was fixed at 3 metres. The width was to be decided by the student — Arjun had written x metres on his planning sheet, because he hadn't measured it yet.",
+          "background": "school_garden_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M3_S1_SEG2",
+          "speaker": "Arjun",
+          "portrait": "arjun",
+          "text": "Length times width gives area. So my plot's area is 3 times x. That's just... 3x. Right?",
+          "background": "school_garden_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M3_S1_SEG3",
+          "speaker": "Teacher",
+          "portrait": "teacher",
+          "text": "Exactly right. When you multiply a number by a variable, the result is a monomial — a single algebraic term. 3 times x gives you 3x. Now, what if I told you the length of your plot was also expressed as a variable?",
+          "background": "school_garden_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M3_S1_SEG4",
+          "speaker": "Arjun",
+          "portrait": "arjun",
+          "text": "What if the length was 2x and the width was still x? Then the area would be 2x times x. And x times x is... x squared. So the area is 2x squared?",
+          "background": "school_garden_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M3_S1_SEG5",
+          "speaker": "Teacher",
+          "portrait": "teacher",
+          "text": "Yes. 2x multiplied by x gives 2x². The coefficients multiply together — 2 times 1 is 2. And the variables multiply together — x times x is x². You have discovered the rule for multiplying monomials.",
+          "background": "school_garden_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M3_S1_SEG6",
+          "speaker": "Arjun",
+          "portrait": "arjun",
+          "text": "So every time I multiply two monomials, I get another monomial? No matter what the variables are?",
+          "background": "school_garden_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M3_S1_SEG7",
+          "speaker": "Teacher",
+          "portrait": "teacher",
+          "text": "Always. A monomial times a monomial gives a monomial. Multiply the coefficients, multiply the variables. The result is always one clean term — never two, never three. That's what makes monomials special.",
+          "background": "school_garden_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M3_S1_SEG8",
+          "speaker": "Narrator",
+          "portrait": null,
+          "text": "Multiplication of monomials follows two steps: multiply the coefficients together, then multiply the variables together. The result is always a single monomial. Area of a rectangle is length times width — and in algebra, that multiplication works exactly the same way.",
+          "background": "school_garden_bg",
+          "trigger": "next"
+        }
+      ],
+      "concept_explanation": {
+        "title": "Multiplying Monomials — The Area Rule",
+        "main_rule": "To multiply two monomials: (1) multiply the coefficients and (2) multiply the variables. The result is always a single monomial. Area of a rectangle = length × width — the same rule applies in algebra.",
+        "examples": [
+          {
+            "expression": "3 × x",
+            "result": "3x",
+            "reasoning": "Number times variable: coefficient is 3, variable is x. Result: 3x."
+          },
+          {
+            "expression": "4x × 3x",
+            "result": "12x²",
+            "reasoning": "Coefficients: 4 × 3 = 12. Variables: x × x = x². Result: 12x²."
+          },
+          {
+            "expression": "3x × 2y",
+            "result": "6xy",
+            "reasoning": "Coefficients: 3 × 2 = 6. Variables: x × y = xy (different, sit side by side). Result: 6xy."
+          },
+          {
+            "expression": "2x × 4x (area of square garden)",
+            "result": "8x²",
+            "reasoning": "Length = 2x, width = 4x. Area = 2 × 4 = 8, x × x = x². Area = 8x²."
+          }
+        ]
+      },
+      "quiz_questions": [
+        {
+          "question_id": "M3_S1_Q1",
+          "question_type": "MCQ",
+          "question_text": "A garden is 4 metres long and x metres wide. What is its area?",
+          "options": ["4 + x", "4x", "4x²", "x + 4"],
+          "correct_answer": "4x",
+          "feedback_correct": "Area = 4 × x = 4x. Multiplication of a number and a variable gives a monomial — not addition.",
+          "feedback_incorrect": "Area = length × width = 4 × x. Multiply, don't add. The answer is 4x, a single monomial.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "monomial_multiplication",
+            "error_type": "addition_instead_of_multiplication",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M3_S1_Q2",
+          "question_type": "MCQ",
+          "question_text": "What is 3x × 5x?",
+          "options": ["8x", "15x", "15x²", "8x²"],
+          "correct_answer": "15x²",
+          "feedback_correct": "Coefficients: 3 × 5 = 15. Variables: x × x = x². Result: 15x². Both steps are required.",
+          "feedback_incorrect": "Two steps: multiply the coefficients (3 × 5 = 15), then multiply the variables (x × x = x²). The answer is 15x², not 15x or 8x².",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "monomial_multiplication",
+            "error_type": "exponent_omitted_on_same_variable",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M3_S1_Q3",
+          "question_type": "MCQ",
+          "question_text": "A garden has length 2x metres and width 3y metres. What is its area?",
+          "options": ["5xy", "6xy", "6x²y²", "5x + 3y"],
+          "correct_answer": "6xy",
+          "feedback_correct": "2 × 3 = 6. x × y = xy (different variables sit side by side, neither gets squared). Area = 6xy.",
+          "feedback_incorrect": "Multiply coefficients: 2 × 3 = 6. Multiply variables: x × y = xy. Different variables don't get squared — they combine into xy. Answer: 6xy.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "monomial_multiplication",
+            "error_type": "different_variables_incorrectly_squared",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M3_S1_Q4",
+          "question_type": "MCQ",
+          "question_text": "A monomial multiplied by another monomial always gives:",
+          "options": ["A polynomial with two terms", "Another monomial", "A sum of two variables", "An expression that cannot be simplified"],
+          "correct_answer": "Another monomial",
+          "feedback_correct": "Monomial × monomial = monomial. Coefficients multiply, variables combine. The result is always one clean term.",
+          "feedback_incorrect": "When two monomials are multiplied, the result is always another monomial — a single term. The coefficients multiply and the variables combine into one expression.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "monomial_multiplication",
+            "error_type": "monomial_product_type_confusion",
+            "revision_priority": "medium"
+          }
+        }
+      ],
+      "reward": {
+        "screen_completion_points": 10,
+        "badge": "Area Architect"
+      },
+      "progression": {
+        "screen_completion_percentage": 20,
+        "next_screen": "M3_S2",
+        "transition_dialogue": "Arjun: 'I understand what happens to the coefficients — multiply them. But what exactly happens to x times x? And what about x squared times x cubed? Is there a rule for the powers?' | Teacher: 'There is. And it's simpler than you expect. Let's go to the Robotics Factory to find out.'"
+      },
+      "common_misconceptions": [
+        "x × x = 2x — adding the variables instead of squaring them",
+        "3x × 4y = 7xy — adding coefficients instead of multiplying them",
+        "Area = length + width — using addition instead of multiplication"
+      ]
     },
     {
-      "title": "Distributive Law",
-      "type": "story",
-      "difficulty": "intermediate",
-      "reward": { "screen_completion_points": 10 }
+      "screen_id": "M3_S2",
+      "screen_order": 2,
+      "title": "The Multiplying Machine",
+      "objective": "Students fully formalise monomial × monomial multiplication: multiply coefficients, add exponents of matching variables. The factory setting makes the rule mechanical, memorable, and error-proof.",
+      "difficulty": "beginner",
+      "concept_tags": ["coefficient_multiplication", "exponent_addition", "monomial_cases"],
+      "assets": {
+        "background": "robotics_factory_bg",
+        "character_portraits": {
+          "arjun": "arjun_default",
+          "uncle": "uncle_default"
+        }
+      },
+      "story_segments": [
+        {
+          "segment_id": "M3_S2_SEG1",
+          "speaker": "Narrator",
+          "portrait": null,
+          "text": "That weekend, Arjun visited his uncle's Robotics Factory. In the centre of the production floor stood a bright yellow machine with a single dial labelled 'RULE: Multiply by 4x.' Arjun watched as components passed through on a conveyor belt and came out transformed on the other side.",
+          "background": "robotics_factory_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M3_S2_SEG2",
+          "speaker": "Uncle",
+          "portrait": "uncle",
+          "text": "Watch closely. Input: 3x. The machine multiplies it by 4x. Output: what do you think it produces?",
+          "background": "robotics_factory_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M3_S2_SEG3",
+          "speaker": "Arjun",
+          "portrait": "arjun",
+          "text": "Coefficients: 4 times 3 is 12. Variables: x times x... that's x squared. So the output is 12x squared?",
+          "background": "robotics_factory_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M3_S2_SEG4",
+          "speaker": "Uncle",
+          "portrait": "uncle",
+          "text": "Exactly right. Now watch this one. Input: 2y. Same machine — multiply by 4x. Different variable this time.",
+          "background": "robotics_factory_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M3_S2_SEG5",
+          "speaker": "Arjun",
+          "portrait": "arjun",
+          "text": "4 times 2 is 8. x times y — they're different, so they just sit together. Output: 8xy.",
+          "background": "robotics_factory_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M3_S2_SEG6",
+          "speaker": "Uncle",
+          "portrait": "uncle",
+          "text": "Perfect. One more. Input: x squared. Multiply by 4x. Careful now — what happens to the powers?",
+          "background": "robotics_factory_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M3_S2_SEG7",
+          "speaker": "Arjun",
+          "portrait": "arjun",
+          "text": "4 times 1 is 4. x times x squared... the exponents add. 1 plus 2 equals 3. Output: 4x cubed.",
+          "background": "robotics_factory_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M3_S2_SEG8",
+          "speaker": "Uncle",
+          "portrait": "uncle",
+          "text": "The law of exponents: x to the power m, multiplied by x to the power n, gives x to the power m plus n. You add the exponents — you never multiply them. This is the machine's core rule.",
+          "background": "robotics_factory_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M3_S2_SEG9",
+          "speaker": "Narrator",
+          "portrait": null,
+          "text": "Three cases for monomial multiplication: same variable — multiply coefficients, add exponents (5x × 3x = 15x²). Different variables — multiply coefficients, sit variables side by side (4x × 2y = 8xy). One term is a plain number — the number is just another coefficient (6x × 3 = 18x). The exponent law: x^m × x^n = x^(m+n). Always add. Never multiply.",
+          "background": "robotics_factory_bg",
+          "trigger": "next"
+        }
+      ],
+      "concept_explanation": {
+        "title": "Monomial Multiplication — Three Cases and the Exponent Law",
+        "main_rule": "Multiply coefficients together. Then handle the variables: same variable → add their exponents; different variables → sit them side by side; plain number → it is just another coefficient. Law: x^m × x^n = x^(m+n).",
+        "examples": [
+          {
+            "expression": "5x × 3x",
+            "result": "15x²",
+            "reasoning": "Case 1 (same variable): 5×3=15, x×x=x^(1+1)=x². Result: 15x²."
+          },
+          {
+            "expression": "4x × 2y",
+            "result": "8xy",
+            "reasoning": "Case 2 (different variables): 4×2=8, x×y=xy. Result: 8xy."
+          },
+          {
+            "expression": "6x × 3",
+            "result": "18x",
+            "reasoning": "Case 3 (plain number): 6×3=18, variable x stays. Result: 18x."
+          },
+          {
+            "expression": "x² × x³",
+            "result": "x⁵",
+            "reasoning": "Exponent law: add the powers. 2+3=5. Result: x⁵ (not x⁶)."
+          },
+          {
+            "expression": "3x × 5x² (machine: multiply by 3x, input 5x²)",
+            "result": "15x³",
+            "reasoning": "3×5=15. x×x²=x^(1+2)=x³. Result: 15x³."
+          }
+        ]
+      },
+      "quiz_questions": [
+        {
+          "question_id": "M3_S2_Q1",
+          "question_type": "MCQ",
+          "question_text": "What is 6x × 3x?",
+          "options": ["9x²", "18x²", "18x", "9x"],
+          "correct_answer": "18x²",
+          "feedback_correct": "Coefficients: 6 × 3 = 18. Variables: x × x = x². Same variable, so exponents add: 1+1=2. Answer: 18x².",
+          "feedback_incorrect": "Multiply the coefficients (6 × 3 = 18) and add the exponents of matching variables (x × x = x²). The answer is 18x², not 18x or 9x².",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "coefficient_multiplication",
+            "error_type": "coefficient_added_not_multiplied",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M3_S2_Q2",
+          "question_type": "MCQ",
+          "question_text": "What is 5x × 4y?",
+          "options": ["9xy", "20xy", "20x²y²", "9x + 4y"],
+          "correct_answer": "20xy",
+          "feedback_correct": "Coefficients: 5 × 4 = 20. Variables: x × y = xy. Different variables sit side by side — neither gets squared. Answer: 20xy.",
+          "feedback_incorrect": "Different variables don't get squared. x × y is simply xy. Multiply the coefficients: 5 × 4 = 20. Answer: 20xy.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "monomial_cases",
+            "error_type": "different_variables_incorrectly_squared",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M3_S2_Q3",
+          "question_type": "MCQ",
+          "question_text": "What is x² × x³? (Hint: use the exponent law.)",
+          "options": ["x⁶", "x⁵", "2x⁵", "x"],
+          "correct_answer": "x⁵",
+          "feedback_correct": "Exponent law: add the powers. 2 + 3 = 5. So x² × x³ = x⁵. You add exponents — you never multiply them.",
+          "feedback_incorrect": "The exponent law says x^m × x^n = x^(m+n). Add the exponents: 2 + 3 = 5. The answer is x⁵, not x⁶ (which would be multiplying exponents — wrong).",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "exponent_addition",
+            "error_type": "exponents_multiplied_instead_of_added",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M3_S2_Q4",
+          "question_type": "MCQ",
+          "question_text": "The factory machine multiplies every input by 3x. The input is 5x². What is the output?",
+          "options": ["8x²", "15x²", "15x³", "8x³"],
+          "correct_answer": "15x³",
+          "feedback_correct": "Coefficients: 3 × 5 = 15. Variables: x × x² = x^(1+2) = x³. Output: 15x³.",
+          "feedback_incorrect": "Multiply the coefficients: 3 × 5 = 15. Apply the exponent law to x × x²: add the powers (1+2=3), giving x³. Output: 15x³.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "exponent_addition",
+            "error_type": "exponent_law_not_applied",
+            "revision_priority": "high"
+          }
+        }
+      ],
+      "reward": {
+        "screen_completion_points": 20,
+        "badge": "Factory Operator"
+      },
+      "progression": {
+        "screen_completion_percentage": 40,
+        "next_screen": "M3_S3",
+        "transition_dialogue": "Uncle: 'Excellent. The machine you just mastered handles single-term inputs. But today a new machine arrived — it takes a whole bracket of terms and multiplies every single one. Let's see what happens when Chintu tries to operate it first...'"
+      },
+      "common_misconceptions": [
+        "3x × 4x = 12x — forgetting to square the variable",
+        "x² × x³ = x⁶ — multiplying exponents instead of adding them",
+        "5x × 4y = 20x²y² — squaring variables that are different"
+      ]
     },
     {
-      "title": "Solve Multiplication",
-      "type": "quiz",
+      "screen_id": "M3_S3",
+      "screen_order": 3,
+      "title": "The Distribution Machine",
+      "objective": "Students understand and apply the Distributive Property — a monomial outside a bracket must multiply every single term inside. Chintu's mistake makes the rule permanently unforgettable.",
       "difficulty": "intermediate",
-      "reward": { "screen_completion_points": 25 }
+      "concept_tags": ["distributive_property", "monomial_times_polynomial", "bracket_expansion"],
+      "assets": {
+        "background": "robotics_factory_bg",
+        "character_portraits": {
+          "arjun": "arjun_thinking",
+          "chintu": "chintu_confident",
+          "uncle": "uncle_default"
+        }
+      },
+      "story_segments": [
+        {
+          "segment_id": "M3_S3_SEG1",
+          "speaker": "Narrator",
+          "portrait": null,
+          "text": "The new machine had a more complex display. It showed: RULE — Multiply by 3x. Input: (2x + 5). This was not a single term — it was a bracket containing two terms. Chintu stepped up confidently and punched in his answer.",
+          "background": "robotics_factory_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M3_S3_SEG2",
+          "speaker": "Chintu",
+          "portrait": "chintu",
+          "text": "Easy. 3x times 2x is 6x squared. The 5 just stays. Output: 6x squared plus 5.",
+          "background": "robotics_factory_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M3_S3_SEG3",
+          "speaker": "Narrator",
+          "portrait": null,
+          "text": "The machine flashed red. A small alarm sounded. Chintu's eyebrows went up.",
+          "background": "robotics_factory_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M3_S3_SEG4",
+          "speaker": "Uncle",
+          "portrait": "uncle",
+          "text": "The machine does not leave anything out. It reaches inside the bracket and multiplies every single term by 3x. Every term. Not just the first one.",
+          "background": "robotics_factory_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M3_S3_SEG5",
+          "speaker": "Arjun",
+          "portrait": "arjun",
+          "text": "So the machine shakes hands with both terms inside the bracket? First with 2x — that gives 6x squared. Then with 5 — that gives 15x. The output is 6x squared plus 15x.",
+          "background": "robotics_factory_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M3_S3_SEG6",
+          "speaker": "Uncle",
+          "portrait": "uncle",
+          "text": "Exactly. This is the Distributive Property: a times (b + c) equals a times b plus a times c. Every term inside the bracket must be multiplied. No term gets to skip the handshake.",
+          "background": "robotics_factory_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M3_S3_SEG7",
+          "speaker": "Chintu",
+          "portrait": "chintu",
+          "text": "So my mistake was stopping after the first handshake. I multiplied 2x but left 5 alone. The machine needs every term multiplied — and then you write all the products together as the final expression.",
+          "background": "robotics_factory_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M3_S3_SEG8",
+          "speaker": "Narrator",
+          "portrait": null,
+          "text": "Chintu wrote his new rule on the factory wall: 'Every term inside the bracket gets multiplied. No term left out.' The Distributive Property in algebra: a(b + c) = ab + ac. Every term inside must shake hands with the monomial outside.",
+          "background": "robotics_factory_bg",
+          "trigger": "next"
+        }
+      ],
+      "concept_explanation": {
+        "title": "The Distributive Property — Every Term Gets Multiplied",
+        "main_rule": "When a monomial multiplies a bracket: a(b + c) = ab + ac. Every single term inside the bracket must be multiplied by the monomial outside. No term is exempt. Write all the products together as the expanded expression.",
+        "examples": [
+          {
+            "expression": "3x(2x + 5)",
+            "result": "6x² + 15x",
+            "reasoning": "3x × 2x = 6x². 3x × 5 = 15x. Both terms multiplied. Result: 6x² + 15x."
+          },
+          {
+            "expression": "2y(y² + 3y + 4)",
+            "result": "2y³ + 6y² + 8y",
+            "reasoning": "2y × y² = 2y³. 2y × 3y = 6y². 2y × 4 = 8y. Three handshakes, three results."
+          },
+          {
+            "expression": "4x(3x – 2y + 1)",
+            "result": "12x² – 8xy + 4x",
+            "reasoning": "4x × 3x = 12x². 4x × (–2y) = –8xy. 4x × 1 = 4x. Negative signs carry through."
+          },
+          {
+            "expression": "Chintu's mistake: 5x(3x + 2) written as 15x² + 2",
+            "result": "Correct answer: 15x² + 10x",
+            "reasoning": "5x × 3x = 15x². 5x × 2 = 10x. The 2 must also be multiplied — it is not exempt."
+          }
+        ]
+      },
+      "quiz_questions": [
+        {
+          "question_id": "M3_S3_Q1",
+          "question_type": "MCQ",
+          "question_text": "Expand: 2x(x + 3)",
+          "options": ["2x² + 3", "2x² + 6x", "2x + 6x", "2x + 3"],
+          "correct_answer": "2x² + 6x",
+          "feedback_correct": "2x × x = 2x². 2x × 3 = 6x. Both terms inside the bracket were multiplied. Result: 2x² + 6x.",
+          "feedback_incorrect": "The monomial 2x must multiply every term inside the bracket. 2x × x = 2x². 2x × 3 = 6x. Both results together: 2x² + 6x.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "distributive_property",
+            "error_type": "only_first_bracket_term_multiplied",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M3_S3_Q2",
+          "question_type": "MCQ",
+          "question_text": "Chintu expanded 5x(3x + 2) and wrote 15x² + 2. What exactly went wrong?",
+          "options": [
+            "He multiplied both terms correctly",
+            "He only multiplied the first term — the 2 was not multiplied by 5x",
+            "He added instead of multiplying",
+            "He forgot the variable x in the first product"
+          ],
+          "correct_answer": "He only multiplied the first term — the 2 was not multiplied by 5x",
+          "feedback_correct": "Correct diagnosis. 5x × 3x = 15x² is right. But 5x × 2 = 10x — not 2. Chintu left the second term unhandled. Every term must be multiplied.",
+          "feedback_incorrect": "Chintu got the first term right: 5x × 3x = 15x². His error was leaving the 2 alone. 5x × 2 = 10x. The correct answer is 15x² + 10x.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "distributive_property",
+            "error_type": "partial_distribution_error",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M3_S3_Q3",
+          "question_type": "MCQ",
+          "question_text": "Expand: 3y(2y² + y + 4)",
+          "options": ["6y² + y + 4", "6y³ + 3y² + 12y", "6y³ + y + 4", "2y² + y + 4"],
+          "correct_answer": "6y³ + 3y² + 12y",
+          "feedback_correct": "3y × 2y² = 6y³. 3y × y = 3y². 3y × 4 = 12y. Three terms inside, three handshakes, three results.",
+          "feedback_incorrect": "The monomial 3y must multiply all three terms: 3y × 2y² = 6y³, 3y × y = 3y², 3y × 4 = 12y. All three results: 6y³ + 3y² + 12y.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "distributive_property",
+            "error_type": "three_term_bracket_partial_distribution",
+            "revision_priority": "high"
+          }
+        }
+      ],
+      "reward": {
+        "screen_completion_points": 25,
+        "badge": "Distribution Champion"
+      },
+      "progression": {
+        "screen_completion_percentage": 60,
+        "next_screen": "M3_S4",
+        "transition_dialogue": "Uncle: 'Today's final machine challenge: two separate brackets — each needs to be expanded, and then the results must be combined. That's a three-step job, and it uses everything you learned in Module 2.' | Chintu: 'I will not forget any term this time. I wrote it on the wall.'"
+      },
+      "common_misconceptions": [
+        "Only multiplying the first term inside a bracket and leaving the rest unchanged",
+        "Negative terms after expansion losing their minus sign",
+        "Treating a bracket as a single unit instead of distributing into each term"
+      ]
+    },
+    {
+      "screen_id": "M3_S4",
+      "screen_order": 4,
+      "title": "The Full Expansion Line",
+      "objective": "Students apply distributive expansion to two separate brackets, combine the results, and simplify by using Module 2's like-terms skills. This is the first problem in the module that links two concepts across modules.",
+      "difficulty": "intermediate",
+      "concept_tags": ["dual_bracket_expansion", "expand_then_simplify", "like_terms_after_expansion"],
+      "assets": {
+        "background": "robotics_factory_bg",
+        "character_portraits": {
+          "arjun": "arjun_excited",
+          "uncle": "uncle_default"
+        }
+      },
+      "story_segments": [
+        {
+          "segment_id": "M3_S4_SEG1",
+          "speaker": "Narrator",
+          "portrait": null,
+          "text": "The factory's final production line of the day had two machines running in sequence. Machine One expanded 3x(x + 2). Machine Two expanded 2(3x + 1). Their outputs would then be merged on a shared conveyor and combined into one final expression.",
+          "background": "robotics_factory_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M3_S4_SEG2",
+          "speaker": "Uncle",
+          "portrait": "uncle",
+          "text": "Arjun — two expansions, then a clean-up. Three steps total. What does Machine One produce?",
+          "background": "robotics_factory_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M3_S4_SEG3",
+          "speaker": "Arjun",
+          "portrait": "arjun",
+          "text": "Machine One: 3x times x is 3x squared. 3x times 2 is 6x. Output from Machine One: 3x squared plus 6x.",
+          "background": "robotics_factory_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M3_S4_SEG4",
+          "speaker": "Arjun",
+          "portrait": "arjun",
+          "text": "Machine Two: 2 times 3x is 6x. 2 times 1 is 2. Output from Machine Two: 6x plus 2.",
+          "background": "robotics_factory_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M3_S4_SEG5",
+          "speaker": "Uncle",
+          "portrait": "uncle",
+          "text": "Now the merger. Write all the terms together: 3x squared plus 6x plus 6x plus 2. What do you spot?",
+          "background": "robotics_factory_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M3_S4_SEG6",
+          "speaker": "Arjun",
+          "portrait": "arjun",
+          "text": "6x and 6x are like terms — both are x terms. Module 2! I can combine them: 6x plus 6x equals 12x. The x squared and the 2 have no partners. Final answer: 3x squared plus 12x plus 2.",
+          "background": "robotics_factory_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M3_S4_SEG7",
+          "speaker": "Uncle",
+          "portrait": "uncle",
+          "text": "Excellent. The four-step method for two-bracket expansion: Step One — expand the first bracket. Step Two — expand the second bracket. Step Three — write all terms together and identify like terms. Step Four — combine like terms and write the final clean answer.",
+          "background": "robotics_factory_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M3_S4_SEG8",
+          "speaker": "Narrator",
+          "portrait": null,
+          "text": "When two brackets are expanded and then combined, the four steps are: expand bracket one using the distributive rule, expand bracket two using the distributive rule, write all resulting terms together, then identify and combine any like terms. Module 2's simplification skill is what makes Step Four possible.",
+          "background": "robotics_factory_bg",
+          "trigger": "next"
+        }
+      ],
+      "concept_explanation": {
+        "title": "Two-Bracket Expansion — Four Steps",
+        "main_rule": "When two brackets appear together: Step 1 — expand the first bracket (distributive rule). Step 2 — expand the second bracket. Step 3 — write all expanded terms together. Step 4 — identify and combine like terms to produce the final simplified expression.",
+        "examples": [
+          {
+            "expression": "3x(x+2) + 2(3x+1)",
+            "step1": "3x(x+2) = 3x² + 6x",
+            "step2": "2(3x+1) = 6x + 2",
+            "step3": "All terms: 3x² + 6x + 6x + 2",
+            "step4": "Combine 6x + 6x = 12x. Final: 3x² + 12x + 2"
+          },
+          {
+            "expression": "2x(x+5) + 3x(2x–1)",
+            "step1": "2x(x+5) = 2x² + 10x",
+            "step2": "3x(2x–1) = 6x² – 3x",
+            "step3": "All terms: 2x² + 10x + 6x² – 3x",
+            "step4": "Combine x² terms: 8x². Combine x terms: 7x. Final: 8x² + 7x"
+          },
+          {
+            "expression": "4x(x–2) + 2x(3x+1)",
+            "step1": "4x(x–2) = 4x² – 8x",
+            "step2": "2x(3x+1) = 6x² + 2x",
+            "step3": "All terms: 4x² – 8x + 6x² + 2x",
+            "step4": "x² terms: 10x². x terms: –6x. Final: 10x² – 6x"
+          }
+        ]
+      },
+      "quiz_questions": [
+        {
+          "question_id": "M3_S4_Q1",
+          "question_type": "MCQ",
+          "question_text": "Expand and simplify: 2x(x + 3) + 4x",
+          "options": ["2x² + 10x", "2x² + 3x + 4x", "2x² + 7x", "6x² + 4x"],
+          "correct_answer": "2x² + 10x",
+          "feedback_correct": "2x(x+3) = 2x² + 6x. Then add 4x: 2x² + 6x + 4x = 2x² + 10x. Like terms 6x and 4x combined.",
+          "feedback_incorrect": "First expand the bracket: 2x(x+3) = 2x² + 6x. Then add the remaining 4x term: 6x + 4x = 10x. Final: 2x² + 10x.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "dual_bracket_expansion",
+            "error_type": "like_terms_not_combined_after_expansion",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M3_S4_Q2",
+          "question_type": "MCQ",
+          "question_text": "Expand and simplify: 3x(2x + y) + x(y + 5)",
+          "options": ["6x² + 3xy + xy + 5x", "6x² + 3y + xy + 5", "6x² + 4xy + 5x", "6x + 4xy"],
+          "correct_answer": "6x² + 4xy + 5x",
+          "feedback_correct": "3x(2x+y) = 6x² + 3xy. x(y+5) = xy + 5x. Like terms 3xy + xy = 4xy. Final: 6x² + 4xy + 5x.",
+          "feedback_incorrect": "Expand each bracket: 3x(2x+y) = 6x²+3xy and x(y+5) = xy+5x. Then find like terms: 3xy + xy = 4xy. Combine: 6x² + 4xy + 5x.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "dual_bracket_expansion",
+            "error_type": "unlike_terms_merged_after_expansion",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M3_S4_Q3",
+          "question_type": "MCQ",
+          "question_text": "In 4x(x–2) + 2x(3x+1), what is the coefficient of x² in the final simplified answer?",
+          "options": ["5", "6", "10", "4"],
+          "correct_answer": "10",
+          "feedback_correct": "4x(x–2) = 4x² – 8x. 2x(3x+1) = 6x² + 2x. x² terms: 4x² + 6x² = 10x². Coefficient is 10.",
+          "feedback_incorrect": "Expand both brackets: 4x(x–2) = 4x²–8x and 2x(3x+1) = 6x²+2x. Add the x² terms: 4 + 6 = 10. The coefficient is 10.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "like_terms_after_expansion",
+            "error_type": "x_squared_terms_not_combined",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M3_S4_Q4",
+          "question_type": "MCQ",
+          "question_text": "What is the correct first step when simplifying 5x(x–2) + x(3x+4)?",
+          "options": [
+            "Add all the coefficients together immediately",
+            "Substitute a number for x",
+            "Expand both brackets separately using the distributive rule",
+            "Combine like terms before expanding"
+          ],
+          "correct_answer": "Expand both brackets separately using the distributive rule",
+          "feedback_correct": "Always expand first, then identify and combine like terms. Expansion must come before simplification.",
+          "feedback_incorrect": "The four-step method: expand bracket one, expand bracket two, write all terms together, then combine like terms. Expanding always comes before combining.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "dual_bracket_expansion",
+            "error_type": "step_order_confusion_combine_before_expand",
+            "revision_priority": "medium"
+          }
+        }
+      ],
+      "reward": {
+        "screen_completion_points": 30,
+        "badge": "Expansion Engineer"
+      },
+      "progression": {
+        "screen_completion_percentage": 80,
+        "next_screen": "M3_S5",
+        "transition_dialogue": "Uncle: 'The factory's annual Junior Engineer Challenge begins now. Every skill from today — area multiplication, the exponent law, the distributive property, and expansion plus simplification — all in one arena. The crowd is waiting.' | Chintu: 'I have been practising. I will multiply every term. I promise.'"
+      },
+      "common_misconceptions": [
+        "Forgetting to expand the second bracket and leaving it unchanged",
+        "Combining unlike terms after expansion (adding x² with x terms)",
+        "Evaluating before expanding — substituting numbers before distributing"
+      ]
+    },
+    {
+      "screen_id": "M3_S5",
+      "screen_order": 5,
+      "title": "Algebra Arena — Area Puzzle Challenge",
+      "objective": "Mastery screen consolidating all Module 3 skills: monomial multiplication, the exponent law, the distributive property, dual-bracket expansion, and simplification — across two game formats with escalating difficulty.",
+      "difficulty": "advanced",
+      "concept_tags": ["mastery_consolidation", "area_puzzles", "expansion_and_simplification", "all_module3_skills"],
+      "assets": {
+        "background": "algebra_arena_bg",
+        "character_portraits": {
+          "arjun": "arjun_excited",
+          "priya": "priya_excited",
+          "rohan": "rohan_cheering",
+          "chintu": "chintu_nervous"
+        }
+      },
+      "story_segments": [
+        {
+          "segment_id": "M3_S5_SEG1",
+          "speaker": "Narrator",
+          "portrait": null,
+          "text": "The Robotics Factory's Annual Junior Engineer Challenge. Three rounds. One champion. In the stands: Arjun, Priya, Rohan, and Chintu — each one ready. Chintu leaned over to Priya. 'I wrote it on the factory wall. Every term gets multiplied.' 'Then you are ready,' said Priya.",
+          "background": "algebra_arena_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M3_S5_SEG2",
+          "speaker": "Arjun",
+          "portrait": "arjun",
+          "text": "Before Game Two — one reminder about the Expansion Duel format. A monomial appears to the left. A bracket appears to the right. You tap each term inside the bracket, then tap its correct product from the bank. Every term needs a match. No term gets skipped.",
+          "background": "algebra_arena_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M3_S5_SEG3",
+          "speaker": "Narrator",
+          "portrait": null,
+          "text": "The arena scoreboard lit up. Area Puzzle Race: five questions, thirty seconds each, points for speed. Expansion Duel: three rounds, matching each bracket term to its correct product. Then — the Mastery Challenge. Two questions. Full independence. No hints. No crowd noise. Just algebra.",
+          "background": "algebra_arena_bg",
+          "trigger": "next"
+        }
+      ],
+      "concept_explanation": {
+        "title": "Module 3 — Full Skill Review",
+        "main_rule": "Every Module 3 skill in one place: (1) Monomial × monomial: multiply coefficients, handle variables by case. (2) Exponent law: x^m × x^n = x^(m+n) — add, never multiply. (3) Distributive property: a(b+c) = ab+ac — every term inside gets multiplied. (4) Two brackets: expand each, combine, simplify.",
+        "examples": [
+          {
+            "expression": "Rectangle: 3x by 2x",
+            "result": "Area = 6x²",
+            "reasoning": "Monomial × monomial: 3×2=6, x×x=x²."
+          },
+          {
+            "expression": "Rectangle: 4x by (x+3)",
+            "result": "Area = 4x² + 12x",
+            "reasoning": "4x(x+3): 4x×x=4x², 4x×3=12x. Distributive property."
+          },
+          {
+            "expression": "Rectangle: (2x+1) by 3",
+            "result": "Area = 6x + 3",
+            "reasoning": "3(2x+1): 3×2x=6x, 3×1=3."
+          },
+          {
+            "expression": "3x(x+2) + 2x(x+1)",
+            "result": "5x² + 8x",
+            "reasoning": "3x²+6x + 2x²+2x = 5x²+8x. Expand both, then combine like terms."
+          }
+        ]
+      },
+      "quiz_questions": [
+        {
+          "question_id": "M3_S5_Q1",
+          "question_type": "MCQ",
+          "question_text": "Area Puzzle — Round 1: A rectangle has sides 3x and 2x. What is its area?",
+          "options": ["6x", "6x²", "5x²", "9x²"],
+          "correct_answer": "6x²",
+          "feedback_correct": "3 × 2 = 6. x × x = x². Area = 6x².",
+          "feedback_incorrect": "Area = length × width = 3x × 2x. Multiply coefficients: 6. Multiply variables: x². Area = 6x².",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "monomial_multiplication",
+            "error_type": "area_variable_multiplication_error",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M3_S5_Q2",
+          "question_type": "MCQ",
+          "question_text": "Area Puzzle — Round 2: A rectangle has length 4x and width (x + 3). What is the expanded area?",
+          "options": ["4x² + 12x", "4x² + 3", "7x", "4x + 12"],
+          "correct_answer": "4x² + 12x",
+          "feedback_correct": "4x(x+3): 4x×x = 4x², 4x×3 = 12x. Area = 4x² + 12x.",
+          "feedback_incorrect": "Distribute 4x across both terms in the bracket: 4x×x = 4x² and 4x×3 = 12x. Both terms must be multiplied. Area = 4x² + 12x.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "distributive_property",
+            "error_type": "area_second_term_not_multiplied",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M3_S5_Q3",
+          "question_type": "MCQ",
+          "question_text": "Area Puzzle — Round 3: A rectangle has length (2x + 1) and width 3. What is the expanded area?",
+          "options": ["6x + 1", "6x + 3", "3x + 3", "5x"],
+          "correct_answer": "6x + 3",
+          "feedback_correct": "3(2x+1): 3×2x = 6x, 3×1 = 3. Area = 6x + 3.",
+          "feedback_incorrect": "Distribute 3 across both terms: 3×2x = 6x and 3×1 = 3. Area = 6x + 3, not 6x+1.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "distributive_property",
+            "error_type": "constant_term_not_multiplied_by_outer",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M3_S5_Q4",
+          "question_type": "MCQ",
+          "question_text": "Area Puzzle — Round 4: Expand and simplify: A = 3x(x + 2) + 2x(x + 1)",
+          "options": ["5x² + 8x", "5x² + 6x", "7x² + 8x", "5x + 8"],
+          "correct_answer": "5x² + 8x",
+          "feedback_correct": "3x(x+2) = 3x²+6x. 2x(x+1) = 2x²+2x. Combine: 5x²+8x. All four steps completed correctly.",
+          "feedback_incorrect": "Expand each bracket: 3x(x+2)=3x²+6x and 2x(x+1)=2x²+2x. Now combine like terms: x² terms: 3+2=5x². x terms: 6+2=8x. Final: 5x²+8x.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "dual_bracket_expansion",
+            "error_type": "x_squared_or_x_terms_miscombined",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M3_S5_Q5",
+          "question_type": "MCQ",
+          "question_text": "Mastery Challenge 1: Expand and simplify: 2x(3x + y) + y(x + 4)",
+          "options": ["6x² + 2xy + 4y", "6x² + 3xy + 4y", "6x² + xy + 4y", "6x + 3xy + 4y"],
+          "correct_answer": "6x² + 3xy + 4y",
+          "feedback_correct": "2x(3x+y) = 6x² + 2xy. y(x+4) = xy + 4y. Like terms 2xy + xy = 3xy. Final: 6x² + 3xy + 4y.",
+          "feedback_incorrect": "Expand each bracket: 2x(3x+y)=6x²+2xy and y(x+4)=xy+4y. Now find like terms: 2xy and xy are both xy terms — combine to get 3xy. Final: 6x²+3xy+4y.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "dual_bracket_expansion",
+            "error_type": "cross_variable_like_terms_missed",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M3_S5_Q6",
+          "question_type": "MCQ",
+          "question_text": "Mastery Challenge 2: A rectangle has length (2x + 3) and width 4x. What is the expanded area?",
+          "options": ["8x² + 12x", "6x² + 3", "8x + 12x", "10x²"],
+          "correct_answer": "8x² + 12x",
+          "feedback_correct": "4x(2x+3): 4x×2x = 8x², 4x×3 = 12x. Area = 8x² + 12x. Champion-level accuracy.",
+          "feedback_incorrect": "Area = 4x × (2x+3). Distribute 4x across both terms: 4x×2x = 8x² and 4x×3 = 12x. Area = 8x² + 12x.",
+          "points": 10,
+          "mistake_tracking": {
+            "concept_tag": "distributive_property",
+            "error_type": "area_expansion_final_term_error",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M3_S5_Q7",
+          "question_type": "MCQ",
+          "question_text": "Which exponent law is correct when multiplying powers of the same variable?",
+          "options": [
+            "x^m × x^n = x^(m×n) — multiply the exponents",
+            "x^m × x^n = x^(m+n) — add the exponents",
+            "x^m × x^n = x^(m-n) — subtract the exponents",
+            "x^m × x^n = 2x^m — double the first exponent"
+          ],
+          "correct_answer": "x^m × x^n = x^(m+n) — add the exponents",
+          "feedback_correct": "The law of exponents for multiplication: always add the powers. x² × x³ = x⁵. Never multiply the exponents.",
+          "feedback_incorrect": "The exponent law for multiplication: x^m × x^n = x^(m+n). The exponents add together. x² × x³ = x⁵, not x⁶.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "exponent_addition",
+            "error_type": "exponent_law_conceptual_confusion",
+            "revision_priority": "high"
+          }
+        }
+      ],
+      "reward": {
+        "screen_completion_points": 50,
+        "badge": "Module 3 Master — Junior Engineer Champion"
+      },
+      "progression": {
+        "screen_completion_percentage": 100,
+        "next_screen": "MODULE_4",
+        "transition_dialogue": "Priya: 'You expanded, combined, and simplified perfectly. Every bracket got its handshake. Every like term got combined.' | Uncle: 'Junior Engineer Champion. Well earned.' | Chintu: 'I multiplied every term. I wrote it on the wall.' | Narrator: 'Module 4 unlocks. A new case arrives at the Algebra Detective Bureau. The question now is not how to multiply — but what does an expression equal when x is a specific number?'"
+      },
+      "common_misconceptions": [
+        "Area = length + width instead of length × width",
+        "x^m × x^n = x^(m×n) — multiplying instead of adding exponents",
+        "Expanding only the first term of a bracket and leaving the rest unchanged",
+        "Combining x² terms with x terms after expansion — unlike terms cannot merge"
+      ]
     }
-  ],
-  "module_rewards": {
-    "completion_points": 70,
-    "completion_badge": "Multiplier"
-  }
+  ]
 }

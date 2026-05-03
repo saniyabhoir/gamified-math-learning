@@ -1,29 +1,932 @@
 {
-  "module_title": "Simplifying Expressions",
-  "module_description": "Learn how to combine like terms.",
-  "total_screens": 3,
+  "module_id": "M2",
+  "module_title": "Simplification and Combining Like Terms",
+  "module_order": 2,
+  "module_description": "Students move from recognising like terms to actually combining them — mastering the art of simplification through Priya's fruit shop, Rohan's toy diaries, and the unforgettable chaos of Chintu's apple-banana disaster.",
+  "estimated_completion_time": "45-60 minutes",
+  "module_rewards": {
+    "completion_badge": "Algebra Simplification Champion",
+    "completion_points": 150
+  },
+  "final_challenge": {
+    "challenge_id": "M2_FINAL",
+    "title": "Algebra Arena — Champion Round",
+    "status": "placeholder",
+    "description": "Students face the full gauntlet: mixed expressions with multiple variables, subtraction, and invisible coefficients — all in one final showdown.",
+    "future_game_type": "arena_challenge"
+  },
+  "total_screens": 5,
   "screens": [
     {
-      "title": "Like Terms",
-      "type": "story",
+      "screen_id": "M2_S1",
+      "screen_order": 1,
+      "title": "The Fruit Basket Merge",
+      "objective": "Students understand that simplification is the natural act of grouping identical things — the algebraic version is the same instinct with letters instead of fruit.",
       "difficulty": "beginner",
-      "reward": { "screen_completion_points": 10 }
+      "concept_tags": ["simplification", "like_terms_combining"],
+      "assets": {
+        "background": "fruit_shop_bg",
+        "character_portraits": {
+          "priya": "priya_default",
+          "arjun": "arjun_excited"
+        }
+      },
+      "story_segments": [
+        {
+          "segment_id": "M2_S1_SEG1",
+          "speaker": "Narrator",
+          "portrait": null,
+          "text": "Three delivery crates arrived at Priya's family fruit shop before sunrise. They were stacked in a hurry — apples, bananas, and more apples, all piled together without any order. Priya had ten minutes before the morning rush and needed a clean count of each type.",
+          "background": "fruit_shop_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M2_S1_SEG2",
+          "speaker": "Priya",
+          "portrait": "priya",
+          "text": "Right. Crate 1 — three apples. Crate 2 — two bananas. Crate 3 — two more apples. I can't count stock from three separate crates. I need to merge the same things together.",
+          "background": "fruit_shop_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M2_S1_SEG3",
+          "speaker": "Narrator",
+          "portrait": null,
+          "text": "She slid the apples from Crate 1 and Crate 3 into a single basket. Three apples plus two apples. Five apples — sorted. The bananas went into their own basket. Nothing else to combine them with.",
+          "background": "fruit_shop_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M2_S1_SEG4",
+          "speaker": "Arjun",
+          "portrait": "arjun",
+          "text": "Wait — that's exactly what we'd do in algebra! If apples are 'a' and bananas are 'b', then your crates were 3a, 2b, and 2a. You merged the a terms: 3a plus 2a equals 5a. The 2b stayed alone. The full expression went from three parts down to two.",
+          "background": "fruit_shop_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M2_S1_SEG5",
+          "speaker": "Priya",
+          "portrait": "priya",
+          "text": "So the long form was 3a + 2b + 2a. And the short, clean form is 5a + 2b. That process of making it shorter and neater — is that what they call simplification?",
+          "background": "fruit_shop_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M2_S1_SEG6",
+          "speaker": "Arjun",
+          "portrait": "arjun",
+          "text": "Exactly that. Simplification means combining identical things so the expression has fewer parts. Fewer parts means easier to read, easier to use. And we're just doing what you just did with those crates.",
+          "background": "fruit_shop_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M2_S1_SEG7",
+          "speaker": "Narrator",
+          "portrait": null,
+          "text": "Simplification is the act of combining like terms so an expression becomes shorter and cleaner. It works exactly like sorting identical objects into one group. 3a + 2b + 2a simplifies to 5a + 2b — two terms instead of three, with nothing lost.",
+          "background": "fruit_shop_bg",
+          "trigger": "next"
+        }
+      ],
+      "concept_explanation": {
+        "title": "What Is Simplification?",
+        "main_rule": "Simplification means combining like terms — terms that share the same variable — to make an expression shorter and cleaner. The process is identical to grouping the same types of objects together.",
+        "examples": [
+          {
+            "expression": "3a + 2b + 2a",
+            "simplified": "5a + 2b",
+            "reasoning": "3a and 2a are both 'a' terms — merge them. 2b has no match, so it stays."
+          },
+          {
+            "expression": "4x + x + 2y",
+            "simplified": "5x + 2y",
+            "reasoning": "4x and x are both 'x' terms — merge them. 2y stays alone."
+          },
+          {
+            "expression": "2p + 3p + p",
+            "simplified": "6p",
+            "reasoning": "All three terms share the variable p — all three combine into one."
+          }
+        ]
+      },
+      "quiz_questions": [
+        {
+          "question_id": "M2_S1_Q1",
+          "question_type": "MCQ",
+          "question_text": "Priya has 5 apples and receives 3 more apples. If 'a' stands for apple, which expression shows the simplified total?",
+          "options": ["5 + 3 = 8", "5a + 3a = 8a", "5a + 3b = 8ab", "5 × 3 = 15a"],
+          "correct_answer": "5a + 3a = 8a",
+          "feedback_correct": "Correct! Both are apples, both are 'a' terms. 5a + 3a = 8a — same variable, same family.",
+          "feedback_incorrect": "Both baskets contain apples, so both use the same variable 'a'. When the variable matches, you add the numbers in front.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "simplification",
+            "error_type": "variable_mixing_in_addition",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M2_S1_Q2",
+          "question_type": "MCQ",
+          "question_text": "The expression 3a + 2b + 2a has three terms. What is the simplified form?",
+          "options": ["7ab", "5a + 2b", "3a + 4b", "5ab"],
+          "correct_answer": "5a + 2b",
+          "feedback_correct": "3a + 2a = 5a. The 2b has no matching terms, so it stays. Simplified: 5a + 2b.",
+          "feedback_incorrect": "Look for terms that share a variable. 3a and 2a are both 'a' — they combine. 2b has no partner, so it stays separate.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "simplification",
+            "error_type": "unlike_terms_merged",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M2_S1_Q3",
+          "question_type": "MCQ",
+          "question_text": "What does simplification mean in algebra?",
+          "options": [
+            "Making expressions longer by adding more terms",
+            "Combining like terms to make an expression shorter and cleaner",
+            "Multiplying all the terms together",
+            "Removing all variables from an expression"
+          ],
+          "correct_answer": "Combining like terms to make an expression shorter and cleaner",
+          "feedback_correct": "That's the definition exactly. Simplification reduces an expression to its shortest correct form by merging identical terms.",
+          "feedback_incorrect": "Simplification always makes things shorter — it combines identical parts so the expression is easier to read and work with.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "simplification",
+            "error_type": "simplification_definition_confusion",
+            "revision_priority": "medium"
+          }
+        }
+      ],
+      "reward": {
+        "screen_completion_points": 10,
+        "badge": "Fruit Sorter"
+      },
+      "progression": {
+        "screen_completion_percentage": 20,
+        "next_screen": "M2_S2",
+        "transition_dialogue": "Priya: 'You combined the fruit baskets perfectly. Now let's do the exact same thing — but purely with algebra, no fruit baskets needed. I want to understand the actual rule for the numbers in front.'"
+      },
+      "common_misconceptions": [
+        "Combining unlike terms (3a + 2b = 5ab) — the variable cannot change",
+        "Forgetting that terms with no match stay exactly as they are",
+        "Thinking simplification means making all numbers disappear"
+      ]
     },
     {
-      "title": "Combining Terms",
-      "type": "story",
+      "screen_id": "M2_S2",
+      "screen_order": 2,
+      "title": "Add the Algebra",
+      "objective": "Students learn the precise rule for combining like terms: add the coefficients and keep the variable unchanged. They also master the invisible coefficient — that x alone means 1x.",
       "difficulty": "beginner",
-      "reward": { "screen_completion_points": 10 }
+      "concept_tags": ["combining_like_terms", "coefficients", "invisible_coefficient"],
+      "assets": {
+        "background": "classroom_desk_bg",
+        "character_portraits": {
+          "rohan": "rohan_default",
+          "arjun": "arjun_thinking"
+        }
+      },
+      "story_segments": [
+        {
+          "segment_id": "M2_S2_SEG1",
+          "speaker": "Narrator",
+          "portrait": null,
+          "text": "After school, Rohan and Arjun were recording their toy car collection in a maths diary — just for fun. Rohan had 4 red cars at home. Arjun gifted him 3 more red cars that afternoon. Rohan opened his diary and stared at: 4x + 3x = ?",
+          "background": "classroom_desk_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M2_S2_SEG2",
+          "speaker": "Rohan",
+          "portrait": "rohan",
+          "text": "Okay so x stands for red cars. I had 4x and I got 3x more. But how do I actually write the answer in algebra? Do I change the x somehow?",
+          "background": "classroom_desk_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M2_S2_SEG3",
+          "speaker": "Arjun",
+          "portrait": "arjun",
+          "text": "Never change the x — it just means 'red car.' We don't change what thing we're counting. We only count how many. So we add the numbers in front: 4 plus 3 is 7. The x stays exactly as it is. Result: 7x.",
+          "background": "classroom_desk_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M2_S2_SEG4",
+          "speaker": "Rohan",
+          "portrait": "rohan",
+          "text": "So 4x + 3x = 7x. That's it? Just add the 4 and the 3, keep the x?",
+          "background": "classroom_desk_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M2_S2_SEG5",
+          "speaker": "Arjun",
+          "portrait": "arjun",
+          "text": "That's the rule. The numbers in front are called coefficients. When you combine like terms, you add or subtract the coefficients. The variable — the letter — is the family name. It never changes just because the count changes.",
+          "background": "classroom_desk_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M2_S2_SEG6",
+          "speaker": "Rohan",
+          "portrait": "rohan",
+          "text": "Wait — Priya also had x in her basket earlier. Just x, no number in front. What's the coefficient of plain x?",
+          "background": "classroom_desk_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M2_S2_SEG7",
+          "speaker": "Arjun",
+          "portrait": "arjun",
+          "text": "That's the invisible coefficient! When you write x with nothing in front, it actually means 1x. There's always a coefficient — sometimes it's just invisible because writing '1x' looks strange when '1 times anything is just itself.' So 3x + x is actually 3x + 1x, which equals 4x.",
+          "background": "classroom_desk_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M2_S2_SEG8",
+          "speaker": "Narrator",
+          "portrait": null,
+          "text": "The rule for combining like terms: add the coefficients, keep the variable unchanged. A variable written by itself always has an invisible coefficient of 1. So x means 1x, y means 1y, and a means 1a — always.",
+          "background": "classroom_desk_bg",
+          "trigger": "next"
+        }
+      ],
+      "concept_explanation": {
+        "title": "Combining Like Terms — The Arithmetic Rule",
+        "main_rule": "To combine like terms: add their coefficients and keep the variable exactly as it is. A letter by itself always carries an invisible coefficient of 1.",
+        "examples": [
+          {
+            "expression": "4x + 3x",
+            "solution": "7x",
+            "reasoning": "Coefficients: 4 + 3 = 7. Variable stays: x. Answer: 7x."
+          },
+          {
+            "expression": "9y + y",
+            "solution": "10y",
+            "reasoning": "y alone means 1y. So 9y + 1y = 10y."
+          },
+          {
+            "expression": "4a + 2a + 3a",
+            "solution": "9a",
+            "reasoning": "More than two terms work the same way: 4 + 2 + 3 = 9. Answer: 9a."
+          },
+          {
+            "expression": "3x + x + 2x",
+            "solution": "6x",
+            "reasoning": "x means 1x. So 3 + 1 + 2 = 6. Answer: 6x."
+          }
+        ]
+      },
+      "quiz_questions": [
+        {
+          "question_id": "M2_S2_Q1",
+          "question_type": "MCQ",
+          "question_text": "Simplify: 5x + 3x",
+          "options": ["8xx", "8x", "53x", "15x"],
+          "correct_answer": "8x",
+          "feedback_correct": "5 + 3 = 8. Variable x stays. Answer: 8x. The variable is never multiplied — only the coefficients are added.",
+          "feedback_incorrect": "Add the coefficients only: 5 + 3 = 8. Then keep the variable unchanged. The answer is 8x, not 8xx or 53x.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "combining_like_terms",
+            "error_type": "variable_doubled_or_concatenated",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M2_S2_Q2",
+          "question_type": "MCQ",
+          "question_text": "Simplify: 9y + y. (Hint: y alone means 1y.)",
+          "options": ["9y", "10y", "9y + 1", "90y"],
+          "correct_answer": "10y",
+          "feedback_correct": "9y + 1y = 10y. The invisible coefficient of 1 is real — a lone variable always carries it.",
+          "feedback_incorrect": "y by itself means 1y. So 9y + y is actually 9y + 1y = 10y. The invisible 1 is always there.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "invisible_coefficient",
+            "error_type": "invisible_coefficient_ignored",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M2_S2_Q3",
+          "question_type": "MCQ",
+          "question_text": "Simplify: 4a + 2a + 3a",
+          "options": ["9a", "24a", "9", "423a"],
+          "correct_answer": "9a",
+          "feedback_correct": "4 + 2 + 3 = 9. Three like terms combine exactly the same way as two: 9a.",
+          "feedback_incorrect": "More than two terms combine the same way: add all the coefficients. 4 + 2 + 3 = 9, so the answer is 9a.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "combining_like_terms",
+            "error_type": "multi_term_combination_failure",
+            "revision_priority": "medium"
+          }
+        },
+        {
+          "question_id": "M2_S2_Q4",
+          "question_type": "MCQ",
+          "question_text": "Rohan had 3x toy cars and received 5x more. What is the total in simplified form?",
+          "options": ["35x", "8x", "8", "2x"],
+          "correct_answer": "8x",
+          "feedback_correct": "3x + 5x = 8x. Algebra follows the same logic as real-world counting.",
+          "feedback_incorrect": "Both are 'x' terms — the same type. Add the coefficients: 3 + 5 = 8. Keep the variable: x. Answer: 8x.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "combining_like_terms",
+            "error_type": "coefficient_addition_failure",
+            "revision_priority": "high"
+          }
+        }
+      ],
+      "reward": {
+        "screen_completion_points": 20,
+        "badge": "Coefficient Crusher"
+      },
+      "progression": {
+        "screen_completion_percentage": 40,
+        "next_screen": "M2_S3",
+        "transition_dialogue": "Arjun: 'We combined like terms perfectly. But here's a question — can ALL terms be combined? What if someone tried to add 3x and 2y together? What would happen?' Rohan: 'I feel like something would go very wrong...'"
+      },
+      "common_misconceptions": [
+        "Writing 8xx instead of 8x when adding like terms — the variable never doubles",
+        "Forgetting the invisible coefficient of 1 on lone variables",
+        "Concatenating coefficients (5x + 3x = 53x) instead of adding them"
+      ]
     },
     {
-      "title": "Simplify Expression",
-      "type": "quiz",
-      "difficulty": "beginner",
-      "reward": { "screen_completion_points": 20 }
+      "screen_id": "M2_S3",
+      "screen_order": 3,
+      "title": "Why Apples Can't Become Bananas",
+      "objective": "Students permanently understand that unlike terms — terms with different variables — cannot be combined. Chintu's legendary mistake makes the wrong answer unforgettable.",
+      "difficulty": "intermediate",
+      "concept_tags": ["unlike_terms", "cannot_combine"],
+      "assets": {
+        "background": "fruit_shop_counter",
+        "character_portraits": {
+          "priya": "priya_default",
+          "chintu": "chintu_confident"
+        }
+      },
+      "story_segments": [
+        {
+          "segment_id": "M2_S3_SEG1",
+          "speaker": "Narrator",
+          "portrait": null,
+          "text": "Priya's younger cousin Chintu arrived at the shop just as the stock was being reorganised. He was nine years old, enormously confident, and had recently discovered that he was good at adding numbers. This, he felt, made him an expert.",
+          "background": "fruit_shop_counter",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M2_S3_SEG2",
+          "speaker": "Chintu",
+          "portrait": "chintu",
+          "text": "Priya didi! I can help you count! You have 3 apples and 2 bananas. That is easy — 3 plus 2 equals 5. You have 5... apple-bananas!",
+          "background": "fruit_shop_counter",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M2_S3_SEG3",
+          "speaker": "Priya",
+          "portrait": "priya",
+          "text": "Chintu. Apple-bananas do not exist.",
+          "background": "fruit_shop_counter",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M2_S3_SEG4",
+          "speaker": "Chintu",
+          "portrait": "chintu",
+          "text": "...Oh. Right. You can't count apples and bananas together because... they're different things. You'd need a separate basket for each. I see. I see.",
+          "background": "fruit_shop_counter",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M2_S3_SEG5",
+          "speaker": "Priya",
+          "portrait": "priya",
+          "text": "In algebra, 3a means 3 apples and 2b means 2 bananas. If you try to write 3a + 2b as 5ab — you've invented a fruit that doesn't exist. The 'ab' basket has never been seen in any shop in the world.",
+          "background": "fruit_shop_counter",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M2_S3_SEG6",
+          "speaker": "Chintu",
+          "portrait": "chintu",
+          "text": "So 3a + 2b just... stays as 3a + 2b? You can't make it shorter because a and b are different things?",
+          "background": "fruit_shop_counter",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M2_S3_SEG7",
+          "speaker": "Priya",
+          "portrait": "priya",
+          "text": "Exactly. Unlike terms — terms with different variables — cannot be combined. The expression stays as two separate terms. No shortcuts, no merging, no invented fruits.",
+          "background": "fruit_shop_counter",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M2_S3_SEG8",
+          "speaker": "Narrator",
+          "portrait": null,
+          "text": "Terms with different variables are called unlike terms. Unlike terms cannot be combined — ever. 3a + 2b stays as 3a + 2b. 5x + 4y stays as 5x + 4y. The golden rule: only identical variables can combine. Different variables are different families, and different families do not merge.",
+          "background": "fruit_shop_counter",
+          "trigger": "next"
+        }
+      ],
+      "concept_explanation": {
+        "title": "Unlike Terms — The Rule You Cannot Break",
+        "main_rule": "Unlike terms have different variables. They cannot be combined — ever. The expression stays in its separated form. Only terms with exactly the same variable can be simplified together.",
+        "examples": [
+          {
+            "expression": "3a + 2b",
+            "result": "stays as 3a + 2b",
+            "reason": "a and b are different variables — different families, cannot merge"
+          },
+          {
+            "expression": "5x + 4y",
+            "result": "stays as 5x + 4y",
+            "reason": "x and y are different — no combining allowed"
+          },
+          {
+            "expression": "7x + 3x + 2y",
+            "result": "10x + 2y",
+            "reason": "7x and 3x are like terms and combine. 2y is unlike and stays alone."
+          }
+        ]
+      },
+      "quiz_questions": [
+        {
+          "question_id": "M2_S3_Q1",
+          "question_type": "MCQ",
+          "question_text": "Can you simplify 5a + 3b?",
+          "options": [
+            "Yes — 8ab",
+            "Yes — 8a",
+            "No — they are unlike terms and the expression stays as 5a + 3b",
+            "Yes — 2a"
+          ],
+          "correct_answer": "No — they are unlike terms and the expression stays as 5a + 3b",
+          "feedback_correct": "Correct! a and b are different variables. Just like apples and bananas — they cannot merge into one thing.",
+          "feedback_incorrect": "a and b are completely different variables. Combining them would invent a term like 'ab' — like Chintu's apple-banana. The expression cannot be simplified.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "unlike_terms",
+            "error_type": "unlike_terms_incorrectly_combined",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M2_S3_Q2",
+          "question_type": "MCQ",
+          "question_text": "Which pair of terms CANNOT be combined?",
+          "options": ["3x and 5x", "4y and 2y", "6a and 3b", "8p and 2p"],
+          "correct_answer": "6a and 3b",
+          "feedback_correct": "6a and 3b have different variables — a is not the same as b. They are unlike terms and cannot be simplified together.",
+          "feedback_incorrect": "Look for the pair where the letters are different. 3x + 5x work because both are x. 6a + 3b cannot work because a and b are different things.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "unlike_terms",
+            "error_type": "unlike_term_identification_failure",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M2_S3_Q3",
+          "question_type": "MCQ",
+          "question_text": "Simplify where possible: 7x + 2y + 3x",
+          "options": ["12xy", "10x + 2y", "12x + 2y", "7x + 5y"],
+          "correct_answer": "10x + 2y",
+          "feedback_correct": "7x + 3x = 10x — same variable, like terms, they combine. 2y has no partner — it stays alone. Final answer: 10x + 2y.",
+          "feedback_incorrect": "First find the like terms: 7x and 3x are both x terms. Add them: 10x. Then check what's left: 2y has no other y term, so it stays. Answer: 10x + 2y.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "unlike_terms",
+            "error_type": "unlike_term_combined_with_like_group",
+            "revision_priority": "high"
+          }
+        }
+      ],
+      "reward": {
+        "screen_completion_points": 25,
+        "badge": "Unlike Terms Guardian"
+      },
+      "progression": {
+        "screen_completion_percentage": 60,
+        "next_screen": "M2_S4",
+        "transition_dialogue": "Priya: 'You sorted that perfectly — Chintu's mistake will never be yours. Now what happens when expressions get really long? Like six or seven terms all jumbled up together?' Chintu: 'I want to try! I won't add apple-bananas this time, I promise.'"
+      },
+      "common_misconceptions": [
+        "Writing 3a + 2b = 5ab — the new term 'ab' is algebraically invalid",
+        "Thinking matching coefficients mean like terms (5a and 5b are NOT like terms)",
+        "Forgetting to check variable letters and combining based on position"
+      ]
+    },
+    {
+      "screen_id": "M2_S4",
+      "screen_order": 4,
+      "title": "The Supermarket Receipt",
+      "objective": "Students master the four-step method for simplifying multi-term, multi-variable expressions: Identify, Group, Combine, Write.",
+      "difficulty": "intermediate",
+      "concept_tags": ["four_step_method", "multi_term_simplification", "multi_variable"],
+      "assets": {
+        "background": "supermarket_receipt_bg",
+        "character_portraits": {
+          "priya": "priya_default",
+          "chintu": "chintu_thinking"
+        }
+      },
+      "story_segments": [
+        {
+          "segment_id": "M2_S4_SEG1",
+          "speaker": "Narrator",
+          "portrait": null,
+          "text": "Priya's mum had just returned from the supermarket with a completely disorganised receipt. Items were listed in the order they were scanned — random, jumbled, no logic. The receipt read: 3x + 2y + 4x + y + 5z + 2y.",
+          "background": "supermarket_receipt_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M2_S4_SEG2",
+          "speaker": "Priya",
+          "portrait": "priya",
+          "text": "This is chaos. There are x items, y items, and z items all scattered through the list. To get a clean total of each type, I need a proper method. I can't just guess — one slip and I'll miscount.",
+          "background": "supermarket_receipt_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M2_S4_SEG3",
+          "speaker": "Priya",
+          "portrait": "priya",
+          "text": "Step one: Identify. I'll go through the whole expression and mark every x term, every y term, every z term with its own colour in my head.",
+          "background": "supermarket_receipt_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M2_S4_SEG4",
+          "speaker": "Priya",
+          "portrait": "priya",
+          "text": "Step two: Group. I'll rewrite the expression with like terms next to each other. Brackets help keep it neat: (3x + 4x) + (2y + y + 2y) + (5z).",
+          "background": "supermarket_receipt_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M2_S4_SEG5",
+          "speaker": "Priya",
+          "portrait": "priya",
+          "text": "Step three: Combine. Now I add the coefficients within each bracket. 3x + 4x = 7x. 2y + y + 2y = 5y. 5z has no partners — it stays.",
+          "background": "supermarket_receipt_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M2_S4_SEG6",
+          "speaker": "Priya",
+          "portrait": "priya",
+          "text": "Step four: Write. Put the results together cleanly: 7x + 5y + 5z. Six terms became three. That is the simplified receipt.",
+          "background": "supermarket_receipt_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M2_S4_SEG7",
+          "speaker": "Chintu",
+          "portrait": "chintu",
+          "text": "So it's always the same four steps? Identify, Group, Combine, Write? Even for really long expressions?",
+          "background": "supermarket_receipt_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M2_S4_SEG8",
+          "speaker": "Priya",
+          "portrait": "priya",
+          "text": "Always the same four steps. The expression can be ten terms long — the method doesn't change. Identify your groups, bring them together, add the numbers, write the result.",
+          "background": "supermarket_receipt_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M2_S4_SEG9",
+          "speaker": "Narrator",
+          "portrait": null,
+          "text": "The Four-Step Simplification Method: Step 1 — Identify all like terms. Step 2 — Group them by variable. Step 3 — Combine each group by adding coefficients. Step 4 — Write the final expression. This method works for any expression, however many terms it has.",
+          "background": "supermarket_receipt_bg",
+          "trigger": "next"
+        }
+      ],
+      "concept_explanation": {
+        "title": "The Four-Step Simplification Method",
+        "main_rule": "For multi-term expressions, always follow four steps: Identify like terms → Group them by variable → Combine each group → Write the simplified expression.",
+        "examples": [
+          {
+            "expression": "3x + 2y + 4x + y + 5z + 2y",
+            "step1_identify": "x terms: 3x, 4x | y terms: 2y, y, 2y | z terms: 5z",
+            "step2_group": "(3x + 4x) + (2y + y + 2y) + (5z)",
+            "step3_combine": "7x + 5y + 5z",
+            "step4_write": "7x + 5y + 5z"
+          },
+          {
+            "expression": "4x + 2y + 3x + y",
+            "step1_identify": "x terms: 4x, 3x | y terms: 2y, y",
+            "step2_group": "(4x + 3x) + (2y + y)",
+            "step3_combine": "7x + 3y",
+            "step4_write": "7x + 3y"
+          }
+        ]
+      },
+      "quiz_questions": [
+        {
+          "question_id": "M2_S4_Q1",
+          "question_type": "MCQ",
+          "question_text": "Simplify: 4x + 2y + 3x + y",
+          "options": ["10xy", "7x + 3y", "9x + 3y", "4x + 6y"],
+          "correct_answer": "7x + 3y",
+          "feedback_correct": "4x + 3x = 7x. 2y + y = 3y. Two separate groups, two separate additions. Answer: 7x + 3y.",
+          "feedback_incorrect": "Use the four steps: Identify (x terms and y terms), Group (put like terms together), Combine (add each group), Write. 4x + 3x = 7x and 2y + y = 3y.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "four_step_method",
+            "error_type": "groups_not_separated_correctly",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M2_S4_Q2",
+          "question_type": "MCQ",
+          "question_text": "Simplify: 5a + 2b + 3a + 4b + a",
+          "options": ["9a + 6b", "15ab", "8a + 6b", "9a + 4b"],
+          "correct_answer": "9a + 6b",
+          "feedback_correct": "a terms: 5a + 3a + a = 9a (remember a = 1a). b terms: 2b + 4b = 6b. Final: 9a + 6b.",
+          "feedback_incorrect": "Find all a terms: 5a, 3a, and a (which is 1a). Add them: 5 + 3 + 1 = 9, so 9a. Find all b terms: 2b and 4b. Add: 6b. Final: 9a + 6b.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "four_step_method",
+            "error_type": "invisible_coefficient_missed_in_multi_term",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M2_S4_Q3",
+          "question_type": "MCQ",
+          "question_text": "What is the very first step when simplifying a long expression like 3x + 2y + 4x + y + 5z?",
+          "options": [
+            "Add all the numbers together",
+            "Identify and group the like terms",
+            "Multiply everything together",
+            "Remove the variables from the expression"
+          ],
+          "correct_answer": "Identify and group the like terms",
+          "feedback_correct": "Step 1 is always: Identify. Find and mark every group of like terms before you do any arithmetic.",
+          "feedback_incorrect": "The four-step method always begins by identifying — finding and mentally marking which terms share a variable. No arithmetic until step 3.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "four_step_method",
+            "error_type": "step_order_confusion",
+            "revision_priority": "medium"
+          }
+        },
+        {
+          "question_id": "M2_S4_Q4",
+          "question_type": "MCQ",
+          "question_text": "Simplify: 6x + 2y + x + 3z + 4y",
+          "options": ["7x + 6y + 3z", "16xyz", "6x + 6y + 3z", "7x + 2y + 7z"],
+          "correct_answer": "7x + 6y + 3z",
+          "feedback_correct": "x terms: 6x + x = 7x. y terms: 2y + 4y = 6y. z terms: 3z stays alone. Final: 7x + 6y + 3z.",
+          "feedback_incorrect": "Group by variable: 6x + x = 7x; 2y + 4y = 6y; 3z has no partner. Bring them together: 7x + 6y + 3z.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "four_step_method",
+            "error_type": "lone_term_incorrectly_combined",
+            "revision_priority": "medium"
+          }
+        }
+      ],
+      "reward": {
+        "screen_completion_points": 30,
+        "badge": "Master Simplifier"
+      },
+      "progression": {
+        "screen_completion_percentage": 80,
+        "next_screen": "M2_S5",
+        "transition_dialogue": "Priya: 'Four steps, and the longest expression becomes clean and simple. Now for the final challenge — everything you know, all at once, with one new trick added. Subtraction.' Chintu: 'I am ready. I will not say apple-banana this time.'"
+      },
+      "common_misconceptions": [
+        "Combining all variables into one 'super term' like 16xyz",
+        "Missing lone terms with no match — they must appear in the final answer",
+        "Adding coefficients across different variable groups"
+      ]
+    },
+    {
+      "screen_id": "M2_S5",
+      "screen_order": 5,
+      "title": "The Algebra Arena",
+      "objective": "Students consolidate every Module 2 skill in an escalating three-round challenge. Subtraction of like terms is introduced here for the first time, completing the simplification toolkit.",
+      "difficulty": "advanced",
+      "concept_tags": ["subtraction_of_like_terms", "mixed_simplification", "consolidation"],
+      "assets": {
+        "background": "algebra_arena_bg",
+        "character_portraits": {
+          "priya": "priya_excited",
+          "rohan": "rohan_cheering",
+          "arjun": "arjun_excited",
+          "chintu": "chintu_nervous"
+        }
+      },
+      "story_segments": [
+        {
+          "segment_id": "M2_S5_SEG1",
+          "speaker": "Narrator",
+          "portrait": null,
+          "text": "Welcome to the Algebra Arena. Priya, Rohan, Arjun, and Chintu are in the crowd. Three rounds stand between the student and the title of Algebra Champion. Bronze. Silver. Gold. The crowd is ready.",
+          "background": "algebra_arena_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M2_S5_SEG2",
+          "speaker": "Arjun",
+          "portrait": "arjun",
+          "text": "Before round two, one more thing to know. We've added like terms — 4x + 3x = 7x. Subtraction works the same way. 8x minus 2x: subtract the coefficients. 8 minus 2 is 6. Answer: 6x. The variable never changes.",
+          "background": "algebra_arena_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M2_S5_SEG3",
+          "speaker": "Priya",
+          "portrait": "priya",
+          "text": "And when addition and subtraction appear together in one expression, you apply the four steps exactly as before. Identify, Group, Combine — but now combining includes both adding and subtracting. You handle each group's operation separately.",
+          "background": "algebra_arena_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M2_S5_SEG4",
+          "speaker": "Chintu",
+          "portrait": "chintu",
+          "text": "I have been practicing. I am going to get this right. Probably. Maybe. I will try very hard.",
+          "background": "algebra_arena_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M2_S5_SEG5",
+          "speaker": "Narrator",
+          "portrait": null,
+          "text": "Subtraction rule: to subtract like terms, subtract the coefficients and keep the variable. 8x − 2x = 6x. Mixed expressions with both + and − follow the same four steps — just apply the correct operation to each group. Now — the arena begins.",
+          "background": "algebra_arena_bg",
+          "trigger": "next"
+        }
+      ],
+      "concept_explanation": {
+        "title": "Subtraction of Like Terms + Mixed Mastery",
+        "main_rule": "Subtracting like terms works exactly like adding them: subtract the coefficients and keep the variable unchanged. Mixed expressions (with both + and −) use the same four-step method.",
+        "examples": [
+          {
+            "expression": "8x − 2x",
+            "solution": "6x",
+            "reasoning": "8 − 2 = 6. Variable x stays. Answer: 6x."
+          },
+          {
+            "expression": "8x + 3y − 2x + y",
+            "solution": "6x + 4y",
+            "reasoning": "x terms: 8x − 2x = 6x. y terms: 3y + y = 4y. Final: 6x + 4y."
+          },
+          {
+            "expression": "5x + 3y + 2z + 4x − y + z + 2y",
+            "solution": "9x + 4y + 3z",
+            "reasoning": "x: 5x + 4x = 9x. y: 3y − y + 2y = 4y. z: 2z + z = 3z. Final: 9x + 4y + 3z."
+          }
+        ]
+      },
+      "quiz_questions": [
+        {
+          "question_id": "M2_S5_Q1",
+          "question_type": "MCQ",
+          "question_text": "Round 1 — Bronze: Are 7x and 4x like terms?",
+          "options": [
+            "Yes — same variable, regardless of the coefficients",
+            "No — they have different numbers in front"
+          ],
+          "correct_answer": "Yes — same variable, regardless of the coefficients",
+          "feedback_correct": "Same variable means like terms. The coefficients 7 and 4 are different, but x is x — they are like terms.",
+          "feedback_incorrect": "Like terms are defined by their variable, not their coefficient. Both have x, so they are like terms.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "like_terms",
+            "error_type": "coefficient_used_as_like_term_criteria",
+            "revision_priority": "medium"
+          }
+        },
+        {
+          "question_id": "M2_S5_Q2",
+          "question_type": "MCQ",
+          "question_text": "Round 1 — Bronze: Are 5a and 5b like terms?",
+          "options": [
+            "Yes — same coefficient",
+            "No — different variables"
+          ],
+          "correct_answer": "No — different variables",
+          "feedback_correct": "5a and 5b have the same number but different variables. a is not b. Unlike terms — they cannot combine.",
+          "feedback_incorrect": "The coefficient of 5 is a coincidence here. a and b are different variables — completely different families. They are unlike terms.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "unlike_terms",
+            "error_type": "coefficient_match_mistaken_for_like_terms",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M2_S5_Q3",
+          "question_type": "MCQ",
+          "question_text": "Round 1 — Bronze: Are 3x and x like terms?",
+          "options": [
+            "Yes — both have the variable x",
+            "No — one has no number in front"
+          ],
+          "correct_answer": "Yes — both have the variable x",
+          "feedback_correct": "x alone means 1x — the coefficient is just invisible. Both have x, so they are like terms. 3x + x = 4x.",
+          "feedback_incorrect": "x by itself always carries an invisible coefficient of 1. It is 1x. Both 3x and x share the variable x — they are like terms.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "invisible_coefficient",
+            "error_type": "lone_variable_not_recognised_as_like_term",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M2_S5_Q4",
+          "question_type": "MCQ",
+          "question_text": "Round 2 — Silver: Simplify: 8x + 3y − 2x + y",
+          "options": ["6x + 4y", "9x + 4y", "6x + 2y", "10xy"],
+          "correct_answer": "6x + 4y",
+          "feedback_correct": "x terms: 8x − 2x = 6x. y terms: 3y + y = 4y. Subtraction of like terms works just like addition — you apply the operation to the coefficients.",
+          "feedback_incorrect": "Separate into groups: 8x and −2x are x terms (8 − 2 = 6x). 3y and +y are y terms (3 + 1 = 4y). Final: 6x + 4y.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "subtraction_of_like_terms",
+            "error_type": "subtraction_direction_error",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M2_S5_Q5",
+          "question_type": "MCQ",
+          "question_text": "Round 2 — Silver: Simplify: 4a + 2b − a + 5b + 3a",
+          "options": ["6a + 7b", "7a + 7b", "6a + 5b", "6ab + 7"],
+          "correct_answer": "6a + 7b",
+          "feedback_correct": "a terms: 4a − a + 3a = 6a. b terms: 2b + 5b = 7b. Final: 6a + 7b. Four-step method, applied with subtraction included.",
+          "feedback_incorrect": "Group by variable. a group: 4a − a + 3a. Work left to right: 4 − 1 + 3 = 6, so 6a. b group: 2b + 5b = 7b. Answer: 6a + 7b.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "subtraction_of_like_terms",
+            "error_type": "sign_handling_error_in_multi_term",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M2_S5_Q6",
+          "question_type": "MCQ",
+          "question_text": "Round 2 — Silver: Simplify: 2x + 3y + 5z + x + 2z",
+          "options": ["3x + 3y + 7z", "3x + 5y + 7z", "5x + 3y + 7z", "3xyz + 7"],
+          "correct_answer": "3x + 3y + 7z",
+          "feedback_correct": "x terms: 2x + x = 3x. y terms: 3y stays alone — no other y. z terms: 5z + 2z = 7z. Final: 3x + 3y + 7z.",
+          "feedback_incorrect": "Three variable groups here. x: 2x + x = 3x. y: 3y has no partner, so it stays as 3y. z: 5z + 2z = 7z. Final: 3x + 3y + 7z.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "four_step_method",
+            "error_type": "lone_y_term_mishandled",
+            "revision_priority": "medium"
+          }
+        },
+        {
+          "question_id": "M2_S5_Q7",
+          "question_type": "MCQ",
+          "question_text": "Round 3 — Gold: Simplify completely: 5x + 3y + 2z + 4x − y + z + 2y",
+          "options": ["9x + 4y + 3z", "9x + 5y + 3z", "11x + 4y + 3z", "9x + 4y + 2z"],
+          "correct_answer": "9x + 4y + 3z",
+          "feedback_correct": "x terms: 5x + 4x = 9x. y terms: 3y − y + 2y = 4y. z terms: 2z + z = 3z. Final: 9x + 4y + 3z. That is a full Algebra Champion answer.",
+          "feedback_incorrect": "Identify every group: x (5x, 4x), y (3y, −y, 2y), z (2z, z). Combine each: 5+4=9x; 3−1+2=4y; 2+1=3z. Answer: 9x + 4y + 3z.",
+          "points": 10,
+          "mistake_tracking": {
+            "concept_tag": "subtraction_of_like_terms",
+            "error_type": "three_variable_mixed_expression_error",
+            "revision_priority": "high"
+          }
+        }
+      ],
+      "reward": {
+        "screen_completion_points": 50,
+        "badge": "Module 2 Master"
+      },
+      "progression": {
+        "screen_completion_percentage": 100,
+        "next_screen": "MODULE_3",
+        "transition_dialogue": "Priya: 'You are now an Algebra Simplification Champion. Every expression is just a puzzle — and you know exactly how to solve it.' | Arjun: 'Like terms combine. Unlike terms don't. The four steps always work.' | Chintu: 'And apples are never bananas.' | Narrator: 'Module 3 unlocks. The journey continues.'"
+      },
+      "common_misconceptions": [
+        "Applying subtraction to the wrong group in mixed expressions",
+        "Forgetting the invisible coefficient of 1 when a lone variable is being subtracted",
+        "Adding all coefficients together ignoring variable differences"
+      ]
     }
-  ],
-  "module_rewards": {
-    "completion_points": 60,
-    "completion_badge": "Simplifier"
-  }
+  ]
 }
