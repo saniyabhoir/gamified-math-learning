@@ -1,4 +1,7 @@
-/* index.css */
+/* frontend/src/index.css */
+/* FIX: Changed body background from white (#f7fafc) to dark (#060a12)
+   to match the app's dark theme. A white background with dark-themed
+   components was making the page appear blank/broken. */
 
 * {
   margin: 0;
@@ -8,8 +11,8 @@
 
 body {
   font-family: Arial, sans-serif;
-  background: #f7fafc;
-  color: #2d3748;
+  background: #060a12; /* FIX: was #f7fafc (white) — caused apparent blank screen */
+  color: #e8edf4;
 }
 
 button {
@@ -17,5 +20,9 @@ button {
 }
 
 .App {
+  min-height: 100vh;
+}
+
+#root {
   min-height: 100vh;
 }

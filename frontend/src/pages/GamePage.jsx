@@ -1,7 +1,7 @@
 // frontend/src/pages/GamePage.jsx
 import React, { Suspense, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { AuthContext } from "../App";
+import { AuthContext } from "../../src/context/AuthContext";
 import { getGameForModule } from "../utils/GameRegistry";
 import { saveGameResult } from "../utils/GameMatrics";
 import "./GamePage.css";

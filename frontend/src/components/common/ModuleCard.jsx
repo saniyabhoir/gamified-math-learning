@@ -1,7 +1,7 @@
 // frontend/src/components/common/ModuleCard.jsx
 import React, { useState, useCallback, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../App";
+import { AuthContext } from "../../context/AuthContext";
 import { getGameForModule, isGameAvailable } from "../../utils/GameRegistry";
 import { getGameStatSummary } from "../../utils/GameMatrics";
 import "./ModuleCard.css";

@@ -1,29 +1,846 @@
 {
-  "module_title": "Real-Life Applications",
-  "module_description": "Apply algebra in real-world problems.",
-  "total_screens": 3,
+  "module_id": "M5",
+  "module_title": "Algebra in Action",
+  "module_order": 5,
+  "module_description": "No new concepts. Pure application. The Algebra Detective Bureau has seven real-world cases — each one requiring substitution, expansion, simplification, and pattern reasoning. Think, not memorise.",
+  "estimated_completion_time": "60-75 minutes",
+  "module_rewards": {
+    "completion_badge": "Chief Algebra Agent",
+    "completion_points": 120
+  },
+  "final_challenge": {
+    "challenge_id": "M5_FINAL",
+    "title": "The Chief Agent Final Test",
+    "status": "active",
+    "description": "One integrated multi-step problem: perimeter expressions, substitution, multi-step reasoning. No hints. No guided rows. Full independence.",
+    "future_game_type": "logic_challenge"
+  },
+  "total_screens": 5,
   "screens": [
     {
-      "title": "Word Problems",
-      "type": "story",
-      "difficulty": "advanced",
-      "reward": { "screen_completion_points": 10 }
+      "screen_id": "M5_S1",
+      "screen_order": 1,
+      "title": "The School Supplies Run",
+      "objective": "Apply substitution and evaluation in a real shopping context. Simplify multi-term expressions before substituting — one substitution is smarter than four.",
+      "difficulty": "intermediate",
+      "concept_tags": ["substitution", "evaluation", "simplification", "real_world_formulas"],
+      "assets": {
+        "background": "detective_bureau_bg",
+        "character_portraits": {
+          "priya": "priya_focused",
+          "arjun": "arjun_thinking",
+          "narrator": null
+        }
+      },
+      "story_segments": [
+        {
+          "segment_id": "M5_S1_SEG1",
+          "speaker": "Narrator",
+          "portrait": null,
+          "text": "The Algebra Detective Bureau had a new assignment — a modest one, but important. Priya had been put in charge of restocking the bureau's supplies before the week's big cases. The stationery shop used expression-based pricing. Every item's cost depended on n — the current wholesale index.",
+          "background": "detective_bureau_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M5_S1_SEG2",
+          "speaker": "Priya",
+          "portrait": "priya",
+          "text": "Today the wholesale index is n = 10. Let me check the price list. Notebook: 3n + 5. Pen: 2n – 3. Folder: n + 8. Eraser: n ÷ 2.",
+          "background": "detective_bureau_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M5_S1_SEG3",
+          "speaker": "Arjun",
+          "portrait": "arjun",
+          "text": "Easy enough — just plug in 10 for each. But Priya, you're buying 2 notebooks and 3 pens. Are you going to substitute four separate times?",
+          "background": "detective_bureau_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M5_S1_SEG4",
+          "speaker": "Priya",
+          "portrait": "priya",
+          "text": "No. I'll write the full expression first: 2(3n+5) + 3(2n–3). Expand: 6n+10 + 6n–9 = 12n + 1. Then substitute once: 12(10) + 1 = ₹121. One substitution. Done.",
+          "background": "detective_bureau_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M5_S1_SEG5",
+          "speaker": "Arjun",
+          "portrait": "arjun",
+          "text": "Versus doing it four times and adding up. Same answer — but your way is cleaner. One expression, one substitution.",
+          "background": "detective_bureau_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M5_S1_SEG6",
+          "speaker": "Narrator",
+          "portrait": null,
+          "text": "The lesson wasn't about what to buy. It was about how to think. Simplify first. Substitute once. Every shortcut in algebra earns time for the harder problems ahead.",
+          "background": "detective_bureau_bg",
+          "trigger": "next"
+        }
+      ],
+      "concept_explanation": {
+        "title": "Simplify First, Substitute Once",
+        "main_rule": "When buying multiple quantities with expression-based prices, write the full combined expression, simplify like terms, then substitute the variable value exactly once. This prevents errors and saves steps.",
+        "examples": [
+          {
+            "expression": "2(3n+5) + 3(2n–3)",
+            "solution": "= 6n+10 + 6n–9 = 12n+1 → at n=10: ₹121"
+          },
+          {
+            "expression": "Notebook (n=10): 3(10)+5",
+            "solution": "= ₹35 per notebook"
+          },
+          {
+            "expression": "4 pens at (2n–3) each, n=10",
+            "solution": "= 4(17) = ₹68"
+          }
+        ]
+      },
+      "quiz_questions": [
+        {
+          "question_id": "M5_S1_Q1",
+          "question_type": "MCQ",
+          "question_text": "The notebook costs 3n + 5 rupees. What is the price when n = 10?",
+          "options": ["30", "35", "38", "25"],
+          "correct_answer": "35",
+          "feedback_correct": "3(10) + 5 = 30 + 5 = ₹35. Clean substitution.",
+          "feedback_incorrect": "Replace n with 10: 3 × 10 = 30. Then add 5. Total: ₹35.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "substitution",
+            "error_type": "basic_substitution_failure",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M5_S1_Q2",
+          "question_type": "MCQ",
+          "question_text": "Priya buys 4 pens at (2n – 3) rupees each. With n = 10, what is the total?",
+          "options": ["60", "68", "72", "56"],
+          "correct_answer": "68",
+          "feedback_correct": "One pen = 2(10)–3 = ₹17. Four pens = 4 × 17 = ₹68.",
+          "feedback_incorrect": "First evaluate one pen's price: 2(10)–3 = 17. Then multiply by 4.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "evaluation",
+            "error_type": "multi_step_evaluation_failure",
+            "revision_priority": "medium"
+          }
+        },
+        {
+          "question_id": "M5_S1_Q3",
+          "question_type": "MCQ",
+          "question_text": "What is the total for 2 notebooks and 1 folder, when n = 10? (Notebook: 3n+5, Folder: n+8)",
+          "options": ["80", "88", "70", "95"],
+          "correct_answer": "88",
+          "feedback_correct": "2 notebooks: 2(35) = ₹70. 1 folder: ₹18. Total: ₹88.",
+          "feedback_incorrect": "Evaluate each: notebook=35, folder=18. Then 2×35 + 18 = 88.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "evaluation",
+            "error_type": "multiple_item_total_failure",
+            "revision_priority": "medium"
+          }
+        },
+        {
+          "question_id": "M5_S1_Q4",
+          "question_type": "MCQ",
+          "question_text": "Before substituting n=10, what is the simplified expression for 3 notebooks + 2 erasers? (Notebook: 3n+5, Eraser: n÷2)",
+          "options": ["9n + 15 + n", "9n + 10", "10n + 15", "11n + 5"],
+          "correct_answer": "10n + 15",
+          "feedback_correct": "3(3n+5) + 2(n÷2) = 9n+15 + n = 10n+15. At n=10: 115.",
+          "feedback_incorrect": "Expand 3(3n+5) = 9n+15. Expand 2(n÷2) = n. Combine: 10n+15.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "simplification",
+            "error_type": "pre_substitution_simplification_failure",
+            "revision_priority": "high"
+          }
+        }
+      ],
+      "reward": {
+        "screen_completion_points": 20,
+        "badge": "Smart Shopper"
+      },
+      "progression": {
+        "screen_completion_percentage": 20,
+        "next_screen": "M5_S2",
+        "transition_dialogue": "Rohan slaps a blueprint on the desk. 'Next case — the courtyard renovation. Every dimension is an expression. The contractor arrives in one hour. I need real numbers.'"
+      },
+      "common_misconceptions": [
+        "Substituting into each item separately instead of simplifying the full expression first",
+        "Treating n÷2 as n–2 when n=10",
+        "Forgetting to expand brackets before combining like terms"
+      ]
     },
     {
-      "title": "Modeling Situations",
-      "type": "story",
-      "difficulty": "advanced",
-      "reward": { "screen_completion_points": 10 }
+      "screen_id": "M5_S2",
+      "screen_order": 2,
+      "title": "The Courtyard Plan",
+      "objective": "Apply distributive expansion to real area problems. Evaluate expanded expressions at given variable values. Multi-step: expand, then evaluate, then combine.",
+      "difficulty": "intermediate",
+      "concept_tags": ["distributive_expansion", "area_evaluation", "multi_step_problem_solving"],
+      "assets": {
+        "background": "blueprint_table_bg",
+        "character_portraits": {
+          "rohan": "rohan_focused",
+          "arjun": "arjun_excited",
+          "narrator": null
+        }
+      },
+      "story_segments": [
+        {
+          "segment_id": "M5_S2_SEG1",
+          "speaker": "Narrator",
+          "portrait": null,
+          "text": "Rohan had the courtyard blueprint spread across the bureau's table. Every section of the school courtyard had been measured — not in fixed numbers, but in expressions. The renovation contractor needed actual square metres before sundown.",
+          "background": "blueprint_table_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M5_S2_SEG2",
+          "speaker": "Rohan",
+          "portrait": "rohan",
+          "text": "The flower bed has length (2x + 3) metres and width 4 metres. The pathway is 3x metres long and (x + 2) metres wide. I need both areas. And then the tiling cost.",
+          "background": "blueprint_table_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M5_S2_SEG3",
+          "speaker": "Arjun",
+          "portrait": "arjun",
+          "text": "Flower bed area: 4(2x+3). Let's expand that first — 8x + 12. Then at x = 5: 8(5) + 12 = 52 square metres.",
+          "background": "blueprint_table_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M5_S2_SEG4",
+          "speaker": "Rohan",
+          "portrait": "rohan",
+          "text": "Pathway: 3x times (x+2). That's 3x² + 6x. At x = 5: 3(25) + 6(5) = 75 + 30 = 105 square metres.",
+          "background": "blueprint_table_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M5_S2_SEG5",
+          "speaker": "Arjun",
+          "portrait": "arjun",
+          "text": "Total: 52 + 105 = 157 square metres. Tiling at ₹8 per square metre: 157 × 8 = ₹1,256.",
+          "background": "blueprint_table_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M5_S2_SEG6",
+          "speaker": "Narrator",
+          "portrait": null,
+          "text": "The contractor had their number. Rohan filed the blueprint. The rule was clear: expand the expression first, substitute the variable second, never the other way around.",
+          "background": "blueprint_table_bg",
+          "trigger": "next"
+        }
+      ],
+      "concept_explanation": {
+        "title": "Expand First, Evaluate Second",
+        "main_rule": "For area problems with expression-based dimensions: (1) Write Area = length × width, (2) Expand using the distributive property, (3) Substitute the variable, (4) Evaluate numerically. Never substitute before expanding.",
+        "examples": [
+          {
+            "expression": "Flower Bed: 4(2x+3)",
+            "solution": "= 8x + 12. At x=5: 52 sq m"
+          },
+          {
+            "expression": "Pathway: 3x(x+2)",
+            "solution": "= 3x² + 6x. At x=5: 105 sq m"
+          },
+          {
+            "expression": "Perimeter: l=(x+5), w=3",
+            "solution": "P = 2(x+5+3) = 2(x+8) = 2x+16"
+          }
+        ]
+      },
+      "quiz_questions": [
+        {
+          "question_id": "M5_S2_Q1",
+          "question_type": "MCQ",
+          "question_text": "Expand: 5(3x + 4)",
+          "options": ["15x + 4", "15x + 20", "8x + 20", "15x + 9"],
+          "correct_answer": "15x + 20",
+          "feedback_correct": "5 × 3x = 15x. 5 × 4 = 20. Every term inside the bracket gets multiplied.",
+          "feedback_incorrect": "The 5 must multiply both terms inside the bracket: 5×3x AND 5×4.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "distributive_expansion",
+            "error_type": "partial_expansion_error",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M5_S2_Q2",
+          "question_type": "MCQ",
+          "question_text": "Flower bed area = 4(2x+3). What is the area when x = 5?",
+          "options": ["46", "50", "52", "58"],
+          "correct_answer": "52",
+          "feedback_correct": "Expanded: 8x+12. At x=5: 8(5)+12 = 40+12 = 52 sq m.",
+          "feedback_incorrect": "First expand: 4(2x+3) = 8x+12. Then substitute x=5: 40+12=52.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "area_evaluation",
+            "error_type": "expansion_before_substitution_failure",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M5_S2_Q3",
+          "question_type": "MCQ",
+          "question_text": "Pathway area = 3x(x+2). What is the area when x = 4?",
+          "options": ["60", "72", "84", "48"],
+          "correct_answer": "72",
+          "feedback_correct": "3x² + 6x. At x=4: 3(16) + 6(4) = 48 + 24 = 72 sq m.",
+          "feedback_incorrect": "Expand first: 3x×x = 3x², 3x×2 = 6x. At x=4: 3(16)+24 = 72.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "distributive_expansion",
+            "error_type": "monomial_bracket_expansion_error",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M5_S2_Q4",
+          "question_type": "MCQ",
+          "question_text": "A room has length (x+5) and width 3. What is the expression for its perimeter?",
+          "options": ["x + 8", "4x + 20", "2x + 16", "x + 16"],
+          "correct_answer": "2x + 16",
+          "feedback_correct": "P = 2(l+w) = 2(x+5+3) = 2(x+8) = 2x+16. Remember: perimeter uses 2 × the sum.",
+          "feedback_incorrect": "Perimeter = 2(length + width) = 2(x+5+3) = 2(x+8). Distribute the 2.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "area_evaluation",
+            "error_type": "perimeter_vs_area_confusion",
+            "revision_priority": "medium"
+          }
+        }
+      ],
+      "reward": {
+        "screen_completion_points": 20,
+        "badge": "Courtyard Planner"
+      },
+      "progression": {
+        "screen_completion_percentage": 40,
+        "next_screen": "M5_S3",
+        "transition_dialogue": "Priya pins three new case files to the board. 'Section 2. Real-world formula missions — a quiz scoring system, a finance file, and a number pattern that only algebra can explain.'"
+      },
+      "common_misconceptions": [
+        "Substituting x before expanding the bracket — always expand first",
+        "Writing 3x × x = 3x instead of 3x²",
+        "Confusing perimeter (2×(l+w)) with area (l×w)"
+      ]
     },
     {
-      "title": "Solve Real Problem",
-      "type": "quiz",
+      "screen_id": "M5_S3",
+      "screen_order": 3,
+      "title": "Real-World Formula Missions",
+      "objective": "Evaluate multi-variable formulas in real contexts: a quiz scoring system, a finance problem, and a number pattern proof. Apply BODMAS correctly, respect signs, and reason about which variable affects the outcome most.",
       "difficulty": "advanced",
-      "reward": { "screen_completion_points": 30 }
+      "concept_tags": ["multi_variable_substitution", "BODMAS", "financial_formulas", "algebraic_proof"],
+      "assets": {
+        "background": "detective_case_files_bg",
+        "character_portraits": {
+          "priya": "priya_focused",
+          "chintu": "chintu_confused",
+          "arjun": "arjun_thinking",
+          "narrator": null
+        }
+      },
+      "story_segments": [
+        {
+          "segment_id": "M5_S3_SEG1",
+          "speaker": "Narrator",
+          "portrait": null,
+          "text": "Three case files arrived at the bureau simultaneously. One from the quiz committee. One from the school finance office. One from the Pattern Archive — a trick that had puzzled the junior class for weeks.",
+          "background": "detective_case_files_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M5_S3_SEG2",
+          "speaker": "Priya",
+          "portrait": "priya",
+          "text": "Case A — The Quiz Formula. Bureau's scoring rule: S = 10C – 3W + 5B. C is correct answers, W is wrong, B is bonus. Arjun: C=18, W=4, B=2. Chintu: C=14, W=6, B=1. Who wins?",
+          "background": "detective_case_files_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M5_S3_SEG3",
+          "speaker": "Arjun",
+          "portrait": "arjun",
+          "text": "Arjun's score: 10(18) – 3(4) + 5(2) = 180 – 12 + 10 = 178.",
+          "background": "detective_case_files_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M5_S3_SEG4",
+          "speaker": "Chintu",
+          "portrait": "chintu",
+          "text": "Chintu's score: 10(14) – 3(6) + 5(1) = 140 – 18 + 5 = 127. I should have got fewer wrong. One wrong answer costs 3 points. One correct earns 10. I should maximise correct, minimise wrong.",
+          "background": "detective_case_files_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M5_S3_SEG5",
+          "speaker": "Priya",
+          "portrait": "priya",
+          "text": "Case B — The Finance File. Simple Interest: I = P×R×T ÷ 100. Chintu forgot the ÷100 and got ₹120,000. 'That's not interest. That's a lottery,' I told him. Every part of the formula exists for a reason.",
+          "background": "detective_case_files_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M5_S3_SEG6",
+          "speaker": "Arjun",
+          "portrait": "arjun",
+          "text": "Case C — The Pattern File. A number trick claims: think of any number, multiply by 3, add 15, divide by 3, subtract your original. You always get 5. Always. Prove it. No numbers — algebra.",
+          "background": "detective_case_files_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M5_S3_SEG7",
+          "speaker": "Priya",
+          "portrait": "priya",
+          "text": "Let the number be x. Multiply by 3: 3x. Add 15: 3x+15. Divide by 3: x+5. Subtract original: x+5 – x = 5. The x cancels. It doesn't matter what number you chose. Algebra proves the trick works for every number — forever.",
+          "background": "detective_case_files_bg",
+          "trigger": "next"
+        }
+      ],
+      "concept_explanation": {
+        "title": "Three Formula Principles",
+        "main_rule": "1. Multi-variable formulas: substitute each variable separately — C, W, and B each have their own value. 2. BODMAS in formulas: division (÷100 in interest) is not optional — every operation in a formula exists for a reason. 3. Algebraic proof: use x for 'any number' — when x cancels at the end, the result is fixed for all values.",
+        "examples": [
+          {
+            "expression": "S = 10C – 3W + 5B, C=12, W=3, B=0",
+            "solution": "10(12)–3(3)+0 = 120–9 = 111"
+          },
+          {
+            "expression": "I = PRT÷100, P=2000, R=5, T=2",
+            "solution": "2000×5×2÷100 = 200"
+          },
+          {
+            "expression": "x → ×4 → +8 → ÷4 → –x",
+            "solution": "4x → 4x+8 → x+2 → x+2–x = 2 (always)"
+          }
+        ]
+      },
+      "quiz_questions": [
+        {
+          "question_id": "M5_S3_Q1",
+          "question_type": "MCQ",
+          "question_text": "S = 10C – 3W + 5B. Find S when C=12, W=3, B=0.",
+          "options": ["129", "90", "111", "100"],
+          "correct_answer": "111",
+          "feedback_correct": "10(12) – 3(3) + 5(0) = 120 – 9 + 0 = 111. Each variable substituted separately.",
+          "feedback_incorrect": "Substitute each: 10×12=120, 3×3=9, 5×0=0. Then: 120–9+0=111.",
+          "points": 6,
+          "mistake_tracking": {
+            "concept_tag": "multi_variable_substitution",
+            "error_type": "multi_variable_confusion",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M5_S3_Q2",
+          "question_type": "MCQ",
+          "question_text": "Using S = 10C – 3W + 5B: which change gives a bigger score boost — getting 1 more correct answer, or getting 1 fewer wrong answer?",
+          "options": ["1 fewer wrong (+3 points)", "1 more correct (+10 points)", "Both are equal", "Neither matters"],
+          "correct_answer": "1 more correct (+10 points)",
+          "feedback_correct": "Correct adds 10. One fewer wrong saves 3. Getting one more correct is worth more than avoiding one wrong.",
+          "feedback_incorrect": "Look at the formula coefficients: C has coefficient 10, W has coefficient 3. Getting more correct is worth more.",
+          "points": 6,
+          "mistake_tracking": {
+            "concept_tag": "multi_variable_substitution",
+            "error_type": "formula_coefficient_reasoning_failure",
+            "revision_priority": "medium"
+          }
+        },
+        {
+          "question_id": "M5_S3_Q3",
+          "question_type": "MCQ",
+          "question_text": "Simple Interest: I = PRT ÷ 100. Find I when P=4000, R=10, T=3.",
+          "options": ["400", "120", "1200", "12000"],
+          "correct_answer": "1200",
+          "feedback_correct": "4000×10×3 = 120000. ÷100 = 1200. The ÷100 converts percentage — never skip it.",
+          "feedback_incorrect": "4000×10×3=120000. Then divide by 100: ₹1200. The ÷100 step is essential.",
+          "points": 6,
+          "mistake_tracking": {
+            "concept_tag": "financial_formulas",
+            "error_type": "division_step_omission",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M5_S3_Q4",
+          "question_type": "MCQ",
+          "question_text": "Number trick: x → multiply by 4 → add 20 → divide by 4 → subtract x. What is the result (for any x)?",
+          "options": ["x", "4", "5", "20"],
+          "correct_answer": "5",
+          "feedback_correct": "4x → 4x+20 → x+5 → x+5–x = 5. The x cancels. Always 5, no matter what number you start with.",
+          "feedback_incorrect": "Follow the algebra: 4x → add 20: 4x+20 → divide by 4: x+5 → subtract x: 5. x cancels out.",
+          "points": 6,
+          "mistake_tracking": {
+            "concept_tag": "algebraic_proof",
+            "error_type": "variable_cancellation_misunderstanding",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M5_S3_Q5",
+          "question_type": "MCQ",
+          "question_text": "In the trick x → ×3 → +15 → ÷3 → –x, what expression do you get after the divide-by-3 step?",
+          "options": ["3x+15", "x+15", "x+5", "3x+5"],
+          "correct_answer": "x+5",
+          "feedback_correct": "(3x+15) ÷ 3 = x+5. Divide every term by 3, not just the first one.",
+          "feedback_incorrect": "Divide the full expression by 3: (3x+15)÷3 = (3x÷3) + (15÷3) = x+5.",
+          "points": 6,
+          "mistake_tracking": {
+            "concept_tag": "algebraic_proof",
+            "error_type": "partial_division_error",
+            "revision_priority": "high"
+          }
+        }
+      ],
+      "reward": {
+        "screen_completion_points": 30,
+        "badge": "Formula Detective"
+      },
+      "progression": {
+        "screen_completion_percentage": 60,
+        "next_screen": "M5_S4",
+        "transition_dialogue": "Priya slaps two thick folders on the table. 'Boss problems. Section 3. Two integrated cases — no step-by-step hand-holding. Expand, evaluate, calculate profit. Then the final test.'"
+      },
+      "common_misconceptions": [
+        "Adding all formula terms without applying signs — the minus before 3W reduces the score",
+        "Skipping ÷100 in the Simple Interest formula",
+        "After dividing (4x+20) by 4, dividing only the first term — must divide every term",
+        "Thinking the number trick only works for specific starting values — algebra proves it works for all x"
+      ]
+    },
+    {
+      "screen_id": "M5_S4",
+      "screen_order": 4,
+      "title": "The Grand Event Budget",
+      "objective": "Integrated multi-step problem: expand two expressions, evaluate each at a given variable, combine results, and calculate profit. No mid-problem scaffolding — student must sequence the steps independently.",
+      "difficulty": "advanced",
+      "concept_tags": ["multi_step_integration", "distributive_expansion", "evaluation", "real_world_formulas"],
+      "assets": {
+        "background": "school_event_bg",
+        "character_portraits": {
+          "arjun": "arjun_focused",
+          "priya": "priya_thinking",
+          "narrator": null
+        }
+      },
+      "story_segments": [
+        {
+          "segment_id": "M5_S4_SEG1",
+          "speaker": "Narrator",
+          "portrait": null,
+          "text": "The Bureau was organising the school's annual science event. Two stall operators — Meera's Crafts and Raj's Electronics — had submitted their pricing as algebraic expressions. Total revenue had to be calculated before the event committee met at 4 PM.",
+          "background": "school_event_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M5_S4_SEG2",
+          "speaker": "Arjun",
+          "portrait": "arjun",
+          "text": "Stall A charges 3(2t + 5) per visitor, where t is items sold. Stall B charges 2t(t + 4) per visitor. Both plan to sell t = 10 items each.",
+          "background": "school_event_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M5_S4_SEG3",
+          "speaker": "Priya",
+          "portrait": "priya",
+          "text": "Step one: expand both. Stall A: 3(2t+5) = 6t + 15. Stall B: 2t(t+4) = 2t² + 8t. Don't substitute yet. Expand first — always.",
+          "background": "school_event_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M5_S4_SEG4",
+          "speaker": "Arjun",
+          "portrait": "arjun",
+          "text": "Step two: substitute t = 10 into each. Stall A: 6(10) + 15 = 75. Stall B: 2(100) + 8(10) = 200 + 80 = 280.",
+          "background": "school_event_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M5_S4_SEG5",
+          "speaker": "Priya",
+          "portrait": "priya",
+          "text": "Step three: total revenue = 75 + 280 = ₹355. Event cost: ₹200. Profit = 355 – 200 = ₹155. Committee gets the answer three minutes before the meeting.",
+          "background": "school_event_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M5_S4_SEG6",
+          "speaker": "Narrator",
+          "portrait": null,
+          "text": "Five steps. One smooth sequence. Expand both expressions. Evaluate each separately. Add. Subtract cost. Every step earned its place in the chain.",
+          "background": "school_event_bg",
+          "trigger": "next"
+        }
+      ],
+      "concept_explanation": {
+        "title": "The Five-Step Integrated Solve",
+        "main_rule": "Multi-step problems require a deliberate sequence: (1) Expand all expressions using distributive property. (2) Evaluate each expression at the given variable value. (3) Combine results. (4) Apply any further operations (cost, profit, total). (5) Never substitute before expanding — it creates harder arithmetic for no benefit.",
+        "examples": [
+          {
+            "expression": "Stall A: 3(2t+5)",
+            "solution": "= 6t+15. At t=10: ₹75"
+          },
+          {
+            "expression": "Stall B: 2t(t+4)",
+            "solution": "= 2t²+8t. At t=10: ₹280"
+          },
+          {
+            "expression": "Profit",
+            "solution": "= 75+280–200 = ₹155"
+          }
+        ]
+      },
+      "quiz_questions": [
+        {
+          "question_id": "M5_S4_Q1",
+          "question_type": "MCQ",
+          "question_text": "Expand Stall A's pricing: 3(2t + 5)",
+          "options": ["6t + 5", "6t + 15", "5t + 15", "6t + 8"],
+          "correct_answer": "6t + 15",
+          "feedback_correct": "3×2t = 6t. 3×5 = 15. Both terms multiplied. 6t + 15.",
+          "feedback_incorrect": "Multiply 3 by every term inside the bracket: 3×2t = 6t, and 3×5 = 15.",
+          "points": 7,
+          "mistake_tracking": {
+            "concept_tag": "distributive_expansion",
+            "error_type": "monomial_bracket_partial_expansion",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M5_S4_Q2",
+          "question_type": "MCQ",
+          "question_text": "Expand Stall B's pricing: 2t(t + 4)",
+          "options": ["2t + 8t", "2t² + 4", "6t²", "2t² + 8t"],
+          "correct_answer": "2t² + 8t",
+          "feedback_correct": "2t×t = 2t². 2t×4 = 8t. Result: 2t² + 8t.",
+          "feedback_incorrect": "2t × t = 2t² (not 2t). 2t × 4 = 8t. Both terms must be multiplied.",
+          "points": 7,
+          "mistake_tracking": {
+            "concept_tag": "distributive_expansion",
+            "error_type": "variable_squared_omission",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M5_S4_Q3",
+          "question_type": "MCQ",
+          "question_text": "Using the expanded form 2t² + 8t, what is Stall B's revenue when t = 10?",
+          "options": ["200", "260", "280", "240"],
+          "correct_answer": "280",
+          "feedback_correct": "2(100) + 8(10) = 200 + 80 = ₹280.",
+          "feedback_incorrect": "Substitute t=10: 2×(10²) + 8×10 = 2×100 + 80 = 200+80 = 280.",
+          "points": 7,
+          "mistake_tracking": {
+            "concept_tag": "evaluation",
+            "error_type": "squared_term_evaluation_error",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M5_S4_Q4",
+          "question_type": "MCQ",
+          "question_text": "Stall A revenue = ₹75. Stall B revenue = ₹280. Event cost = ₹200. What is the profit?",
+          "options": ["₹345", "₹300", "₹155", "₹370"],
+          "correct_answer": "₹155",
+          "feedback_correct": "Total revenue: 75+280=355. Profit: 355–200=₹155.",
+          "feedback_incorrect": "Add both revenues: 75+280=355. Then subtract cost: 355–200=155.",
+          "points": 7,
+          "mistake_tracking": {
+            "concept_tag": "multi_step_integration",
+            "error_type": "final_combination_step_error",
+            "revision_priority": "medium"
+          }
+        }
+      ],
+      "reward": {
+        "screen_completion_points": 28,
+        "badge": "Event Budget Master"
+      },
+      "progression": {
+        "screen_completion_percentage": 80,
+        "next_screen": "M5_S5",
+        "transition_dialogue": "Priya sets a single sheet on the table. No diagrams. No worked examples. Just a problem. 'Chief Agent test. One problem. Everything combined. No hand-holding.'"
+      },
+      "common_misconceptions": [
+        "Evaluating at t=10 before expanding — always expand first",
+        "Adding stall revenues before evaluating each one separately",
+        "2t×t = 2t (missing the squared) — variable times variable = variable squared"
+      ]
+    },
+    {
+      "screen_id": "M5_S5",
+      "screen_order": 5,
+      "title": "The Chief Agent Final Test",
+      "objective": "Fully independent integration: read a real-world problem, derive a perimeter expression, simplify, substitute, and calculate total cost — in four sequential steps with no scaffolding.",
+      "difficulty": "mastery",
+      "concept_tags": ["multi_step_integration", "perimeter_expressions", "substitution", "full_independence"],
+      "assets": {
+        "background": "detective_bureau_final_bg",
+        "character_portraits": {
+          "priya": "priya_serious",
+          "arjun": "arjun_determined",
+          "narrator": null
+        }
+      },
+      "story_segments": [
+        {
+          "segment_id": "M5_S5_SEG1",
+          "speaker": "Narrator",
+          "portrait": null,
+          "text": "The Chief Agent selection test came once a year. One problem. No hints available unless you chose to use one — and each hint cost five points. Completing the test with zero hints earned a bonus badge.",
+          "background": "detective_bureau_final_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M5_S5_SEG2",
+          "speaker": "Priya",
+          "portrait": "priya",
+          "text": "Read the problem carefully. A school running track is rectangular. Length = (3x + 10) metres. Width = 2x metres. A student jogs three full laps. Training cost is ₹2 per metre jogged.",
+          "background": "detective_bureau_final_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M5_S5_SEG3",
+          "speaker": "Priya",
+          "portrait": "priya",
+          "text": "If x = 5: find the perimeter of the track, the total distance jogged, and the total training cost. Plan your steps before you calculate. Then execute.",
+          "background": "detective_bureau_final_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M5_S5_SEG4",
+          "speaker": "Arjun",
+          "portrait": "arjun",
+          "text": "My approach: Step 1 — perimeter formula. P = 2(l + w) = 2(3x+10+2x) = 2(5x+10) = 10x+20. Step 2 — substitute: 10(5)+20 = 70 metres. Step 3 — 3 laps: 3×70 = 210 metres. Step 4 — cost: 210×2 = ₹420.",
+          "background": "detective_bureau_final_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M5_S5_SEG5",
+          "speaker": "Priya",
+          "portrait": "priya",
+          "text": "Four steps. Every skill from the entire curriculum — in one problem. Variables, expressions, simplification, expansion, substitution, evaluation, multi-step reasoning. That is algebra.",
+          "background": "detective_bureau_final_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M5_S5_SEG6",
+          "speaker": "Narrator",
+          "portrait": null,
+          "text": "You didn't just learn algebra. You used it — to decode shopping lists, renovate courtyards, evaluate formulas, explain number tricks, budget events, and measure running tracks. Algebra was never the puzzle. It was the tool you used to solve real ones.",
+          "background": "detective_bureau_final_bg",
+          "trigger": "next"
+        }
+      ],
+      "concept_explanation": {
+        "title": "The Complete Four-Step Method",
+        "main_rule": "For any integrated problem: (1) Write the algebraic expression from the problem description. (2) Simplify — combine like terms inside brackets before distributing. (3) Substitute the variable value. (4) Apply remaining operations (multiply by laps, multiply by cost rate). Every skill in Modules 1–4 has a role in this sequence.",
+        "examples": [
+          {
+            "expression": "P = 2(3x+10+2x)",
+            "solution": "= 2(5x+10) = 10x+20. At x=5: 70m"
+          },
+          {
+            "expression": "Total distance: 3 laps × 70m",
+            "solution": "= 210 metres"
+          },
+          {
+            "expression": "Training cost: 210 × ₹2",
+            "solution": "= ₹420"
+          }
+        ]
+      },
+      "quiz_questions": [
+        {
+          "question_id": "M5_S5_Q1",
+          "question_type": "MCQ",
+          "question_text": "Track: length = (3x + 10) m, width = 2x m. Which expression correctly gives the perimeter?",
+          "options": ["5x + 10", "10x + 10", "10x + 20", "5x + 20"],
+          "correct_answer": "10x + 20",
+          "feedback_correct": "P = 2(l+w) = 2(3x+10+2x) = 2(5x+10) = 10x+20. Simplify inside the bracket first.",
+          "feedback_incorrect": "P = 2(length + width) = 2(3x+10+2x). First add inside: 5x+10. Then ×2: 10x+20.",
+          "points": 8,
+          "mistake_tracking": {
+            "concept_tag": "perimeter_expressions",
+            "error_type": "perimeter_formula_error",
+            "revision_priority": "high"
+          }
+        },
+        {
+          "question_id": "M5_S5_Q2",
+          "question_type": "MCQ",
+          "question_text": "Using the expression 10x + 20, what is the perimeter of the track when x = 5?",
+          "options": ["60 m", "65 m", "70 m", "80 m"],
+          "correct_answer": "70 m",
+          "feedback_correct": "10(5) + 20 = 50 + 20 = 70 metres.",
+          "feedback_incorrect": "Replace x with 5: 10×5 = 50. Then add 20: 70 metres.",
+          "points": 8,
+          "mistake_tracking": {
+            "concept_tag": "substitution",
+            "error_type": "final_substitution_error",
+            "revision_priority": "medium"
+          }
+        },
+        {
+          "question_id": "M5_S5_Q3",
+          "question_type": "MCQ",
+          "question_text": "The student jogs 3 full laps of the 70m track. What is the total distance jogged?",
+          "options": ["200 m", "210 m", "180 m", "240 m"],
+          "correct_answer": "210 m",
+          "feedback_correct": "3 laps × 70 metres = 210 metres.",
+          "feedback_incorrect": "Multiply: 3 laps × 70m per lap = 210m.",
+          "points": 8,
+          "mistake_tracking": {
+            "concept_tag": "multi_step_integration",
+            "error_type": "multi_step_sequential_error",
+            "revision_priority": "medium"
+          }
+        },
+        {
+          "question_id": "M5_S5_Q4",
+          "question_type": "MCQ",
+          "question_text": "Training costs ₹2 per metre. The student jogged 210 metres. What is the total training cost?",
+          "options": ["₹400", "₹380", "₹440", "₹420"],
+          "correct_answer": "₹420",
+          "feedback_correct": "210 × 2 = ₹420. All four steps complete. Chief Agent status achieved.",
+          "feedback_incorrect": "₹2 per metre × 210 metres = ₹420.",
+          "points": 8,
+          "mistake_tracking": {
+            "concept_tag": "multi_step_integration",
+            "error_type": "final_cost_calculation_error",
+            "revision_priority": "low"
+          }
+        }
+      ],
+      "reward": {
+        "screen_completion_points": 32,
+        "badge": "Chief Algebra Agent"
+      },
+      "progression": {
+        "screen_completion_percentage": 100,
+        "next_screen": null,
+        "transition_dialogue": "Priya: 'You didn't just learn algebra. You used it — to decode formulas, plan renovations, budget events, and prove patterns. Variables, expressions, expansion, substitution, evaluation. That is exactly what algebra is for.' Module 6 teaser: two expressions with an equals sign. What does it mean when two expressions are equal? That's the next question."
+      },
+      "common_misconceptions": [
+        "Perimeter = l + w (missing the factor of 2) — always P = 2(l+w)",
+        "Substituting before simplifying inside the bracket — simplify 3x+2x to 5x first",
+        "Skipping the distribute step — 2(5x+10) must become 10x+20, not 5x+10"
+      ]
     }
-  ],
-  "module_rewards": {
-    "completion_points": 100,
-    "completion_badge": "Problem Solver"
-  }
+  ]
 }

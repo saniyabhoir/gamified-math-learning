@@ -1,29 +1,1169 @@
 {
-  "module_title": "Substitution & Evaluation",
-  "module_description": "Replace variables with values and solve.",
-  "total_screens": 3,
+  "module_id": "M4",
+  "module_title": "Substitution and Evaluation",
+  "module_order": 4,
+  "module_description": "Arjun and Priya open the Algebra Detective Bureau — where every case is solved by replacing letters with numbers. From cracking locker codes to decoding real-world formulas and exposing the secret behind a magician's number trick, students master substitution, BODMAS evaluation, and the art of simplifying before solving.",
+  "estimated_completion_time": "50-65 minutes",
+  "module_rewards": {
+    "completion_badge": "Algebra Magician",
+    "completion_points": 135
+  },
+  "final_challenge": {
+    "challenge_id": "M4_FINAL",
+    "title": "The Grand Number Trick Showcase",
+    "status": "placeholder",
+    "description": "Students decode and invent algebraic number tricks, proving why they always work using substitution and simplification.",
+    "future_game_type": "trick_builder_challenge"
+  },
+  "total_screens": 5,
   "screens": [
     {
-      "title": "What is Substitution?",
-      "type": "story",
-      "difficulty": "intermediate",
-      "reward": { "screen_completion_points": 10 }
+      "screen_id": "M4_S1",
+      "screen_order": 1,
+      "title": "The Formula Decoder",
+      "objective": "Students understand that substitution means replacing a letter with a specific number to produce one exact result.",
+      "difficulty": "beginner",
+      "concept_tags": ["substitution", "variable_replacement", "bracket_rule"],
+      "assets": {
+        "background": "detective_bureau_bg",
+        "character_portraits": {
+          "arjun": "arjun_curious",
+          "priya": "priya_confident",
+          "narrator": null
+        }
+      },
+      "story_segments": [
+        {
+          "segment_id": "M4_S1_SEG1",
+          "speaker": "Narrator",
+          "portrait": null,
+          "text": "The summer holidays had barely begun when Arjun found the envelope slipped under his door. No stamp. No return address. Just two words on the front: BUREAU ASSIGNMENT.",
+          "background": "detective_bureau_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S1_SEG2",
+          "speaker": "Narrator",
+          "portrait": null,
+          "text": "Inside was a single card. At the top: a badge shaped like a magnifying glass over the letter x. Below it, the words — THE ALGEBRA DETECTIVE BUREAU. And at the bottom, a handwritten note.",
+          "background": "detective_bureau_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S1_SEG3",
+          "speaker": "Narrator",
+          "portrait": null,
+          "text": "Priya was already at the Bureau when Arjun arrived, her notebook open, a pencil tucked behind her ear. She had found her own envelope that morning.",
+          "background": "detective_bureau_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S1_SEG4",
+          "speaker": "Priya",
+          "portrait": "priya_confident",
+          "text": "Our first case came in an hour ago. A formula was found taped inside locker 7 at the school: 3x + 7. There's a note with it.",
+          "background": "detective_bureau_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S1_SEG5",
+          "speaker": "Arjun",
+          "portrait": "arjun_curious",
+          "text": "What does the note say?",
+          "background": "detective_bureau_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S1_SEG6",
+          "speaker": "Priya",
+          "portrait": "priya_confident",
+          "text": "It says: When x equals 4, the answer is the locker number you need to open next.",
+          "background": "detective_bureau_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S1_SEG7",
+          "speaker": "Arjun",
+          "portrait": "arjun_curious",
+          "text": "So we put 4 in place of x? Like... 3 times 4, plus 7?",
+          "background": "detective_bureau_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S1_SEG8",
+          "speaker": "Priya",
+          "portrait": "priya_confident",
+          "text": "Exactly. We replace x with 4. That's called substitution. Write it with brackets so you don't make mistakes — 3(4) + 7. Now calculate.",
+          "background": "detective_bureau_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S1_SEG9",
+          "speaker": "Arjun",
+          "portrait": "arjun_curious",
+          "text": "3 times 4 is 12. Plus 7 is... 19. Locker 19!",
+          "background": "detective_bureau_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S1_SEG10",
+          "speaker": "Priya",
+          "portrait": "priya_confident",
+          "text": "Substitution is just two steps: swap the letter, then calculate. That's the whole secret of this module — and it unlocks everything.",
+          "background": "detective_bureau_bg",
+          "trigger": "next"
+        }
+      ],
+      "concept_explanation": {
+        "title": "What is Substitution?",
+        "steps": [
+          "Step 1 — Write the expression: 3x + 7",
+          "Step 2 — Replace the variable with the given value in brackets: 3(4) + 7",
+          "Step 3 — Calculate using order of operations: 12 + 7 = 19"
+        ],
+        "bracket_rule": "Always wrap the substituted value in brackets. This prevents sign errors with negative numbers. If x = –2, write 3(–2), NOT 3–2. The brackets protect the calculation.",
+        "worked_examples": [
+          { "expression": "2x + 5", "value": "x = 3", "working": "2(3) + 5 = 6 + 5", "answer": "11" },
+          { "expression": "y² + 2y", "value": "y = 4", "working": "(4)² + 2(4) = 16 + 8", "answer": "24" },
+          { "expression": "3a – 1", "value": "a = 0", "working": "3(0) – 1 = 0 – 1", "answer": "–1" }
+        ]
+      },
+      "practical_example": {
+        "scenario": "The Bureau receives three locker codes. Each is a formula with a value of x. Evaluate each formula to find the locker number.",
+        "examples": [
+          { "formula": "3x + 7", "value": "x = 4", "answer": 19 },
+          { "formula": "2y² + 1", "value": "y = 3", "answer": 19 },
+          { "formula": "5a – 2", "value": "a = 3", "answer": 13 }
+        ]
+      },
+      "quiz_questions": [
+        {
+          "question_id": "M4_S1_Q1",
+          "question": "Evaluate 4x + 3 when x = 2.",
+          "options": [
+            { "id": "A", "text": "11", "correct": true },
+            { "id": "B", "text": "12", "correct": false },
+            { "id": "C", "text": "9", "correct": false },
+            { "id": "D", "text": "14", "correct": false }
+          ],
+          "hint": "Replace x with 2: 4(2) + 3 = 8 + 3 = 11.",
+          "misconception_addressed": "Students sometimes multiply 4 × 3 instead of substituting. Always replace x first."
+        },
+        {
+          "question_id": "M4_S1_Q2",
+          "question": "Evaluate y² + 5 when y = 3.",
+          "options": [
+            { "id": "A", "text": "17", "correct": false },
+            { "id": "B", "text": "14", "correct": true },
+            { "id": "C", "text": "11", "correct": false },
+            { "id": "D", "text": "35", "correct": false }
+          ],
+          "hint": "(3)² + 5 = 9 + 5 = 14. Square the value first.",
+          "misconception_addressed": "Students may write 3² = 6 (doubling instead of squaring). Squaring means multiplying by itself: 3 × 3 = 9."
+        },
+        {
+          "question_id": "M4_S1_Q3",
+          "question": "Evaluate 2a – 3 when a = 1.",
+          "options": [
+            { "id": "A", "text": "5", "correct": false },
+            { "id": "B", "text": "–1", "correct": true },
+            { "id": "C", "text": "–3", "correct": false },
+            { "id": "D", "text": "1", "correct": false }
+          ],
+          "hint": "2(1) – 3 = 2 – 3 = –1. Answers can be negative — don't panic!",
+          "misconception_addressed": "Students may stop at 2(1) = 2 and forget to subtract. Always complete the full calculation."
+        },
+        {
+          "question_id": "M4_S1_Q4",
+          "question": "Why should you always write the substituted value inside brackets?",
+          "options": [
+            { "id": "A", "text": "To look neater on the page", "correct": false },
+            { "id": "B", "text": "To prevent sign errors, especially with negative values", "correct": true },
+            { "id": "C", "text": "Because the textbook says so", "correct": false },
+            { "id": "D", "text": "There is no real reason", "correct": false }
+          ],
+          "hint": "If x = –2: writing 3(–2) = –6 is correct. Writing 3–2 = 1 is wrong. Brackets protect the sign.",
+          "misconception_addressed": "Students who skip brackets often produce wrong answers with negative substitutions."
+        }
+      ],
+      "interaction": {
+        "type": "locker_code_decoder",
+        "description": "A detective-themed screen shows a formula and x-value on a case file card. Three locker doors are displayed, each numbered. Student taps the correct locker. Correct tap = locker swings open revealing a clue prop (magnifying glass, key, or evidence envelope). Wrong tap = brief red flash and a hint appears.",
+        "rounds": [
+          { "formula": "3x + 7", "value": "x = 4", "options": [17, 19, 21], "answer": 19 },
+          { "formula": "2y² + 1", "value": "y = 3", "options": [13, 19, 25], "answer": 19 },
+          { "formula": "5a – 2", "value": "a = 3", "options": [11, 13, 17], "answer": 13 }
+        ]
+      },
+      "reward": {
+        "screen_completion_points": 10,
+        "badge": "Code Breaker",
+        "badge_icon": "🔓",
+        "progress_percentage": 20
+      },
+      "common_misconceptions": [
+        {
+          "error": "3 – 2 = 1 when x = –2 in expression 3x",
+          "correction": "Always write 3(–2) = –6. The bracket ensures the negative sign applies correctly."
+        },
+        {
+          "error": "Evaluating 4x + 3 as 4 × 3 = 12 without substituting x",
+          "correction": "x must be replaced with the given value before calculating. Substitute first, always."
+        }
+      ],
+      "progression_text": "Locker 19 opened. Inside: a second formula — 2x² + 3x – 1 — and a note: 'Use x = 4. Follow the order.' This one has more than one term. Do we substitute into each term separately, or is there a smarter way?"
     },
     {
-      "title": "Evaluating Expressions",
-      "type": "story",
-      "difficulty": "intermediate",
-      "reward": { "screen_completion_points": 10 }
+      "screen_id": "M4_S2",
+      "screen_order": 2,
+      "title": "Order Matters: Evaluate with BODMAS",
+      "objective": "Students evaluate multi-term expressions by substituting into every term, then applying BODMAS — including powers and negative values.",
+      "difficulty": "beginner",
+      "concept_tags": ["bodmas", "order_of_operations", "powers", "negative_substitution", "multi_term_evaluation"],
+      "assets": {
+        "background": "detective_bureau_bg",
+        "character_portraits": {
+          "arjun": "arjun_thinking",
+          "priya": "priya_explaining",
+          "rohan": "rohan_eager",
+          "narrator": null
+        }
+      },
+      "story_segments": [
+        {
+          "segment_id": "M4_S2_SEG1",
+          "speaker": "Narrator",
+          "portrait": null,
+          "text": "Locker 19 had been opened. Inside was a second case file. Three detectives were now gathered around the Bureau's main table — Arjun, Priya, and their newest recruit: Rohan, who was very confident and very fast, but not always very careful.",
+          "background": "detective_bureau_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S2_SEG2",
+          "speaker": "Priya",
+          "portrait": "priya_explaining",
+          "text": "New formula: 2x² + 3x – 1, when x = 4. Rohan, you go first.",
+          "background": "detective_bureau_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S2_SEG3",
+          "speaker": "Rohan",
+          "portrait": "rohan_eager",
+          "text": "Easy. 2 times 4 is 8. Then 8 squared is 64. So the first term is 64—",
+          "background": "detective_bureau_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S2_SEG4",
+          "speaker": "Priya",
+          "portrait": "priya_explaining",
+          "text": "Stop. The expression is 2x² — not (2x)². The exponent belongs only to x, not to 2x. Substitute x = 4 first: 2(4²). Now calculate the bracket — 4² = 16. Then 2 × 16 = 32.",
+          "background": "detective_bureau_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S2_SEG5",
+          "speaker": "Rohan",
+          "portrait": "rohan_eager",
+          "text": "Oh. So the order is: substitute first, then deal with the power, then multiply?",
+          "background": "detective_bureau_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S2_SEG6",
+          "speaker": "Priya",
+          "portrait": "priya_explaining",
+          "text": "Exactly. That's BODMAS. Brackets first — your substituted value in brackets. Then Orders — meaning powers. Then Multiply. Then Add and Subtract. Never skip the order.",
+          "background": "detective_bureau_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S2_SEG7",
+          "speaker": "Arjun",
+          "portrait": "arjun_thinking",
+          "text": "So the full calculation is: 2(16) + 3(4) – 1. That's 32 + 12 – 1. Which is 43.",
+          "background": "detective_bureau_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S2_SEG8",
+          "speaker": "Priya",
+          "portrait": "priya_explaining",
+          "text": "43. Case solved. And Rohan — one more trap to know. What is (–3) squared?",
+          "background": "detective_bureau_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S2_SEG9",
+          "speaker": "Rohan",
+          "portrait": "rohan_eager",
+          "text": "Negative... 9?",
+          "background": "detective_bureau_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S2_SEG10",
+          "speaker": "Priya",
+          "portrait": "priya_explaining",
+          "text": "Positive 9. A negative times a negative is always positive. (–3)² = (–3) × (–3) = 9. Squaring removes the negative. Write it in brackets every time and you will never get this wrong.",
+          "background": "detective_bureau_bg",
+          "trigger": "next"
+        }
+      ],
+      "concept_explanation": {
+        "title": "The BODMAS Evaluation Ladder",
+        "steps": [
+          "Layer 1 — Substitute: Replace every variable with its value, inside brackets",
+          "Layer 2 — Orders (Powers): Evaluate all squares and cubes first",
+          "Layer 3 — Multiply: Multiply coefficients by the results",
+          "Layer 4 — Add and Subtract: Combine all terms to reach the final answer"
+        ],
+        "critical_notes": [
+          "2x² means 2 × (x²) — NOT (2x)². Square x first, then multiply by 2.",
+          "(–3)² = 9, not –9. Squaring a negative always gives a positive result.",
+          "Always write substituted values in brackets: 2(4²) not 2×4²"
+        ],
+        "worked_examples": [
+          {
+            "expression": "2x² + 3x – 1",
+            "value": "x = 4",
+            "working": "2(4²) + 3(4) – 1 = 2(16) + 12 – 1 = 32 + 12 – 1",
+            "answer": "43"
+          },
+          {
+            "expression": "3x² + x",
+            "value": "x = –2",
+            "working": "3(–2)² + (–2) = 3(4) + (–2) = 12 – 2",
+            "answer": "10"
+          },
+          {
+            "expression": "x² + 2x + 1",
+            "value": "x = 4",
+            "working": "(4)² + 2(4) + 1 = 16 + 8 + 1",
+            "answer": "25"
+          }
+        ]
+      },
+      "practical_example": {
+        "scenario": "Rohan and Arjun race to evaluate two expressions. The one who follows BODMAS correctly wins the case.",
+        "examples": [
+          { "expression": "x² + 2x + 1", "value": "x = 4", "working": "16 + 8 + 1", "answer": 25 },
+          { "expression": "2x² + x", "value": "x = –3", "working": "2(9) + (–3) = 18 – 3", "answer": 15 }
+        ]
+      },
+      "quiz_questions": [
+        {
+          "question_id": "M4_S2_Q1",
+          "question": "Evaluate 3x² + 2 when x = 3.",
+          "options": [
+            { "id": "A", "text": "29", "correct": true },
+            { "id": "B", "text": "11", "correct": false },
+            { "id": "C", "text": "83", "correct": false },
+            { "id": "D", "text": "27", "correct": false }
+          ],
+          "hint": "3(3²) + 2 = 3(9) + 2 = 27 + 2 = 29. Square x first, then multiply by 3.",
+          "misconception_addressed": "Students often multiply 3 × 3 = 9 first and then square it, giving 81. Square x before multiplying by the coefficient."
+        },
+        {
+          "question_id": "M4_S2_Q2",
+          "question": "Evaluate x² + 2x + 1 when x = 4.",
+          "options": [
+            { "id": "A", "text": "25", "correct": true },
+            { "id": "B", "text": "17", "correct": false },
+            { "id": "C", "text": "21", "correct": false },
+            { "id": "D", "text": "9", "correct": false }
+          ],
+          "hint": "(4)² + 2(4) + 1 = 16 + 8 + 1 = 25. Substitute into every term.",
+          "misconception_addressed": "Students may forget to substitute into the middle term 2x. Every term in the expression needs the substitution."
+        },
+        {
+          "question_id": "M4_S2_Q3",
+          "question": "Evaluate 2x² + x when x = –3.",
+          "options": [
+            { "id": "A", "text": "15", "correct": true },
+            { "id": "B", "text": "–15", "correct": false },
+            { "id": "C", "text": "12", "correct": false },
+            { "id": "D", "text": "–12", "correct": false }
+          ],
+          "hint": "2(–3)² + (–3) = 2(9) + (–3) = 18 – 3 = 15. Squaring a negative gives positive.",
+          "misconception_addressed": "(–3)² is NOT –9. A negative squared is always positive: (–3) × (–3) = +9."
+        },
+        {
+          "question_id": "M4_S2_Q4",
+          "question": "What is the FIRST step when evaluating 5x² + 3x – 4 for x = 2?",
+          "options": [
+            { "id": "A", "text": "Calculate 5 × 3", "correct": false },
+            { "id": "B", "text": "Replace x with 2 in the full expression", "correct": true },
+            { "id": "C", "text": "Subtract 4 from the expression", "correct": false },
+            { "id": "D", "text": "Add 3x and 5x² together", "correct": false }
+          ],
+          "hint": "Always substitute first. Replace every x with 2, then follow BODMAS from there.",
+          "misconception_addressed": "Students sometimes add or multiply terms before substituting. Substitution is always the very first step."
+        }
+      ],
+      "interaction": {
+        "type": "step_by_step_case_file",
+        "description": "A case file displays four labelled rows: Substitute / Powers / Multiply / Result. Rows 1–2 are tap-to-select from given options. Rows 3–4 are type-in fields. Each row unlocks only after the previous is answered correctly, showing Rohan's pencil animating down the page.",
+        "rounds": [
+          {
+            "label": "Case 1 — Fully Guided",
+            "expression": "x² + 4x + 2",
+            "value": "x = 3",
+            "steps": [
+              { "label": "Substitute", "answer": "(3)² + 4(3) + 2", "type": "tap" },
+              { "label": "Powers", "answer": "9 + 4(3) + 2", "type": "tap" },
+              { "label": "Multiply", "answer": "9 + 12 + 2", "type": "type" },
+              { "label": "Result", "answer": "23", "type": "type" }
+            ]
+          },
+          {
+            "label": "Case 2 — Rows 3 & 4 Independent",
+            "expression": "2y² + 3y",
+            "value": "y = 2",
+            "steps": [
+              { "label": "Substitute", "answer": "2(2²) + 3(2)", "type": "tap" },
+              { "label": "Powers", "answer": "2(4) + 3(2)", "type": "tap" },
+              { "label": "Multiply", "answer": "8 + 6", "type": "type" },
+              { "label": "Result", "answer": "14", "type": "type" }
+            ]
+          },
+          {
+            "label": "Case 3 — Fully Independent (Negatives)",
+            "expression": "3a² – a + 1",
+            "value": "a = –2",
+            "steps": [
+              { "label": "Substitute", "answer": "3(–2)² – (–2) + 1", "type": "type" },
+              { "label": "Powers", "answer": "3(4) – (–2) + 1", "type": "type" },
+              { "label": "Multiply", "answer": "12 + 2 + 1", "type": "type" },
+              { "label": "Result", "answer": "15", "type": "type" }
+            ]
+          }
+        ]
+      },
+      "reward": {
+        "screen_completion_points": 20,
+        "badge": "BODMAS Detective",
+        "badge_icon": "🔢",
+        "progress_percentage": 40
+      },
+      "common_misconceptions": [
+        {
+          "error": "(–3)² = –9",
+          "correction": "(–3)² = (–3) × (–3) = +9. Squaring always removes the negative sign."
+        },
+        {
+          "error": "2x² is interpreted as (2x)²",
+          "correction": "2x² means 2 × (x²). The exponent applies only to x. Square x first, then multiply by the coefficient."
+        }
+      ],
+      "progression_text": "Two cases solved. But Arjun noticed something. The next formula had four terms with repeated letters — 5x + 3x + 2x – x. Chintu had already started, substituting into each term one by one. Priya watched him, then shook her head quietly. 'There's a smarter way,' she said."
     },
     {
-      "title": "Solve by Substitution",
-      "type": "quiz",
+      "screen_id": "M4_S3",
+      "screen_order": 3,
+      "title": "Simplify First, Then Solve",
+      "objective": "Students discover that simplifying before substituting is faster and reduces errors — connecting Module 2's simplification skill with Module 4's evaluation skill.",
       "difficulty": "intermediate",
-      "reward": { "screen_completion_points": 25 }
+      "concept_tags": ["simplify_first", "like_terms", "efficient_substitution", "multi_variable"],
+      "assets": {
+        "background": "detective_bureau_bg",
+        "character_portraits": {
+          "arjun": "arjun_watching",
+          "priya": "priya_smiling",
+          "chintu": "chintu_focused",
+          "narrator": null
+        }
+      },
+      "story_segments": [
+        {
+          "segment_id": "M4_S3_SEG1",
+          "speaker": "Narrator",
+          "portrait": null,
+          "text": "Chintu had a system. For every formula, he substituted into each term, wrote down every result, and added them at the end. It worked. It was just very, very slow.",
+          "background": "detective_bureau_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S3_SEG2",
+          "speaker": "Priya",
+          "portrait": "priya_smiling",
+          "text": "Chintu, what's the formula?",
+          "background": "detective_bureau_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S3_SEG3",
+          "speaker": "Chintu",
+          "portrait": "chintu_focused",
+          "text": "5x + 3x + 2x – x, when x = 7. I've done it already. 5(7) = 35, 3(7) = 21, 2(7) = 14, and (7) = 7. Total is 63.",
+          "background": "detective_bureau_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S3_SEG4",
+          "speaker": "Priya",
+          "portrait": "priya_smiling",
+          "text": "Correct. You did four substitutions. I did one.",
+          "background": "detective_bureau_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S3_SEG5",
+          "speaker": "Chintu",
+          "portrait": "chintu_focused",
+          "text": "... One?",
+          "background": "detective_bureau_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S3_SEG6",
+          "speaker": "Priya",
+          "portrait": "priya_smiling",
+          "text": "5x + 3x + 2x – x. All like terms. Combine them first: 9x. Then substitute: 9(7) = 63. Same answer. Two steps instead of eight.",
+          "background": "detective_bureau_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S3_SEG7",
+          "speaker": "Chintu",
+          "portrait": "chintu_focused",
+          "text": "That's... actually much easier. Why didn't anyone tell me?",
+          "background": "detective_bureau_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S3_SEG8",
+          "speaker": "Arjun",
+          "portrait": "arjun_watching",
+          "text": "What if x was 17 instead of 7? Chintu's method would take even longer. Priya's would still be two steps.",
+          "background": "detective_bureau_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S3_SEG9",
+          "speaker": "Chintu",
+          "portrait": "chintu_focused",
+          "text": "Alright. New rule for me: simplify like terms first. Then substitute once.",
+          "background": "detective_bureau_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S3_SEG10",
+          "speaker": "Priya",
+          "portrait": "priya_smiling",
+          "text": "And it works for multiple variables too. 4a + 2b + 3a + 5b simplifies to 7a + 7b. Then you substitute a and b just once each. It is always faster.",
+          "background": "detective_bureau_bg",
+          "trigger": "next"
+        }
+      ],
+      "concept_explanation": {
+        "title": "The Smart Detective's Method: Simplify, Then Substitute",
+        "comparison": {
+          "slow_method": {
+            "label": "Chintu's Method (Slow)",
+            "expression": "5x + 3x + 2x – x, x = 7",
+            "steps": ["5(7) = 35", "3(7) = 21", "2(7) = 14", "(7) = 7", "35 + 21 + 14 – 7 = 63"],
+            "substitutions": 4
+          },
+          "smart_method": {
+            "label": "Priya's Method (Smart)",
+            "expression": "5x + 3x + 2x – x, x = 7",
+            "steps": ["Simplify: 9x", "Substitute: 9(7) = 63"],
+            "substitutions": 1
+          }
+        },
+        "rule": "When an expression contains like terms, always simplify first. This reduces the number of substitutions and chances for error.",
+        "worked_examples": [
+          {
+            "expression": "3x² + 2x + x² + 4x",
+            "value": "x = 5",
+            "simplify_step": "4x² + 6x",
+            "working": "4(25) + 6(5) = 100 + 30",
+            "answer": "130"
+          },
+          {
+            "expression": "4a + 2b + 3a + 5b",
+            "value": "a = 2, b = 1",
+            "simplify_step": "7a + 7b",
+            "working": "7(2) + 7(1) = 14 + 7",
+            "answer": "21"
+          }
+        ]
+      },
+      "practical_example": {
+        "scenario": "The Bureau's timer is running. Chintu and Priya both evaluate the same formula. The class sees exactly how many steps each method takes.",
+        "examples": [
+          {
+            "expression": "4a + 2b + 3a + 5b",
+            "values": "a = 2, b = 1",
+            "simplify": "7a + 7b",
+            "answer": 21
+          }
+        ]
+      },
+      "quiz_questions": [
+        {
+          "question_id": "M4_S3_Q1",
+          "question": "What is the smartest first step when evaluating 4x + x + 3x at x = 10?",
+          "options": [
+            { "id": "A", "text": "Substitute x = 10 into each term separately", "correct": false },
+            { "id": "B", "text": "Simplify to 8x, then substitute once", "correct": true },
+            { "id": "C", "text": "Multiply all three coefficients together", "correct": false },
+            { "id": "D", "text": "Add 4 + 1 + 3 without the variable", "correct": false }
+          ],
+          "hint": "All three terms have the same variable x. Combine them: 4x + x + 3x = 8x. Then 8(10) = 80.",
+          "misconception_addressed": "Students often substitute before simplifying. Simplifying first is faster and less error-prone."
+        },
+        {
+          "question_id": "M4_S3_Q2",
+          "question": "Simplify then evaluate: 6x + 2y + 4x + 3y when x = 2, y = 1.",
+          "options": [
+            { "id": "A", "text": "26", "correct": false },
+            { "id": "B", "text": "30", "correct": false },
+            { "id": "C", "text": "25", "correct": true },
+            { "id": "D", "text": "20", "correct": false }
+          ],
+          "hint": "Simplify: 10x + 5y. Then substitute: 10(2) + 5(1) = 20 + 5 = 25.",
+          "misconception_addressed": "Students may combine unlike terms (x with y). Only combine x-terms with x-terms and y-terms with y-terms."
+        },
+        {
+          "question_id": "M4_S3_Q3",
+          "question": "Simplify then evaluate: 2x² + 5x – x² + 3x when x = 4.",
+          "options": [
+            { "id": "A", "text": "x² + 8x → 48", "correct": true },
+            { "id": "B", "text": "3x² + 8x → 80", "correct": false },
+            { "id": "C", "text": "2x² + 8x → 64", "correct": false },
+            { "id": "D", "text": "x² + 5x → 36", "correct": false }
+          ],
+          "hint": "2x² – x² = x². 5x + 3x = 8x. So: x² + 8x. At x=4: 16 + 32 = 48.",
+          "misconception_addressed": "Students may not simplify the x² terms with each other. x² terms combine only with other x² terms."
+        }
+      ],
+      "interaction": {
+        "type": "smart_vs_slow_race",
+        "description": "A split-screen shows Chintu's path (Slow) and Priya's path (Smart). Student taps the Smart path to begin. Both paths animate simultaneously, counting steps. Smart path finishes first with a green flash. Student then evaluates using the simplified expression in a type-in box.",
+        "rounds": [
+          {
+            "expression": "3x + 4x + x",
+            "value": "x = 5",
+            "simplified": "8x",
+            "answer": 40
+          },
+          {
+            "expression": "2x² + x² + 3x + 2x",
+            "value": "x = 3",
+            "simplified": "3x² + 5x",
+            "answer": 42
+          },
+          {
+            "expression": "4a + 2b + 3a + 5b",
+            "values": { "a": 2, "b": 1 },
+            "simplified": "7a + 7b",
+            "answer": 21
+          }
+        ]
+      },
+      "reward": {
+        "screen_completion_points": 25,
+        "badge": "Smart Solver",
+        "badge_icon": "⚡",
+        "progress_percentage": 60
+      },
+      "common_misconceptions": [
+        {
+          "error": "Substituting before simplifying when like terms are present",
+          "correction": "Always look for like terms first. Simplify, then substitute just once. It is faster and safer."
+        },
+        {
+          "error": "Combining x² and x terms together as 'like terms'",
+          "correction": "x² and x are not like terms. Only combine x² with x², and x with x."
+        }
+      ],
+      "progression_text": "The Bureau's board now showed three solved cases. Arjun stared at the fourth: a formula labelled C = 150n + 50 with a note — 'Real World Case. Not just a puzzle.' He looked up. 'Algebra is in formulas people actually use?' Priya smiled. 'It always has been. Let's find it.'"
+    },
+    {
+      "screen_id": "M4_S4",
+      "screen_order": 4,
+      "title": "Formulas in the Wild",
+      "objective": "Students recognise that real-world formulas are algebraic expressions and that evaluating them is identical to the substitution skill they have been practising.",
+      "difficulty": "intermediate",
+      "concept_tags": ["real_world_formulas", "substitution_application", "multi_variable_evaluation", "formula_context"],
+      "assets": {
+        "background": "city_scene_bg",
+        "character_portraits": {
+          "arjun": "arjun_excited",
+          "priya": "priya_confident",
+          "rohan": "rohan_pointing",
+          "chintu": "chintu_focused",
+          "narrator": null
+        }
+      },
+      "story_segments": [
+        {
+          "segment_id": "M4_S4_SEG1",
+          "speaker": "Narrator",
+          "portrait": null,
+          "text": "The Bureau's fourth case took the detectives out of the office and into the city. Their mission: find algebra hiding in real places — and prove it.",
+          "background": "city_scene_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S4_SEG2",
+          "speaker": "Rohan",
+          "portrait": "rohan_pointing",
+          "text": "Look at the ticket booth. It says: Cost = 150n + 50. What is n?",
+          "background": "city_scene_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S4_SEG3",
+          "speaker": "Priya",
+          "portrait": "priya_confident",
+          "text": "n is the number of tickets. If we buy 4 tickets — substitute n = 4. Same as everything we have been doing.",
+          "background": "city_scene_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S4_SEG4",
+          "speaker": "Arjun",
+          "portrait": "arjun_excited",
+          "text": "150 times 4 is 600. Plus 50 is 650. So 4 tickets cost ₹650?",
+          "background": "city_scene_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S4_SEG5",
+          "speaker": "Priya",
+          "portrait": "priya_confident",
+          "text": "Exactly. That formula is just 3x + 7 in a new outfit. The method never changes.",
+          "background": "city_scene_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S4_SEG6",
+          "speaker": "Chintu",
+          "portrait": "chintu_focused",
+          "text": "The taxi metre has one too. F = 25 + 12k. I think k is kilometres.",
+          "background": "city_scene_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S4_SEG7",
+          "speaker": "Arjun",
+          "portrait": "arjun_excited",
+          "text": "If we go 8 kilometres — F = 25 + 12(8) = 25 + 96 = ₹121.",
+          "background": "city_scene_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S4_SEG8",
+          "speaker": "Rohan",
+          "portrait": "rohan_pointing",
+          "text": "The school prize board. P = 10C – 3W. C is correct answers, W is wrong ones.",
+          "background": "city_scene_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S4_SEG9",
+          "speaker": "Priya",
+          "portrait": "priya_confident",
+          "text": "Two variables. C = 15, W = 4. Substitute both: P = 10(15) – 3(4) = 150 – 12 = 138 points.",
+          "background": "city_scene_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S4_SEG10",
+          "speaker": "Arjun",
+          "portrait": "arjun_excited",
+          "text": "It really is everywhere. The taxi, the ticket booth, the school board. Algebra was never just a classroom thing.",
+          "background": "city_scene_bg",
+          "trigger": "next"
+        }
+      ],
+      "concept_explanation": {
+        "title": "Every Formula is a Substitution",
+        "key_idea": "Real-world formulas are algebraic expressions with meaningful variable names. Evaluating them is identical to the substitution skill already learned — replace every variable, then calculate.",
+        "formulas": [
+          {
+            "name": "Ticket Cost",
+            "formula": "C = 150n + 50",
+            "variables": { "n": "number of tickets" },
+            "example": { "n": 4, "working": "150(4) + 50 = 600 + 50", "answer": "₹650" }
+          },
+          {
+            "name": "Taxi Fare",
+            "formula": "F = 25 + 12k",
+            "variables": { "k": "kilometres travelled" },
+            "example": { "k": 8, "working": "25 + 12(8) = 25 + 96", "answer": "₹121" }
+          },
+          {
+            "name": "Prize Score",
+            "formula": "P = 10C – 3W",
+            "variables": { "C": "correct answers", "W": "wrong answers" },
+            "example": { "C": 15, "W": 4, "working": "10(15) – 3(4) = 150 – 12", "answer": "138 points" }
+          },
+          {
+            "name": "Cricket Run Rate",
+            "formula": "R = T ÷ O",
+            "variables": { "T": "total runs", "O": "overs bowled" },
+            "example": { "T": 180, "O": 20, "working": "180 ÷ 20", "answer": "9 runs per over" }
+          }
+        ],
+        "practical_example": {
+          "scenario": "Dosa stall profit formula",
+          "formula": "P = S × D – (5000 + 10D)",
+          "values": { "S": 70, "D": 100 },
+          "working": "70(100) – (5000 + 10(100)) = 7000 – 6000",
+          "answer": "₹1000 profit"
+        }
+      },
+      "practical_example": {
+        "scenario": "The detectives evaluate four formulas found across the city, proving algebra is present in everyday life.",
+        "examples": [
+          { "formula": "C = 150n + 50", "values": "n = 4", "answer": 650 },
+          { "formula": "F = 25 + 12k", "values": "k = 8", "answer": 121 },
+          { "formula": "P = 10C – 3W", "values": "C = 15, W = 4", "answer": 138 }
+        ]
+      },
+      "quiz_questions": [
+        {
+          "question_id": "M4_S4_Q1",
+          "question": "Ticket cost: C = 150n + 50. Find C when n = 6.",
+          "options": [
+            { "id": "A", "text": "950", "correct": true },
+            { "id": "B", "text": "900", "correct": false },
+            { "id": "C", "text": "1050", "correct": false },
+            { "id": "D", "text": "800", "correct": false }
+          ],
+          "hint": "C = 150(6) + 50 = 900 + 50 = 950.",
+          "misconception_addressed": "Students may forget the base charge (+50) and stop at 150 × 6 = 900. Always evaluate every term."
+        },
+        {
+          "question_id": "M4_S4_Q2",
+          "question": "Taxi fare: F = 25 + 12k. Find F when k = 5.",
+          "options": [
+            { "id": "A", "text": "85", "correct": true },
+            { "id": "B", "text": "61", "correct": false },
+            { "id": "C", "text": "90", "correct": false },
+            { "id": "D", "text": "77", "correct": false }
+          ],
+          "hint": "F = 25 + 12(5) = 25 + 60 = 85.",
+          "misconception_addressed": "Students may add 25 + 12 = 37 before multiplying by k. Multiply 12 × 5 first, then add 25."
+        },
+        {
+          "question_id": "M4_S4_Q3",
+          "question": "Prize score: P = 10C – 3W. Find P when C = 20, W = 5.",
+          "options": [
+            { "id": "A", "text": "185", "correct": true },
+            { "id": "B", "text": "150", "correct": false },
+            { "id": "C", "text": "165", "correct": false },
+            { "id": "D", "text": "200", "correct": false }
+          ],
+          "hint": "P = 10(20) – 3(5) = 200 – 15 = 185.",
+          "misconception_addressed": "Students must substitute both variables. A formula with two variables requires two substitutions — one for each."
+        }
+      ],
+      "interaction": {
+        "type": "formula_card_evaluator",
+        "description": "Five cards are shown face-down on a detective case board. Student taps a card to flip it — the formula and variable values appear on the front. Student types the evaluated answer. Correct = card flips green with a tick. Wrong = card stays flipped and shows the full working step-by-step.",
+        "rounds": [
+          {
+            "formula": "C = 150n + 50",
+            "values": { "n": 3 },
+            "working": "150(3) + 50 = 450 + 50",
+            "answer": 500
+          },
+          {
+            "formula": "F = 25 + 12k",
+            "values": { "k": 10 },
+            "working": "25 + 12(10) = 25 + 120",
+            "answer": 145
+          },
+          {
+            "formula": "P = 10C – 3W",
+            "values": { "C": 12, "W": 3 },
+            "working": "10(12) – 3(3) = 120 – 9",
+            "answer": 111
+          }
+        ]
+      },
+      "reward": {
+        "screen_completion_points": 30,
+        "badge": "Formula Detective",
+        "badge_icon": "🧾",
+        "progress_percentage": 80
+      },
+      "common_misconceptions": [
+        {
+          "error": "Treating a real-world formula as a different kind of problem",
+          "correction": "It is the same substitution skill. Replace every variable with its value, then calculate using BODMAS. The variable name (n, k, C, W) does not change the method."
+        },
+        {
+          "error": "Forgetting to substitute into every variable in a multi-variable formula",
+          "correction": "A formula like P = 10C – 3W has two variables. Both must be substituted. Missing one gives a wrong answer."
+        }
+      ],
+      "progression_text": "The board was almost full. One case remained — marked TOP SECRET in red. Arjun read it aloud: 'Think of a number. Triple it. Add 9. Divide by 3. Subtract your original. The answer is always 3.' Chintu tried it with 7. Then with 15. Then with 100. Always 3. 'That is impossible,' he said. 'Or,' said Priya, 'it is algebra.'"
+    },
+    {
+      "screen_id": "M4_S5",
+      "screen_order": 5,
+      "title": "The Number Trick Arena",
+      "objective": "Students decode number tricks using algebra — proving why the x always cancels — and then invent their own trick using the same substitution skills.",
+      "difficulty": "advanced",
+      "concept_tags": ["number_tricks", "algebraic_proof", "substitution_mastery", "simplification", "variable_cancellation"],
+      "assets": {
+        "background": "detective_arena_bg",
+        "character_portraits": {
+          "arjun": "arjun_determined",
+          "priya": "priya_smiling",
+          "rohan": "rohan_amazed",
+          "chintu": "chintu_proud",
+          "narrator": null
+        }
+      },
+      "story_segments": [
+        {
+          "segment_id": "M4_S5_SEG1",
+          "speaker": "Narrator",
+          "portrait": null,
+          "text": "The TOP SECRET case had one instruction: Prove it. Not just try it with different numbers — prove, using algebra, why this trick always gives 3. No matter what number anyone thinks of.",
+          "background": "detective_arena_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S5_SEG2",
+          "speaker": "Priya",
+          "portrait": "priya_smiling",
+          "text": "We don't know what number the person is thinking of. So we call it x. That's the whole point of algebra — x stands for any number, every number.",
+          "background": "detective_arena_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S5_SEG3",
+          "speaker": "Arjun",
+          "portrait": "arjun_determined",
+          "text": "So the first step is just x. Think of a number: x.",
+          "background": "detective_arena_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S5_SEG4",
+          "speaker": "Priya",
+          "portrait": "priya_smiling",
+          "text": "Triple it: 3x. Add 9: 3x + 9. Divide by 3: we split the bracket — (3x + 9) ÷ 3 = x + 3.",
+          "background": "detective_arena_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S5_SEG5",
+          "speaker": "Chintu",
+          "portrait": "chintu_proud",
+          "text": "Now subtract the original number. That's x. So: x + 3 – x.",
+          "background": "detective_arena_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S5_SEG6",
+          "speaker": "Rohan",
+          "portrait": "rohan_amazed",
+          "text": "x + 3 – x. The x cancels! You're left with just 3. It doesn't matter what x was. It's always 3!",
+          "background": "detective_arena_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S5_SEG7",
+          "speaker": "Priya",
+          "portrait": "priya_smiling",
+          "text": "The magician didn't memorise anything. The trick is designed so the x always disappears. Algebra designed the trick — and algebra exposes it.",
+          "background": "detective_arena_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S5_SEG8",
+          "speaker": "Arjun",
+          "portrait": "arjun_determined",
+          "text": "Can we build our own?",
+          "background": "detective_arena_bg",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M4_S5_SEG9",
+          "speaker": "Priya",
+          "portrait": "priya_smiling",
+          "text": "That is exactly what the Bureau is asking you to do next.",
+          "background": "detective_arena_bg",
+          "trigger": "next"
+        }
+      ],
+      "concept_explanation": {
+        "title": "Algebra Exposes the Trick",
+        "classic_proof": {
+          "trick": "Think of a number. Triple it. Add 9. Divide by 3. Subtract your original. Answer is always 3.",
+          "algebraic_trace": [
+            { "step": "Think of a number", "expression": "x" },
+            { "step": "Triple it", "expression": "3x" },
+            { "step": "Add 9", "expression": "3x + 9" },
+            { "step": "Divide by 3", "expression": "x + 3" },
+            { "step": "Subtract original number", "expression": "(x + 3) – x = 3" }
+          ],
+          "key_insight": "The x cancels completely. No matter what x was, the result is always 3. The trick was designed with algebra."
+        },
+        "second_trick": {
+          "trick": "Think of a number. Double it. Add 6. Divide by 2. Subtract your original.",
+          "trace": ["x", "2x", "2x + 6", "x + 3", "x + 3 – x = 3"],
+          "result": "Always 3"
+        },
+        "third_trick": {
+          "trick": "Think of a number. Add 5. Multiply by 2. Subtract 10. Divide by 2.",
+          "trace": ["x", "x + 5", "2x + 10", "2x", "x"],
+          "result": "Returns the original number"
+        },
+        "practical_example": {
+          "trick": "x → multiply by 4 → add 8 → divide by 4 → subtract x",
+          "trace": ["x", "4x", "4x + 8", "x + 2", "x + 2 – x = 2"],
+          "result": "Always 2"
+        }
+      },
+      "practical_example": {
+        "scenario": "The Bureau decodes two more tricks and then Chintu verifies his own invented trick algebraically.",
+        "examples": [
+          {
+            "trick_name": "Trick A — Returns Original",
+            "steps": ["x", "x + 5", "2x + 10", "2x", "x"],
+            "result": "Original number returned"
+          },
+          {
+            "trick_name": "Trick B — Always 2",
+            "steps": ["x", "4x", "4x + 8", "x + 2", "2"],
+            "result": "Always 2"
+          }
+        ]
+      },
+      "quiz_questions": [
+        {
+          "question_id": "M4_S5_Q1",
+          "question": "In the trick x → ×2 → +6 → ÷2 → –x, what is the expression after 'add 6'?",
+          "options": [
+            { "id": "A", "text": "2x + 6", "correct": true },
+            { "id": "B", "text": "x + 6", "correct": false },
+            { "id": "C", "text": "2x + 12", "correct": false },
+            { "id": "D", "text": "6x", "correct": false }
+          ],
+          "hint": "Start with x. Multiply by 2 → 2x. Add 6 → 2x + 6.",
+          "misconception_addressed": "Students may forget the previous step and write x + 6 instead of tracking the full expression from step one."
+        },
+        {
+          "question_id": "M4_S5_Q2",
+          "question": "After dividing 2x + 6 by 2, what expression do you get?",
+          "options": [
+            { "id": "A", "text": "x + 3", "correct": true },
+            { "id": "B", "text": "x + 6", "correct": false },
+            { "id": "C", "text": "2x + 3", "correct": false },
+            { "id": "D", "text": "x + 12", "correct": false }
+          ],
+          "hint": "(2x + 6) ÷ 2 = x + 3. Divide every term by 2: 2x ÷ 2 = x, and 6 ÷ 2 = 3.",
+          "misconception_addressed": "Students may only divide the first term. Every term inside the expression must be divided."
+        },
+        {
+          "question_id": "M4_S5_Q3",
+          "question": "After subtracting x from x + 3, what remains?",
+          "options": [
+            { "id": "A", "text": "x + 3", "correct": false },
+            { "id": "B", "text": "2x + 3", "correct": false },
+            { "id": "C", "text": "3", "correct": true },
+            { "id": "D", "text": "0", "correct": false }
+          ],
+          "hint": "x + 3 – x = 3. The x terms cancel. Only the constant 3 remains.",
+          "misconception_addressed": "Students sometimes think x + 3 – x = 0 (forgetting the +3) or leave x + 3 – x unsimplified."
+        },
+        {
+          "question_id": "M4_S5_Q4",
+          "question": "Which of these number tricks returns the original number at the end?",
+          "options": [
+            { "id": "A", "text": "x → ×2 → +6 → ÷2 → –x", "correct": false },
+            { "id": "B", "text": "x → +5 → ×2 → –10 → ÷2", "correct": true },
+            { "id": "C", "text": "x → ×3 → –x", "correct": false },
+            { "id": "D", "text": "x → +4 → –4", "correct": false }
+          ],
+          "hint": "Trace Option B: x → x+5 → 2x+10 → 2x → x. The original x is returned.",
+          "misconception_addressed": "Students may guess without tracing. The only way to know what a trick returns is to write it algebraically, step by step."
+        }
+      ],
+      "interaction": {
+        "type": "trick_decoder_and_inventor",
+        "games": [
+          {
+            "game_id": "M4_S5_GAME1",
+            "name": "Trick Decoder",
+            "description": "A number trick is shown step-by-step with blanks. Student selects the correct algebraic expression for each step from three options. Completing all steps reveals whether the trick always gives a fixed number or returns the original.",
+            "tricks": [
+              {
+                "name": "Trick A — Returns Original",
+                "steps": [
+                  { "instruction": "Think of a number", "expression": "x", "options": ["x", "0", "1"] },
+                  { "instruction": "Add 5", "expression": "x + 5", "options": ["x + 5", "5x", "x – 5"] },
+                  { "instruction": "Multiply by 2", "expression": "2x + 10", "options": ["2x + 10", "2x + 5", "x + 10"] },
+                  { "instruction": "Subtract 10", "expression": "2x", "options": ["2x", "2x + 10", "x"] },
+                  { "instruction": "Divide by 2", "expression": "x", "options": ["x", "2", "x + 5"] }
+                ],
+                "result": "Returns original number"
+              },
+              {
+                "name": "Trick B — Always 2",
+                "steps": [
+                  { "instruction": "Think of a number", "expression": "x", "options": ["x", "2", "0"] },
+                  { "instruction": "Multiply by 4", "expression": "4x", "options": ["4x", "x + 4", "4"] },
+                  { "instruction": "Add 8", "expression": "4x + 8", "options": ["4x + 8", "4x + 4", "x + 8"] },
+                  { "instruction": "Divide by 4", "expression": "x + 2", "options": ["x + 2", "x + 8", "4x + 2"] },
+                  { "instruction": "Subtract original number", "expression": "2", "options": ["2", "x", "x + 2"] }
+                ],
+                "result": "Always 2"
+              }
+            ]
+          },
+          {
+            "game_id": "M4_S5_GAME2",
+            "name": "Trick Inventor",
+            "description": "Student builds their own trick by tapping operation tiles in sequence (×2, +6, ÷2, –x, +4, ×3, –12, ÷3, +5, ×2, –10). A Verify button runs the algebraic trace. The trick is valid if the result is a fixed number or the original x.",
+            "valid_sequences": [
+              {
+                "sequence": ["×2", "+6", "÷2", "–x"],
+                "trace": ["x", "2x", "2x+6", "x+3", "3"],
+                "result": "Always 3"
+              },
+              {
+                "sequence": ["+4", "×3", "–12", "÷3"],
+                "trace": ["x", "x+4", "3x+12", "3x", "x"],
+                "result": "Returns original"
+              },
+              {
+                "sequence": ["×3", "+15", "÷3", "–x"],
+                "trace": ["x", "3x", "3x+15", "x+5", "5"],
+                "result": "Always 5"
+              }
+            ]
+          }
+        ]
+      },
+      "reward": {
+        "screen_completion_points": 50,
+        "badge": "Algebra Magician",
+        "badge_icon": "🪄",
+        "progress_percentage": 100
+      },
+      "common_misconceptions": [
+        {
+          "error": "Believing the number trick is genuinely 'magic' with no logical explanation",
+          "correction": "Algebra proves why it works. The operations are designed so that x always cancels — leaving only the fixed result."
+        },
+        {
+          "error": "Writing x + 3 – x = 0 instead of 3",
+          "correction": "x + 3 – x = 3. The x terms cancel, but the constant 3 does not. The result is 3, not 0."
+        }
+      ],
+      "progression_text": "All five cases were solved. The Bureau's board was full. Priya looked at the team: Arjun, who had opened the first locker. Rohan, who had followed BODMAS properly. Chintu, who now always simplified first. And every student watching, who had just invented their own algebraic trick. 'You didn't just learn substitution,' she said. 'You used it to understand magic, decode real-world formulas, and prove things. That is what algebra does.' On the far wall, a new board had been uncovered. It showed two expressions with an equals sign between them. And below it, one question: What does x have to be for these to be equal? Module 5 — Equations — was waiting."
     }
-  ],
-  "module_rewards": {
-    "completion_points": 70,
-    "completion_badge": "Evaluator"
-  }
+  ]
 }

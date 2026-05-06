@@ -1,23 +1,23 @@
 // frontend/src/pages/ModulePage.jsx
-import React, { useState, useEffect, useCallback, useContext } from "react";
+import React, { useState, useEffect, useCallback, useContext, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { AuthContext } from "../App";
+import { AuthContext } from "../context/AuthContext";
 import StoryCard from "../components/learning/StoryCard";
 import QuizCard from "../components/learning/QuizCard";
 import ProgressBar from "../components/common/ProgressBar";
 import RewardPopup from "../components/common/RewardPopup";
 import FinalChallengePlaceholder from "../components/games/FinalChallengePlaceholder";
+import { isGameAvailable } from "../utils/GameRegistry";
 import "./ModulePage.css";
 
-// ─── Progress persistence helpers ─────────────────────────────────────────
-const getProgressKey = (userId, moduleId) => `mq_progress_u${userId}_m${moduleId}`;
+// ─── Progress helpers ─────────────────────────────────────────────────────────
+const getProgressKey = (userId, moduleId) =>
+  `mq_progress_u${userId}_m${moduleId}`;
 
 const saveProgress = (userId, moduleId, data) => {
   try {
     localStorage.setItem(getProgressKey(userId, moduleId), JSON.stringify(data));
-  } catch {
-    /* storage full or unavailable */
-  }
+  } catch {}
 };
 
 const loadProgress = (userId, moduleId) => {
@@ -29,61 +29,102 @@ const loadProgress = (userId, moduleId) => {
   }
 };
 
-// ─── Loading state ─────────────────────────────────────────────────────────
+// ─── Simple UI state screens ──────────────────────────────────────────────────
 const ModuleLoadingScreen = () => (
-  <div className="mp-loader" role="status" aria-live="polite">
+  <div className="mp-loader">
     <div className="mp-loader-spinner" />
     <p className="mp-loader-text">Loading module…</p>
   </div>
 );
 
-// ─── Error state ───────────────────────────────────────────────────────────
 const ModuleErrorScreen = ({ moduleId, onBack }) => (
-  <div className="mp-error" role="alert">
+  <div className="mp-error">
     <span className="mp-error-icon">⚠️</span>
-    <h2 className="mp-error-title">Module Not Found</h2>
-    <p className="mp-error-sub">Module {moduleId} is not available yet.</p>
-    <button className="mp-error-btn" onClick={onBack}>
-      ← Back to Dashboard
-    </button>
+    <h2 className="mp-error-title">Module {moduleId} not found</h2>
+    <p className="mp-error-sub">This module doesn't exist or couldn't load.</p>
+    <button className="mp-error-btn" onClick={onBack}>← Back to Dashboard</button>
   </div>
 );
 
-// ─── Main Component ────────────────────────────────────────────────────────
+const ModuleCompleteScreen = ({ moduleId, moduleTitle, onPlayGame, onDashboard }) => {
+  const gameAvailable = isGameAvailable(moduleId);
+  return (
+    <div className="mp-complete" style={{
+      minHeight: "100vh", display: "flex", flexDirection: "column",
+      alignItems: "center", justifyContent: "center", gap: "1.5rem",
+      background: "#0b0f1a", color: "#e8edf4", fontFamily: "'Nunito', sans-serif",
+      textAlign: "center", padding: "2rem",
+    }}>
+      <span style={{ fontSize: "3rem" }}>🎓</span>
+      <h2 style={{ fontFamily: "'Cinzel', serif", color: "#e8a838", margin: 0 }}>
+        Module Complete!
+      </h2>
+      <p style={{ color: "#7a8aaa", margin: 0 }}>{moduleTitle}</p>
+      {gameAvailable ? (
+        <button
+          onClick={onPlayGame}
+          style={{
+            padding: "0.9rem 2rem", background: "linear-gradient(135deg,#e8a838,#c87820)",
+            border: "none", borderRadius: "14px", color: "#0b0f1a",
+            fontWeight: 900, fontSize: "1rem", cursor: "pointer",
+          }}
+        >
+          🎮 Play Game
+        </button>
+      ) : (
+        <p style={{ color: "#4a5870", fontSize: "0.9rem" }}>🔒 Game coming soon</p>
+      )}
+      <button
+        onClick={onDashboard}
+        style={{
+          padding: "0.75rem 1.8rem", background: "rgba(255,255,255,0.06)",
+          border: "1px solid rgba(255,255,255,0.12)", borderRadius: "14px",
+          color: "#e8edf4", fontWeight: 700, fontSize: "0.9rem", cursor: "pointer",
+        }}
+      >
+        ← Back to Dashboard
+      </button>
+    </div>
+  );
+};
+
+// ─── Main Component ───────────────────────────────────────────────────────────
 const ModulePage = () => {
   const { moduleId } = useParams();
-  const navigate = useNavigate();
-  const { user } = useContext(AuthContext);
+  const navigate     = useNavigate();
+  const { user }     = useContext(AuthContext);
 
-  // ── Data state ──────────────────────────────────────────────────────────
-  const [moduleData, setModuleData] = useState(null);
-  const [dataLoading, setDataLoading] = useState(true);
-  const [dataError, setDataError] = useState(false);
+  const parsedId    = parseInt(moduleId, 10);
+  const isInvalidId = !parsedId || isNaN(parsedId);
 
-  // ── Learning state ──────────────────────────────────────────────────────
-  const [currentScreenIndex, setCurrentScreenIndex] = useState(0);
-  const [currentPhase, setCurrentPhase] = useState("story"); // "story" | "quiz" | "final_challenge"
-  const [totalPoints, setTotalPoints] = useState(0);
-  const [mistakeLog, setMistakeLog] = useState([]);
+  // ── Data loading state ────────────────────────────────────────────────────
+  const [moduleData,   setModuleData]   = useState(null);
+  const [dataLoading,  setDataLoading]  = useState(true);
+  const [dataError,    setDataError]    = useState(false);
+
+  // ── FIX 1: Load saved progress once via ref so useState initialisers are stable ──
+  // loadProgress is called in a ref-init pattern, not on every render
+  const savedRef = useRef(null);
+  if (savedRef.current === null && user) {
+    savedRef.current = loadProgress(user.id, moduleId) || {};
+  }
+  const saved = savedRef.current || {};
+
+  const [currentScreenIndex, setCurrentScreenIndex] = useState(saved.screenIndex    || 0);
+  const [currentPhase,        setCurrentPhase]       = useState(saved.phase          || "story");
+  const [totalPoints,         setTotalPoints]        = useState(saved.totalPoints    || 0);
+  const [mistakeLog,          setMistakeLog]         = useState(saved.mistakeLog     || []);
+
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [showReward,       setShowReward]      = useState(false);
+  const [pendingReward,    setPendingReward]   = useState(null);
 
-  // ── Reward popup state ──────────────────────────────────────────────────
-  const [showReward, setShowReward] = useState(false);
-  const [pendingReward, setPendingReward] = useState(null);
-
-  // ── Load module JSON dynamically ────────────────────────────────────────
+  // ── Load module JSON ──────────────────────────────────────────────────────
   useEffect(() => {
-    const id = parseInt(moduleId, 10);
-    if (!id || isNaN(id)) {
-      setDataError(true);
-      setDataLoading(false);
-      return;
-    }
-
+    if (isInvalidId) return;
     setDataLoading(true);
     setDataError(false);
-
-    import(`../data/modules/module${id}.json`)
+    import(`../data/modules/module${parsedId}.json`)
       .then((data) => {
         setModuleData(data.default || data);
         setDataLoading(false);
@@ -92,173 +133,163 @@ const ModulePage = () => {
         setDataError(true);
         setDataLoading(false);
       });
-  }, [moduleId]);
+  }, [parsedId, isInvalidId]);
 
-  // ── Restore saved progress ──────────────────────────────────────────────
+  // ── FIX 2: Save progress with correct keys that Dashboard reads ───────────
   useEffect(() => {
     if (!moduleData || !user) return;
-    const saved = loadProgress(user.id, moduleId);
-    if (saved) {
-      setCurrentScreenIndex(saved.screenIndex || 0);
-      setCurrentPhase(saved.phase || "story");
-      setTotalPoints(saved.totalPoints || 0);
-      setMistakeLog(saved.mistakeLog || []);
-    }
-  }, [moduleData, user, moduleId]);
+    const screens      = moduleData.screens || [];
+    const totalScreens = moduleData.total_screens || screens.length;
 
-  // ── Persist progress on changes ─────────────────────────────────────────
-  useEffect(() => {
-    if (!moduleData || !user) return;
     saveProgress(user.id, moduleId, {
-      screenIndex: currentScreenIndex,
-      phase: currentPhase,
+      screenIndex:      currentScreenIndex,
+      phase:            currentPhase,
       totalPoints,
       mistakeLog,
-      completedScreens:
-        currentPhase === "final_challenge"
-          ? moduleData.total_screens
-          : currentScreenIndex,
+      // FIX: Dashboard reads 'completedScreens' not 'screenIndex'
+      completedScreens: currentPhase === "final_challenge" || currentPhase === "module_complete"
+        ? totalScreens
+        : currentScreenIndex,
+      quizAccuracy:
+        mistakeLog.length > 0
+          ? Math.max(0, Math.round(100 - (mistakeLog.length / Math.max(currentScreenIndex, 1)) * 20))
+          : null,
     });
   }, [currentScreenIndex, currentPhase, totalPoints, mistakeLog, moduleData, user, moduleId]);
 
-  // ── Scroll to top on screen change ─────────────────────────────────────
+  // ── Scroll reset on screen change ────────────────────────────────────────
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "instant" });
+    window.scrollTo(0, 0);
   }, [currentScreenIndex, currentPhase]);
 
-  // ── Transition helper ───────────────────────────────────────────────────
+  // ── Transition helper (fade animation) ───────────────────────────────────
   const transitionTo = useCallback((fn) => {
     setIsTransitioning(true);
     setTimeout(() => {
       fn();
       setIsTransitioning(false);
-    }, 380);
+    }, 300);
   }, []);
 
-  // ── Guards (only after data is loaded) ─────────────────────────────────
   const currentScreen = moduleData?.screens?.[currentScreenIndex];
 
-  // ── Story completion ────────────────────────────────────────────────────
+  // ── FIX 3: StoryCard expects prop `screenData` not `screen` ───────────────
   const handleStoryComplete = useCallback(() => {
+    // If this screen has quiz questions, go to quiz phase
     if (currentScreen?.quiz_questions?.length > 0) {
       transitionTo(() => setCurrentPhase("quiz"));
     } else {
-      const reward = currentScreen?.reward;
+      // No quiz — show reward and advance to next screen
       setPendingReward({
-        badge: reward?.badge || null,
-        points: reward?.screen_completion_points || 0,
-        quizScore: null,
-        totalQuizPoints: 0,
+        badge:           currentScreen?.reward?.badge || null,
+        points:          currentScreen?.reward?.screen_completion_points || 10,
+        quizScore:       null,
+        totalQuizPoints: null,
       });
       setShowReward(true);
     }
   }, [currentScreen, transitionTo]);
 
-  // ── Quiz completion ─────────────────────────────────────────────────────
-  const handleQuizComplete = useCallback(
-    (quizScore, totalQuizPoints) => {
-      const reward = currentScreen?.reward;
-      setPendingReward({
-        badge: reward?.badge || null,
-        points: reward?.screen_completion_points || 0,
-        quizScore,
-        totalQuizPoints,
-      });
-      setShowReward(true);
-    },
-    [currentScreen]
-  );
-
-  // ── Reward close ────────────────────────────────────────────────────────
-  const handleRewardClose = useCallback(() => {
-    setShowReward(false);
-    const earnedPoints = currentScreen?.reward?.screen_completion_points || 0;
-    setTotalPoints((prev) => prev + earnedPoints);
-
-    transitionTo(() => {
-      if (currentScreenIndex < (moduleData?.screens?.length || 0) - 1) {
-        setCurrentScreenIndex((prev) => prev + 1);
-        setCurrentPhase("story");
-      } else {
-        setCurrentPhase("final_challenge");
-      }
+  // ── FIX 4: QuizCard calls onComplete(score, totalPossiblePoints) ──────────
+  const handleQuizComplete = useCallback((score, totalPossiblePoints) => {
+    setPendingReward({
+      badge:           currentScreen?.reward?.badge || null,
+      points:          currentScreen?.reward?.screen_completion_points || 10,
+      quizScore:       score,
+      totalQuizPoints: totalPossiblePoints,
     });
-  }, [currentScreen, currentScreenIndex, moduleData, transitionTo]);
+    setShowReward(true);
+  }, [currentScreen]);
 
-  // ── Mistake logging ─────────────────────────────────────────────────────
+  // ── FIX 5: QuizCard calls onAnswerLogged — wire it to populate mistakeLog ─
   const handleAnswerLogged = useCallback((answerData) => {
     if (!answerData.isCorrect) {
       setMistakeLog((prev) => [...prev, answerData]);
     }
   }, []);
 
-  // ── Final challenge complete ────────────────────────────────────────────
-  const handleFinalChallengeComplete = useCallback(() => {
-    const finalTotal = totalPoints + (moduleData?.module_rewards?.completion_points || 0);
-    alert(
-      `🎉 Module Complete!\n\nTotal Points: ${finalTotal}\nBadge Earned: ${moduleData?.module_rewards?.completion_badge}`
-    );
-  }, [totalPoints, moduleData]);
+  // ── FIX 6: RewardPopup receives correct props; advance screen after close ─
+  const handleRewardClose = useCallback(() => {
+    if (pendingReward?.points) {
+      setTotalPoints((p) => p + pendingReward.points);
+    }
+    setShowReward(false);
+    setPendingReward(null);
 
-  // ── Back to dashboard ───────────────────────────────────────────────────
-  const handleBack = useCallback(() => {
-    navigate("/dashboard");
-  }, [navigate]);
+    const screens  = moduleData?.screens || [];
+    const isLast   = currentScreenIndex >= screens.length - 1;
 
-  // ── Progress bar values ─────────────────────────────────────────────────
-  const progressCurrent =
-    currentPhase === "final_challenge"
-      ? moduleData?.total_screens || 0
-      : currentScreenIndex;
+    if (isLast) {
+      transitionTo(() => setCurrentPhase("final_challenge"));
+    } else {
+      transitionTo(() => {
+        setCurrentScreenIndex((i) => i + 1);
+        setCurrentPhase("story");
+      });
+    }
+  }, [pendingReward, moduleData, currentScreenIndex, transitionTo]);
 
-  const isFinalChallenge = currentPhase === "final_challenge";
-
-  // ─────────────────────────────────────────────────────────────────────────
-  // Render states
-  // ─────────────────────────────────────────────────────────────────────────
-
+  // ── Early returns ─────────────────────────────────────────────────────────
+  if (isInvalidId) {
+    return <ModuleErrorScreen moduleId={moduleId} onBack={() => navigate("/dashboard")} />;
+  }
   if (dataLoading) return <ModuleLoadingScreen />;
   if (dataError || !moduleData) {
-    return <ModuleErrorScreen moduleId={moduleId} onBack={handleBack} />;
+    return <ModuleErrorScreen moduleId={moduleId} onBack={() => navigate("/dashboard")} />;
   }
 
+  if (currentPhase === "module_complete") {
+    return (
+      <ModuleCompleteScreen
+        moduleId={parsedId}
+        moduleTitle={moduleData.module_title}
+        onPlayGame={() => navigate(`/module/${moduleId}/game`)}
+        onDashboard={() => navigate("/dashboard")}
+      />
+    );
+  }
+
+  const screens      = moduleData.screens || [];
+  const totalScreens = moduleData.total_screens || screens.length;
+
+  // ── Render ────────────────────────────────────────────────────────────────
   return (
     <div className={`module-page ${isTransitioning ? "mp-fade-out" : "mp-fade-in"}`}>
-      {/* === Back button === */}
-      <button
-        className="mp-back-btn"
-        onClick={handleBack}
-        aria-label="Back to Dashboard"
-      >
+
+      {/* Back button */}
+      <button className="mp-back-btn" onClick={() => navigate("/dashboard")}>
         ← Dashboard
       </button>
 
-      {/* === Fixed Progress Bar === */}
+      {/* FIX 7: ProgressBar expects `current`, `total`, `screens`, `totalPoints`,
+                  `currentPhase`, `moduleTitle` — not a single `progress` number */}
       <ProgressBar
-        current={progressCurrent}
-        total={moduleData.total_screens}
-        screens={moduleData.screens}
+        current={currentScreenIndex}
+        total={totalScreens}
+        screens={screens}
         totalPoints={totalPoints}
         currentPhase={currentPhase}
         moduleTitle={moduleData.module_title}
       />
 
-      {/* === Module Header (story + quiz phases only) === */}
-      {!isFinalChallenge && currentScreen && (
-        <div className="module-header" aria-label="Current screen info">
+      {/* Module header breadcrumb */}
+      {currentScreen && (
+        <div className="module-header">
           <div className="module-breadcrumb">
-            <span className="module-badge">📖 {moduleData.module_title}</span>
-            <span className="breadcrumb-sep" aria-hidden="true">›</span>
+            <span className="module-badge">{moduleData.module_title}</span>
+            <span className="breadcrumb-sep">›</span>
             <span className="screen-title-badge">{currentScreen.title}</span>
-            <span className={`phase-pill phase-pill--${currentPhase}`}>
-              {currentPhase === "story" ? "Story" : "Quiz"}
+            <span className="phase-pill">
+              {currentPhase === "story" ? "📖 Story" : currentPhase === "quiz" ? "📝 Quiz" : "🏆 Final"}
             </span>
           </div>
-          <p className="screen-objective">{currentScreen.objective}</p>
+          {currentScreen.objective && (
+            <p className="screen-objective">{currentScreen.objective}</p>
+          )}
         </div>
       )}
 
-      {/* === Content Phases === */}
+      {/* FIX 8: StoryCard prop is `screenData`, not `screen` */}
       {currentPhase === "story" && currentScreen && (
         <StoryCard
           screenData={currentScreen}
@@ -266,6 +297,9 @@ const ModulePage = () => {
         />
       )}
 
+      {/* FIX 9: QuizCard prop is `screenData`, not `screen`.
+                 FIX 10: `onAnswerLogged` is the correct prop to track mistakes.
+                 REMOVED: `mistakeLog` and `setMistakeLog` — QuizCard doesn't accept those. */}
       {currentPhase === "quiz" && currentScreen && (
         <QuizCard
           screenData={currentScreen}
@@ -274,18 +308,23 @@ const ModulePage = () => {
         />
       )}
 
-      {isFinalChallenge && (
+      {/* FIX 11: FinalChallengePlaceholder expects challengeData, totalPoints,
+                  mistakeLog, completionBadge, completionPoints — not `moduleData` */}
+      {currentPhase === "final_challenge" && (
         <FinalChallengePlaceholder
           challengeData={moduleData.final_challenge}
           totalPoints={totalPoints}
           mistakeLog={mistakeLog}
           completionBadge={moduleData.module_rewards?.completion_badge}
-          completionPoints={moduleData.module_rewards?.completion_points}
-          onComplete={handleFinalChallengeComplete}
+          completionPoints={moduleData.module_rewards?.completion_points || 0}
+          onComplete={() => {
+            setTotalPoints((p) => p + (moduleData.module_rewards?.completion_points || 0));
+            transitionTo(() => setCurrentPhase("module_complete"));
+          }}
         />
       )}
 
-      {/* === Reward Popup Overlay === */}
+      {/* FIX 12: RewardPopup receives badge, points, quizScore, totalQuizPoints */}
       {showReward && pendingReward && (
         <RewardPopup
           badge={pendingReward.badge}

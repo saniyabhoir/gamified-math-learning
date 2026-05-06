@@ -1,17 +1,21 @@
-// frontend/src/utils/gameRegistry.js
-// ─── Game Registry ────────────────────────────────────────────────────────────
+// frontend/src/utils/GameRegistry.js
+// ─── Game Registry ─────────────────────────────────────────────────────────────
 // Maps each module ID to its final game component and metadata.
 // To add a new game: import the component + add an entry below. Nothing else changes.
 
 import React, { lazy } from "react";
 
-// ── Lazy-load games (code-split per module) ───────────────────────────────────
+// ── Lazy-load games (code-split per module) ────────────────────────────────────
 const LikeTermsMemoryMatch = lazy(() =>
   import("../components/games/LikeTermsMemoryMatch")
 );
 
-// ── Placeholder component for unbuilt games ───────────────────────────────────
-const ComingSoonGame = ({ moduleId, onComplete, onExit }) => (
+const Module2Game = lazy(() =>
+  import("../components/games/Module2Game")
+);
+
+// ── Placeholder component for unbuilt games ────────────────────────────────────
+const ComingSoonGame = ({ moduleId, onExit }) => (
   <div
     style={{
       display: "flex",
@@ -57,7 +61,7 @@ const ComingSoonGame = ({ moduleId, onComplete, onExit }) => (
   </div>
 );
 
-// ── Registry ──────────────────────────────────────────────────────────────────
+// ── Registry ───────────────────────────────────────────────────────────────────
 // Each entry shape:
 // {
 //   component: React.ComponentType,   // receives { moduleId, onComplete, onExit }
@@ -81,13 +85,13 @@ export const GAME_REGISTRY = {
     available: true,
   },
   2: {
-    component: (props) => <ComingSoonGame {...props} moduleId={2} />,
-    gameId: "simplification-showdown",
+    component: Module2Game,
+    gameId: "module-2-game",
     title: "Simplification Showdown",
     description: "Timed simplification quiz at Priya's Fruit Shop.",
     estimatedMinutes: 12,
     icon: "🍎",
-    available: false,
+    available: true,
   },
   3: {
     component: (props) => <ComingSoonGame {...props} moduleId={3} />,

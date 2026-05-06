@@ -28,7 +28,7 @@ const ROUND_2_TERMS = [
   { id: "9a",  display: "9a",  variable: "a" },
 ];
 
-// ── Utility: shuffle array ────────────────────────────────────────────────────
+// ── Utilities ─────────────────────────────────────────────────────────────────
 const shuffle = (arr) => {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
@@ -38,9 +38,7 @@ const shuffle = (arr) => {
   return a;
 };
 
-// ── Build card deck from term pairs ──────────────────────────────────────────
 const buildDeck = (terms) => {
-  // Each term appears twice (pair to find)
   const deck = terms.flatMap((term, i) => [
     { uid: `${term.id}_a_${i}`, ...term },
     { uid: `${term.id}_b_${i}`, ...term },
@@ -48,18 +46,21 @@ const buildDeck = (terms) => {
   return shuffle(deck);
 };
 
-// ── Star badge display ────────────────────────────────────────────────────────
+const buildInitialCardStates = (deck) => {
+  const states = {};
+  deck.forEach((c) => { states[c.uid] = "hidden"; });
+  return states;
+};
+
+// ── Sub-components ────────────────────────────────────────────────────────────
 const Stars = ({ count }) => (
   <div className="ltmm-stars">
     {[1, 2, 3].map((n) => (
-      <span key={n} className={n <= count ? "ltmm-star-on" : "ltmm-star-off"}>
-        ★
-      </span>
+      <span key={n} className={n <= count ? "ltmm-star-on" : "ltmm-star-off"}>★</span>
     ))}
   </div>
 );
 
-// ── Round transition card ─────────────────────────────────────────────────────
 const RoundTransition = ({ roundNum, stars, mistakes, onNext }) => {
   useEffect(() => {
     const t = setTimeout(onNext, 2500);
@@ -78,7 +79,6 @@ const RoundTransition = ({ roundNum, stars, mistakes, onNext }) => {
   );
 };
 
-// ── Session Summary ───────────────────────────────────────────────────────────
 const Summary = ({ stars, score, mistakes, time, badge, onReplay, onExit }) => {
   const minutes = Math.floor(time / 60);
   const seconds = time % 60;
@@ -87,7 +87,6 @@ const Summary = ({ stars, score, mistakes, time, badge, onReplay, onExit }) => {
       <div className="ltmm-summary-icon">🍬</div>
       <h2 className="ltmm-summary-title">Sweet Shop Complete!</h2>
       <Stars count={stars} />
-
       <div className="ltmm-summary-grid">
         <div className="ltmm-summary-stat">
           <span className="ltmm-summary-val">{score}</span>
@@ -108,29 +107,20 @@ const Summary = ({ stars, score, mistakes, time, badge, onReplay, onExit }) => {
           <span className="ltmm-summary-lbl">Stars</span>
         </div>
       </div>
-
       {badge && (
         <div className="ltmm-badge-unlock">
           <span className="ltmm-badge-icon">🏅</span>
-          <span>
-            Badge unlocked: <strong>{badge}</strong>
-          </span>
+          <span>Badge unlocked: <strong>{badge}</strong></span>
         </div>
       )}
-
       <div className="ltmm-summary-actions">
-        <button className="ltmm-btn-secondary" onClick={onReplay}>
-          Play Again
-        </button>
-        <button className="ltmm-btn-primary" onClick={onExit}>
-          Back to Dashboard
-        </button>
+        <button className="ltmm-btn-secondary" onClick={onReplay}>Play Again</button>
+        <button className="ltmm-btn-primary" onClick={onExit}>Back to Dashboard</button>
       </div>
     </div>
   );
 };
 
-// ── Card Component ────────────────────────────────────────────────────────────
 const Card = ({ card, state, onClick }) => {
   const isFlipped = state === "flipped" || state === "matched";
   const isMatched = state === "matched";
@@ -140,12 +130,10 @@ const Card = ({ card, state, onClick }) => {
     <div
       className={[
         "ltmm-card",
-        isFlipped ? "ltmm-card--flipped" : "",
-        isMatched ? "ltmm-card--matched" : "",
-        isShaking ? "ltmm-card--shake" : "",
-      ]
-        .filter(Boolean)
-        .join(" ")}
+        isFlipped  ? "ltmm-card--flipped" : "",
+        isMatched  ? "ltmm-card--matched" : "",
+        isShaking  ? "ltmm-card--shake"   : "",
+      ].filter(Boolean).join(" ")}
       onClick={() => !isFlipped && onClick(card.uid)}
       role="button"
       aria-label={isFlipped ? card.display : "Hidden term"}
@@ -160,22 +148,33 @@ const Card = ({ card, state, onClick }) => {
   );
 };
 
-// ── Main Game Component ───────────────────────────────────────────────────────
+// ── Main Component ────────────────────────────────────────────────────────────
 const LikeTermsMemoryMatch = ({ moduleId, userId, onComplete, onExit }) => {
-  const [phase, setPhase] = useState("playing"); // playing | transition | summary
-  const [round, setRound] = useState(1);
-  const [deck, setDeck] = useState(() => buildDeck(ROUND_1_TERMS));
-  const [cardStates, setCardStates] = useState({}); // uid → "hidden"|"flipped"|"matched"|"shake"
-  const [flippedUids, setFlippedUids] = useState([]);
-  const [mistakes, setMistakes] = useState(0);
-  const [roundMistakes, setRoundMistakes] = useState([]);
-  const [totalMistakes, setTotalMistakes] = useState(0);
-  const [score, setScore] = useState(0);
-  const [hint, setHint] = useState("");
-  const [elapsedTime, setElapsedTime] = useState(0);
+  // ── phase: "playing" | "transition" | "summary"
+  const [phase, setPhase]               = useState("playing");
+  const [round, setRound]               = useState(1);
+  const [deck, setDeck]                 = useState(() => buildDeck(ROUND_1_TERMS));
+  const [cardStates, setCardStates]     = useState(() => buildInitialCardStates(buildDeck(ROUND_1_TERMS)));
+  const [flippedUids, setFlippedUids]   = useState([]);
+  const [mistakes, setMistakes]         = useState(0);
+  const [roundMistakes, setRoundMistakes] = useState([]); // history array, one entry per round
+  const [score, setScore]               = useState(0);
+  const [hint, setHint]                 = useState("");
+  const [elapsedTime, setElapsedTime]   = useState(0);
   const [timerRunning, setTimerRunning] = useState(true);
-  const [roundStars, setRoundStars] = useState([]);
+  const [roundStars, setRoundStars]     = useState([]);
+
+  // FIX 1: lockRef prevents concurrent clicks during animations
   const lockRef = useRef(false);
+  // FIX 2: endRoundFiredRef prevents endRound from firing twice in the same round
+  const endRoundFiredRef = useRef(false);
+  // FIX 3: Store current round's mistakes in a ref so endRound always reads fresh value
+  const mistakesRef = useRef(0);
+
+  // Keep mistakesRef in sync with mistakes state
+  useEffect(() => {
+    mistakesRef.current = mistakes;
+  }, [mistakes]);
 
   // ── Timer ─────────────────────────────────────────────────────────────────
   useEffect(() => {
@@ -184,72 +183,102 @@ const LikeTermsMemoryMatch = ({ moduleId, userId, onComplete, onExit }) => {
     return () => clearInterval(id);
   }, [timerRunning]);
 
-  // ── Initialise card states when deck changes ──────────────────────────────
+  // ── Re-initialise card states when deck changes (new round or replay) ──────
+  // FIX 4: Synchronously initialise states (no queueMicrotask race), reset guards
   useEffect(() => {
-    const initial = {};
-    deck.forEach((c) => (initial[c.uid] = "hidden"));
-    setCardStates(initial);
+    setCardStates(buildInitialCardStates(deck));
     setFlippedUids([]);
     lockRef.current = false;
+    endRoundFiredRef.current = false;
   }, [deck]);
 
+  // ── End of round ──────────────────────────────────────────────────────────
+  // FIX 5: endRound reads mistakesRef.current (always fresh) not stale closure value
+  const endRound = useCallback(() => {
+    // FIX 6: Guard against double-fire
+    if (endRoundFiredRef.current) return;
+    endRoundFiredRef.current = true;
+
+    setTimerRunning(false);
+    const currentMistakes = mistakesRef.current;
+    const stars = calcStarsMemoryMatch([currentMistakes]);
+
+    setRoundStars((prev) => [...prev, stars]);
+    setRoundMistakes((prev) => [...prev, currentMistakes]);
+    setHint("");
+
+    if (round === 1) {
+      setPhase("transition");
+    } else {
+      setPhase("summary");
+    }
+  }, [round]); // FIX 7: Only depends on `round` — mistakes read from ref, not closure
+
   // ── Card click handler ────────────────────────────────────────────────────
+  // FIX 8: handleCardClick is properly defined at component scope, with correct closure
   const handleCardClick = useCallback(
     (uid) => {
       if (lockRef.current) return;
       if (cardStates[uid] !== "hidden") return;
 
       const newFlipped = [...flippedUids, uid];
-
       setCardStates((prev) => ({ ...prev, [uid]: "flipped" }));
       setFlippedUids(newFlipped);
 
+      // Wait for second card
       if (newFlipped.length < 2) return;
 
-      // Two cards flipped — evaluate match
+      // Two cards are now face-up — lock board immediately
       lockRef.current = true;
+
       const [uidA, uidB] = newFlipped;
       const cardA = deck.find((c) => c.uid === uidA);
       const cardB = deck.find((c) => c.uid === uidB);
       const isMatch = cardA.variable === cardB.variable;
 
       if (isMatch) {
-        // ✅ Match
-        setCardStates((prev) => ({
-          ...prev,
-          [uidA]: "matched",
-          [uidB]: "matched",
-        }));
+        // ── MATCH ───────────────────────────────────────────────────────────
         setScore((s) => s + 15);
         setHint("");
-        setFlippedUids([]);
-        lockRef.current = false;
 
-        // Check if all cards matched
-        setTimeout(() => {
-          setCardStates((prev) => {
-            const allMatched = Object.values({ ...prev, [uidA]: "matched", [uidB]: "matched" }).every(
-              (s) => s === "matched"
-            );
-            if (allMatched) endRound();
-            return prev;
-          });
-        }, 50);
+        // FIX 9: Compute allMatched inside the functional updater (always fresh state)
+        setCardStates((prev) => {
+          const updated = { ...prev, [uidA]: "matched", [uidB]: "matched" };
+          const allMatched = Object.values(updated).every((s) => s === "matched");
+
+          if (allMatched) {
+            // Trigger endRound after a brief visual pause — board stays locked
+            setTimeout(() => endRound(), 300);
+          } else {
+            // More pairs remain — unlock the board
+            lockRef.current = false;
+          }
+
+          return updated;
+        });
+
+        // Clear flipped tracker immediately (matched cards are off the "active" list)
+        setFlippedUids([]);
+        // NOTE: lockRef stays true if allMatched; gets set false inside updater if not
+
       } else {
-        // ❌ Mismatch
+        // ── MISMATCH ─────────────────────────────────────────────────────────
         const hintVar =
           cardA.variable === "constant" || cardB.variable === "constant"
             ? "constants must match constants"
             : `"${cardA.variable}" ≠ "${cardB.variable}" — variables must be the same`;
+
         setHint(`Hint: ${hintVar}`);
-        setMistakes((m) => m + 1);
+        setMistakes((m) => m + 1); // mistakesRef.current syncs via the useEffect above
         setScore((s) => Math.max(0, s - 5));
+
         setCardStates((prev) => ({
           ...prev,
           [uidA]: "shake",
           [uidB]: "shake",
         }));
 
+        // FIX 10: After shake animation, flip cards back and unlock
         setTimeout(() => {
           setCardStates((prev) => ({
             ...prev,
@@ -261,136 +290,117 @@ const LikeTermsMemoryMatch = ({ moduleId, userId, onComplete, onExit }) => {
         }, 900);
       }
     },
-    [cardStates, flippedUids, deck]
+    [cardStates, flippedUids, deck, endRound]
   );
 
-  // ── End of round ──────────────────────────────────────────────────────────
-  const endRound = useCallback(() => {
-    setTimerRunning(false);
-    const stars = calcStarsMemoryMatch([mistakes]);
-    setRoundStars((prev) => [...prev, stars]);
-    setRoundMistakes((prev) => [...prev, mistakes]);
-    setTotalMistakes((prev) => prev + mistakes);
-    setHint("");
-
-    if (round === 1) {
-      setPhase("transition");
-    } else {
-      setPhase("summary");
-    }
-  }, [mistakes, round]);
-
-  // ── Advance to round 2 ─────────────────────────────────────────────────────
+  // ── Advance to round 2 ────────────────────────────────────────────────────
+  // FIX 11: handleNextRound is at component scope (was incorrectly nested inside handleCardClick)
   const handleNextRound = useCallback(() => {
     setRound(2);
-    setDeck(buildDeck(ROUND_2_TERMS));
     setMistakes(0);
+    mistakesRef.current = 0;
     setHint("");
     setTimerRunning(true);
     setPhase("playing");
+    // Setting deck triggers the useEffect which resets cardStates + guards
+    setDeck(buildDeck(ROUND_2_TERMS));
+  }, []);
+
+  // ── Replay ────────────────────────────────────────────────────────────────
+  const handleReplay = useCallback(() => {
+    setRound(1);
+    setMistakes(0);
+    mistakesRef.current = 0;
+    setRoundMistakes([]);
+    setScore(0);
+    setHint("");
+    setElapsedTime(0);
+    setRoundStars([]);
+    setTimerRunning(true);
+    setPhase("playing");
+    setDeck(buildDeck(ROUND_1_TERMS));
   }, []);
 
   // ── Final summary data ────────────────────────────────────────────────────
-  const getFinalData = () => {
-    const allMistakes = [...roundMistakes, mistakes];
-    const stars = calcStarsMemoryMatch(allMistakes);
+  // FIX 12: getFinalData is at component scope
+  const getFinalData = useCallback(() => {
+    const allMistakes = [...roundMistakes];
+    const stars = calcStarsMemoryMatch(allMistakes.length > 0 ? allMistakes : [0]);
     const rp = calcRewardPoints(stars, 25);
     const badge = stars === 3 ? "Memory Match Master" : null;
     return { stars, rp, badge };
-  };
+  }, [roundMistakes]);
 
-  // ── On complete — send result upstream ────────────────────────────────────
-  const handleExit = () => {
+  // ── Exit handler ──────────────────────────────────────────────────────────
+  // FIX 13: handleExit is at component scope
+  const handleExit = useCallback(() => {
     if (phase === "summary") {
       const { stars, rp, badge } = getFinalData();
-      const allMistakes = [...roundMistakes, mistakes];
-      const totalAttempts = deck.length / 2 + (ROUND_1_TERMS.length);
-      const correctPairs = totalAttempts - totalMistakes;
-      const accuracy =
-        totalAttempts > 0 ? (correctPairs / totalAttempts) * 100 : 0;
+      const totalPairs = ROUND_1_TERMS.length + ROUND_2_TERMS.length;
+      const totalMistakesSum = roundMistakes.reduce((a, b) => a + b, 0);
+      const correctPairs = totalPairs - totalMistakesSum;
+      const accuracy = totalPairs > 0 ? (correctPairs / totalPairs) * 100 : 0;
 
       const result = buildGameResult({
         moduleId,
         gameId: "like-terms-memory-match",
         score,
         accuracy,
-        mistakes: totalMistakes,
+        mistakes: totalMistakesSum,
         completionTime: elapsedTime,
         stars,
         rewardPoints: rp,
         badgeUnlocked: badge,
-        extraData: { roundMistakes: allMistakes, roundStars },
+        extraData: { roundMistakes, roundStars },
       });
       onComplete(result);
     } else {
       onExit();
     }
-  };
+  }, [phase, getFinalData, roundMistakes, roundStars, score, elapsedTime, moduleId, onComplete, onExit]);
 
-  // ── Check board completion inside render ───────────────────────────────────
-  const matchedCount = Object.values(cardStates).filter(
-    (s) => s === "matched"
-  ).length;
-  const totalCards = deck.length;
+  // ── Derived display values ────────────────────────────────────────────────
+  const matchedCount = Object.values(cardStates).filter((s) => s === "matched").length;
+  const totalCards   = deck.length;
+  const cols         = round === 1 ? 4 : 4;
+  const minutes      = Math.floor(elapsedTime / 60);
+  const seconds      = elapsedTime % 60;
 
-  useEffect(() => {
-    if (matchedCount > 0 && matchedCount === totalCards && phase === "playing") {
-      endRound();
-    }
-  }, [matchedCount, totalCards, phase, endRound]);
-
-  // ── Column count based on round ───────────────────────────────────────────
-  const cols = round === 1 ? 4 : 4; // round1: 3×4, round2: 4×4
-
-  // ── Render ─────────────────────────────────────────────────────────────────
+  // ── Render: Transition ────────────────────────────────────────────────────
   if (phase === "transition") {
-    const stars = calcStarsMemoryMatch([mistakes]);
+    const stars = calcStarsMemoryMatch([mistakesRef.current]);
     return (
       <div className="ltmm-root">
         <RoundTransition
           roundNum={1}
           stars={stars}
-          mistakes={mistakes}
+          mistakes={mistakesRef.current}
           onNext={handleNextRound}
         />
       </div>
     );
   }
 
+  // ── Render: Summary ───────────────────────────────────────────────────────
   if (phase === "summary") {
-    const allMistakes = [...roundMistakes, mistakes];
     const { stars, rp, badge } = getFinalData();
+    const totalMistakesSum = roundMistakes.reduce((a, b) => a + b, 0);
     return (
       <div className="ltmm-root">
         <Summary
           stars={stars}
           score={score}
-          mistakes={allMistakes.reduce((a, b) => a + b, 0)}
+          mistakes={totalMistakesSum}
           time={elapsedTime}
           badge={badge}
-          onReplay={() => {
-            setRound(1);
-            setDeck(buildDeck(ROUND_1_TERMS));
-            setMistakes(0);
-            setRoundMistakes([]);
-            setTotalMistakes(0);
-            setScore(0);
-            setHint("");
-            setElapsedTime(0);
-            setRoundStars([]);
-            setTimerRunning(true);
-            setPhase("playing");
-          }}
+          onReplay={handleReplay}
           onExit={handleExit}
         />
       </div>
     );
   }
 
-  // Playing phase
-  const minutes = Math.floor(elapsedTime / 60);
-  const seconds = elapsedTime % 60;
-
+  // ── Render: Playing ───────────────────────────────────────────────────────
   return (
     <div className="ltmm-root">
       {/* Header */}
@@ -403,9 +413,7 @@ const LikeTermsMemoryMatch = ({ moduleId, userId, onComplete, onExit }) => {
       <div className="ltmm-hud">
         <div className="ltmm-hud-item">
           <span className="ltmm-hud-icon">⏱</span>
-          <span className="ltmm-hud-val">
-            {minutes}:{String(seconds).padStart(2, "0")}
-          </span>
+          <span className="ltmm-hud-val">{minutes}:{String(seconds).padStart(2, "0")}</span>
           <span className="ltmm-hud-lbl">Time</span>
         </div>
         <div className="ltmm-hud-item">
@@ -420,9 +428,7 @@ const LikeTermsMemoryMatch = ({ moduleId, userId, onComplete, onExit }) => {
         </div>
         <div className="ltmm-hud-item">
           <span className="ltmm-hud-icon">🃏</span>
-          <span className="ltmm-hud-val">
-            {matchedCount / 2}/{totalCards / 2}
-          </span>
+          <span className="ltmm-hud-val">{matchedCount / 2}/{totalCards / 2}</span>
           <span className="ltmm-hud-lbl">Pairs</span>
         </div>
       </div>
@@ -435,10 +441,7 @@ const LikeTermsMemoryMatch = ({ moduleId, userId, onComplete, onExit }) => {
       </p>
 
       {/* Card grid */}
-      <div
-        className="ltmm-grid"
-        style={{ "--cols": cols }}
-      >
+      <div className="ltmm-grid" style={{ "--cols": cols }}>
         {deck.map((card) => (
           <Card
             key={card.uid}

@@ -1,7 +1,7 @@
 // frontend/src/pages/Dashboard.jsx
 import React, { useContext, useMemo, useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../App";
+import { AuthContext } from "../context/AuthContext";
 import ModuleCard from "../components/common/ModuleCard";
 import { getGameStatSummary } from "../utils/GameMatrics";
 import "./Dashboard.css";
@@ -118,8 +118,23 @@ const Dashboard = () => {
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
   const [modules, setModules] = useState([]);
-  const [progressMap, setProgressMap] = useState({});
-  const [gameStats, setGameStats] = useState({});
+  const progressMap = useMemo(() => {
+  if (!user?.id || modules.length === 0) return {};
+  const pm = {};
+  for (const m of modules) {
+    pm[m.id] = loadProgress(user.id, m.id);
+  }
+  return pm;
+}, [modules, user]);
+
+const gameStats = useMemo(() => {
+  if (!user?.id || modules.length === 0) return {};
+  const gm = {};
+  for (const m of modules) {
+    gm[m.id] = getGameStatSummary(user.id, m.id);
+  }
+  return gm;
+}, [modules, user]);
   const [loading, setLoading] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeCard, setActiveCard] = useState(0);
@@ -143,18 +158,6 @@ const Dashboard = () => {
     loadModules();
   }, []);
 
-  // ── Load progress + game stats ────────────────────────────────────────────
-  useEffect(() => {
-    if (!user?.id || modules.length === 0) return;
-    const pm = {};
-    const gm = {};
-    for (const m of modules) {
-      pm[m.id] = loadProgress(user.id, m.id);
-      gm[m.id] = getGameStatSummary(user.id, m.id);
-    }
-    setProgressMap(pm);
-    setGameStats(gm);
-  }, [modules, user]);
 
   // ── Track active card via scroll ──────────────────────────────────────────
   useEffect(() => {
