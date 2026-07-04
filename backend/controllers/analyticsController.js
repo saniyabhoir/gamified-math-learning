@@ -1,59 +1,39 @@
-// backend/controllers/analyticsController.js
 const User = require("../models/User");
-// Progress model not yet created — use empty data for now
+const Progress = require("../models/Progress");
 
 const getTeacherDashboard = async (req, res) => {
-  console.log("✅ Analytics controller hit — user:", req.user?.id);
-
   try {
-    const students      = await User.find({ role: "student" }).select("name email");
-    const totalStudents = students.length;
+    const students = await User.find({ role: "student" }).select("name email");
 
-    // No Progress model yet — return students with zero stats
-    const studentRows = students.map(student => ({
-      _id:              student._id,
-      name:             student.name,
-      email:            student.email,
-      modulesCompleted: 0,
-      averageScore:     0,
-      timeSpent:        0,
-      weakTopic:        null,
-      activeThisWeek:   false,
-    }));
+    const studentRows = [];
 
-    const MODULE_TITLES = [
-      "Introduction to Algebra",
-      "Simplification & Like Terms",
-      "Multiplication of Expressions",
-      "Substitution & Evaluation",
-      "Algebra in Action",
-    ];
+    for (let student of students) {
+      const progress = await Progress.findOne({ studentId: student._id });
 
-    const moduleRows = [1, 2, 3, 4, 5].map((moduleId, i) => ({
-      moduleId,
-      moduleOrder:      moduleId,
-      title:            MODULE_TITLES[i],
-      completionRate:   0,
-      avgScore:         0,
-      avgAttempts:      0,
-      enrolledStudents: totalStudents,
-    }));
+      studentRows.push({
+        _id: student._id,
+        name: student.name,
+        email: student.email,
+        modulesCompleted: progress?.modulesCompleted || 0,
+        averageScore: progress?.averageScore || 0,
+        timeSpent: Math.round((progress?.totalTimeSpent || 0) / 60), // seconds → minutes
+        weakTopic: progress?.weakTopics?.[0] || "No weak areas",
+        activeThisWeek: progress?.lastActiveAt
+          ? (Date.now() - new Date(progress.lastActiveAt)) < 7 * 24 * 60 * 60 * 1000
+          : false,
+      });
+    }
 
     res.json({
       overview: {
-        totalStudents,
-        averageScore:     0,
-        modulesCompleted: 0,
-        avgTimeSpent:     0,
-        lastUpdated:      new Date().toISOString(),
+        totalStudents: students.length,
       },
-      modules:  moduleRows,
       students: studentRows,
     });
 
   } catch (err) {
-    console.error("❌ Analytics error:", err);
-    res.status(500).json({ message: "Failed to load analytics", error: err.message });
+    console.error(err);
+    res.status(500).json({ message: "Failed to load analytics" });
   }
 };
 

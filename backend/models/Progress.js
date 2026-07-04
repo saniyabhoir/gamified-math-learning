@@ -1,39 +1,127 @@
-// backend/models/Progress.js
 const mongoose = require("mongoose");
 
-const moduleProgressSchema = new mongoose.Schema({
-  moduleId: { type: String, required: true },
-  moduleOrder: { type: Number, required: true },
-  title: { type: String, default: "" },
-  completed: { type: Boolean, default: false },
-  score: { type: Number, default: 0, min: 0, max: 100 },
-  attempts: { type: Number, default: 0 },
-  timeSpent: { type: Number, default: 0 }, // minutes
-  weakTopics: [{ type: String }],
-  lastAttemptAt: { type: Date },
+// Module schema
+const moduleSchema = new mongoose.Schema({
+  moduleId: {
+    type: Number,
+    required: true,
+  },
+
+  moduleTitle: {
+    type: String,
+    required: true,
+  },
+
+  gameId: {
+    type: String,
+  },
+
+  score: {
+    type: Number,
+    default: 0,
+  },
+
+  accuracy: {
+    type: Number,
+    default: 0,
+  },
+
+  mistakes: {
+    type: Number,
+    default: 0,
+  },
+
+  completionTime: {
+    type: Number,
+    default: 0,
+  },
+
+  stars: {
+    type: Number,
+    default: 0,
+  },
+
+  rewardPoints: {
+    type: Number,
+    default: 0,
+  },
+
+  completed: {
+    type: Boolean,
+    default: false,
+  },
+
+  weakTopics: [
+    {
+      type: String,
+    },
+  ],
+
+  attempts: {
+    type: Number,
+    default: 1,
+  },
+
+  playedAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
+// Main progress schema
 const progressSchema = new mongoose.Schema(
   {
-    student: {
+    studentId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
-      unique: true, // one progress doc per student
+      unique: true,
     },
-    modules: [moduleProgressSchema],
-    totalTimeSpent: { type: Number, default: 0 }, // minutes
-    lastActiveAt: { type: Date, default: Date.now },
-    activeThisWeek: { type: Boolean, default: false },
+
+    modules: [moduleSchema],
+
+    modulesCompleted: {
+      type: Number,
+      default: 0,
+    },
+
+    averageScore: {
+      type: Number,
+      default: 0,
+    },
+
+    overallAccuracy: {
+      type: Number,
+      default: 0,
+    },
+
+    totalTimeSpent: {
+      type: Number,
+      default: 0,
+    },
+
+    totalRewardPoints: {
+      type: Number,
+      default: 0,
+    },
+
+    weakTopics: [
+      {
+        type: String,
+      },
+    ],
+
+    lastActiveAt: {
+      type: Date,
+      default: Date.now,
+    },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
-// Update activeThisWeek based on lastActiveAt
-progressSchema.pre("save", function (next) {
-  const oneWeekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-  this.activeThisWeek = this.lastActiveAt > oneWeekAgo;
-  next();
-});
-
-module.exports = mongoose.model("Progress", progressSchema);
+module.exports = mongoose.model(
+  "Progress",
+  progressSchema
+);

@@ -54,5 +54,23 @@ export const getProfile = async () => {
   return res.data;
 };
 
+/**
+ * Teacher analytics overview
+ * Calls: GET http://localhost:5000/api/analytics/overview
+ */
+export const getAnalyticsOverview = async () => {
+  const res = await API.get("/analytics/overview");
+  return res.data;
+};
+
+/**
+ * Teacher analytics students/modules data
+ * Calls: GET http://localhost:5000/api/analytics/students
+ */
+export const getAnalyticsStudents = async () => {
+  const res = await API.get("/analytics/students");
+  return res.data;
+};
+
 export default API;
 

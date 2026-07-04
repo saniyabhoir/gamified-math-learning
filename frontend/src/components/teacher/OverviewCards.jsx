@@ -23,7 +23,7 @@ const CARD_CONFIG = [
     icon: '🎯',
     iconBg: 'rgba(59,130,246,0.1)',
     accent: '#3B82F6',
-    format: (v) => (v != null ? `${Math.round(v)}%` : '—'),
+    format: (v) => (v != null ? `${Math.round(v)}` : '—'),
   },
   {
     key: 'modulesCompleted',
