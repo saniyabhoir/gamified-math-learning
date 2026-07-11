@@ -95,8 +95,9 @@ export const GAME_REGISTRY = {
   2: {
     component: Module2Game,
     gameId: "module-2-game",
-    title: "Simplification Showdown",
-    description: "Timed simplification quiz at Priya's Fruit Shop.",
+    title: "Expression Forge",
+    description:
+      "Repair the machine cell by cell: select like terms, then prove the simplified result yourself in the Forge Chamber. 10 curated levels, including interactive BODMAS and distribution.",
     estimatedMinutes: 12,
     icon: "🍎",
     available: true,
