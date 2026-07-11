@@ -18,6 +18,10 @@ const Module3Game = lazy(() =>
   import("../components/games/Module3Game")
 );
 
+const Module4Game = lazy(() =>
+  import("../components/games/Module4Game")
+);
+
 // ── Placeholder component for unbuilt games ────────────────────────────────────
 const ComingSoonGame = ({ moduleId, onExit }) => (
   <div
@@ -108,13 +112,14 @@ export const GAME_REGISTRY = {
     available: true,
   },
   4: {
-    component: (props) => <ComingSoonGame {...props} moduleId={4} />,
-    gameId: "formula-detective",
-    title: "Formula Detective",
-    description: "Solve case files by substituting values into formulas.",
+    component: Module4Game,
+    gameId: "blueprint-detective",
+    title: "Blueprint Detective",
+    description:
+      "Reverse-engineer the factors behind a finished expression \u2014 crack common-factor and trinomial cases before the trail runs cold.",
     estimatedMinutes: 15,
-    icon: "🔍",
-    available: false,
+    icon: "\uD83D\uDD0D",
+    available: true,
   },
   5: {
     component: (props) => <ComingSoonGame {...props} moduleId={5} />,
