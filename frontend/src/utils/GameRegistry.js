@@ -14,6 +14,10 @@ const Module2Game = lazy(() =>
   import("../components/games/Module2Game")
 );
 
+const Module3Game = lazy(() =>
+  import("../components/games/Module3Game")
+);
+
 // ── Placeholder component for unbuilt games ────────────────────────────────────
 const ComingSoonGame = ({ moduleId, onExit }) => (
   <div
@@ -94,13 +98,14 @@ export const GAME_REGISTRY = {
     available: true,
   },
   3: {
-    component: (props) => <ComingSoonGame {...props} moduleId={3} />,
+    component: Module3Game,
     gameId: "multiplication-arena",
     title: "Multiplication Arena",
-    description: "Factory-floor quiz on algebraic multiplication rules.",
+    description:
+      "Build blueprint grids tile by tile to master multiplying algebraic terms — from monomials to full binomial expansion.",
     estimatedMinutes: 12,
-    icon: "⚙️",
-    available: false,
+    icon: "🏗️",
+    available: true,
   },
   4: {
     component: (props) => <ComingSoonGame {...props} moduleId={4} />,
