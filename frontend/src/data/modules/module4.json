@@ -23,7 +23,11 @@
       "title": "The Formula Decoder",
       "objective": "Students understand that substitution means replacing a letter with a specific number to produce one exact result.",
       "difficulty": "beginner",
-      "concept_tags": ["substitution", "variable_replacement", "bracket_rule"],
+      "concept_tags": [
+        "substitution",
+        "variable_replacement",
+        "bracket_rule"
+      ],
       "assets": {
         "background": "detective_bureau_bg",
         "character_portraits": {
@@ -123,76 +127,162 @@
         ],
         "bracket_rule": "Always wrap the substituted value in brackets. This prevents sign errors with negative numbers. If x = –2, write 3(–2), NOT 3–2. The brackets protect the calculation.",
         "worked_examples": [
-          { "expression": "2x + 5", "value": "x = 3", "working": "2(3) + 5 = 6 + 5", "answer": "11" },
-          { "expression": "y² + 2y", "value": "y = 4", "working": "(4)² + 2(4) = 16 + 8", "answer": "24" },
-          { "expression": "3a – 1", "value": "a = 0", "working": "3(0) – 1 = 0 – 1", "answer": "–1" }
+          {
+            "expression": "2x + 5",
+            "value": "x = 3",
+            "working": "2(3) + 5 = 6 + 5",
+            "answer": "11"
+          },
+          {
+            "expression": "y² + 2y",
+            "value": "y = 4",
+            "working": "(4)² + 2(4) = 16 + 8",
+            "answer": "24"
+          },
+          {
+            "expression": "3a – 1",
+            "value": "a = 0",
+            "working": "3(0) – 1 = 0 – 1",
+            "answer": "–1"
+          }
         ]
       },
       "practical_example": {
         "scenario": "The Bureau receives three locker codes. Each is a formula with a value of x. Evaluate each formula to find the locker number.",
         "examples": [
-          { "formula": "3x + 7", "value": "x = 4", "answer": 19 },
-          { "formula": "2y² + 1", "value": "y = 3", "answer": 19 },
-          { "formula": "5a – 2", "value": "a = 3", "answer": 13 }
+          {
+            "formula": "3x + 7",
+            "value": "x = 4",
+            "answer": 19
+          },
+          {
+            "formula": "2y² + 1",
+            "value": "y = 3",
+            "answer": 19
+          },
+          {
+            "formula": "5a – 2",
+            "value": "a = 3",
+            "answer": 13
+          }
         ]
       },
       "quiz_questions": [
         {
           "question_id": "M4_S1_Q1",
-          "question": "Evaluate 4x + 3 when x = 2.",
+          "question_type": "MCQ",
+          "question_text": "Evaluate 4x + 3 when x = 2.",
           "options": [
-            { "id": "A", "text": "11", "correct": true },
-            { "id": "B", "text": "12", "correct": false },
-            { "id": "C", "text": "9", "correct": false },
-            { "id": "D", "text": "14", "correct": false }
+            "11",
+            "12",
+            "9",
+            "14"
           ],
-          "hint": "Replace x with 2: 4(2) + 3 = 8 + 3 = 11.",
-          "misconception_addressed": "Students sometimes multiply 4 × 3 instead of substituting. Always replace x first."
+          "correct_answer": "11",
+          "feedback_correct": "Correct! Replace x with 2: 4(2) + 3 = 8 + 3 = 11.",
+          "feedback_incorrect": "Students sometimes multiply 4 × 3 instead of substituting. Always replace x first.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "substitution",
+            "error_type": "coefficient_multiplied_instead_of_substituted",
+            "revision_priority": "medium"
+          }
         },
         {
           "question_id": "M4_S1_Q2",
-          "question": "Evaluate y² + 5 when y = 3.",
+          "question_type": "MCQ",
+          "question_text": "Evaluate y² + 5 when y = 3.",
           "options": [
-            { "id": "A", "text": "17", "correct": false },
-            { "id": "B", "text": "14", "correct": true },
-            { "id": "C", "text": "11", "correct": false },
-            { "id": "D", "text": "35", "correct": false }
+            "17",
+            "14",
+            "11",
+            "35"
           ],
-          "hint": "(3)² + 5 = 9 + 5 = 14. Square the value first.",
-          "misconception_addressed": "Students may write 3² = 6 (doubling instead of squaring). Squaring means multiplying by itself: 3 × 3 = 9."
+          "correct_answer": "14",
+          "feedback_correct": "Correct! (3)² + 5 = 9 + 5 = 14. Square the value first.",
+          "feedback_incorrect": "Students may write 3² = 6 (doubling instead of squaring). Squaring means multiplying by itself: 3 × 3 = 9.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "substitution",
+            "error_type": "squaring_confused_with_doubling",
+            "revision_priority": "medium"
+          }
         },
         {
           "question_id": "M4_S1_Q3",
-          "question": "Evaluate 2a – 3 when a = 1.",
+          "question_type": "MCQ",
+          "question_text": "Evaluate 2a – 3 when a = 1.",
           "options": [
-            { "id": "A", "text": "5", "correct": false },
-            { "id": "B", "text": "–1", "correct": true },
-            { "id": "C", "text": "–3", "correct": false },
-            { "id": "D", "text": "1", "correct": false }
+            "5",
+            "–1",
+            "–3",
+            "1"
           ],
-          "hint": "2(1) – 3 = 2 – 3 = –1. Answers can be negative — don't panic!",
-          "misconception_addressed": "Students may stop at 2(1) = 2 and forget to subtract. Always complete the full calculation."
+          "correct_answer": "–1",
+          "feedback_correct": "Correct! 2(1) – 3 = 2 – 3 = –1. Answers can be negative — don't panic!",
+          "feedback_incorrect": "Students may stop at 2(1) = 2 and forget to subtract. Always complete the full calculation.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "substitution",
+            "error_type": "incomplete_calculation_after_substitution",
+            "revision_priority": "medium"
+          }
         },
         {
           "question_id": "M4_S1_Q4",
-          "question": "Why should you always write the substituted value inside brackets?",
+          "question_type": "MCQ",
+          "question_text": "Why should you always write the substituted value inside brackets?",
           "options": [
-            { "id": "A", "text": "To look neater on the page", "correct": false },
-            { "id": "B", "text": "To prevent sign errors, especially with negative values", "correct": true },
-            { "id": "C", "text": "Because the textbook says so", "correct": false },
-            { "id": "D", "text": "There is no real reason", "correct": false }
+            "To look neater on the page",
+            "To prevent sign errors, especially with negative values",
+            "Because the textbook says so",
+            "There is no real reason"
           ],
-          "hint": "If x = –2: writing 3(–2) = –6 is correct. Writing 3–2 = 1 is wrong. Brackets protect the sign.",
-          "misconception_addressed": "Students who skip brackets often produce wrong answers with negative substitutions."
+          "correct_answer": "To prevent sign errors, especially with negative values",
+          "feedback_correct": "Correct! If x = –2: writing 3(–2) = –6 is correct. Writing 3–2 = 1 is wrong. Brackets protect the sign.",
+          "feedback_incorrect": "Students who skip brackets often produce wrong answers with negative substitutions.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "substitution",
+            "error_type": "missing_brackets_on_negative_substitution",
+            "revision_priority": "medium"
+          }
         }
       ],
       "interaction": {
         "type": "locker_code_decoder",
         "description": "A detective-themed screen shows a formula and x-value on a case file card. Three locker doors are displayed, each numbered. Student taps the correct locker. Correct tap = locker swings open revealing a clue prop (magnifying glass, key, or evidence envelope). Wrong tap = brief red flash and a hint appears.",
         "rounds": [
-          { "formula": "3x + 7", "value": "x = 4", "options": [17, 19, 21], "answer": 19 },
-          { "formula": "2y² + 1", "value": "y = 3", "options": [13, 19, 25], "answer": 19 },
-          { "formula": "5a – 2", "value": "a = 3", "options": [11, 13, 17], "answer": 13 }
+          {
+            "formula": "3x + 7",
+            "value": "x = 4",
+            "options": [
+              17,
+              19,
+              21
+            ],
+            "answer": 19
+          },
+          {
+            "formula": "2y² + 1",
+            "value": "y = 3",
+            "options": [
+              13,
+              19,
+              25
+            ],
+            "answer": 19
+          },
+          {
+            "formula": "5a – 2",
+            "value": "a = 3",
+            "options": [
+              11,
+              13,
+              17
+            ],
+            "answer": 13
+          }
         ]
       },
       "reward": {
@@ -219,7 +309,13 @@
       "title": "Order Matters: Evaluate with BODMAS",
       "objective": "Students evaluate multi-term expressions by substituting into every term, then applying BODMAS — including powers and negative values.",
       "difficulty": "beginner",
-      "concept_tags": ["bodmas", "order_of_operations", "powers", "negative_substitution", "multi_term_evaluation"],
+      "concept_tags": [
+        "bodmas",
+        "order_of_operations",
+        "powers",
+        "negative_substitution",
+        "multi_term_evaluation"
+      ],
       "assets": {
         "background": "detective_bureau_bg",
         "character_portraits": {
@@ -348,58 +444,100 @@
       "practical_example": {
         "scenario": "Rohan and Arjun race to evaluate two expressions. The one who follows BODMAS correctly wins the case.",
         "examples": [
-          { "expression": "x² + 2x + 1", "value": "x = 4", "working": "16 + 8 + 1", "answer": 25 },
-          { "expression": "2x² + x", "value": "x = –3", "working": "2(9) + (–3) = 18 – 3", "answer": 15 }
+          {
+            "expression": "x² + 2x + 1",
+            "value": "x = 4",
+            "working": "16 + 8 + 1",
+            "answer": 25
+          },
+          {
+            "expression": "2x² + x",
+            "value": "x = –3",
+            "working": "2(9) + (–3) = 18 – 3",
+            "answer": 15
+          }
         ]
       },
       "quiz_questions": [
         {
           "question_id": "M4_S2_Q1",
-          "question": "Evaluate 3x² + 2 when x = 3.",
+          "question_type": "MCQ",
+          "question_text": "Evaluate 3x² + 2 when x = 3.",
           "options": [
-            { "id": "A", "text": "29", "correct": true },
-            { "id": "B", "text": "11", "correct": false },
-            { "id": "C", "text": "83", "correct": false },
-            { "id": "D", "text": "27", "correct": false }
+            "29",
+            "11",
+            "83",
+            "27"
           ],
-          "hint": "3(3²) + 2 = 3(9) + 2 = 27 + 2 = 29. Square x first, then multiply by 3.",
-          "misconception_addressed": "Students often multiply 3 × 3 = 9 first and then square it, giving 81. Square x before multiplying by the coefficient."
+          "correct_answer": "29",
+          "feedback_correct": "Correct! 3(3²) + 2 = 3(9) + 2 = 27 + 2 = 29. Square x first, then multiply by 3.",
+          "feedback_incorrect": "Students often multiply 3 × 3 = 9 first and then square it, giving 81. Square x before multiplying by the coefficient.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "bodmas",
+            "error_type": "coefficient_applied_before_squaring",
+            "revision_priority": "medium"
+          }
         },
         {
           "question_id": "M4_S2_Q2",
-          "question": "Evaluate x² + 2x + 1 when x = 4.",
+          "question_type": "MCQ",
+          "question_text": "Evaluate x² + 2x + 1 when x = 4.",
           "options": [
-            { "id": "A", "text": "25", "correct": true },
-            { "id": "B", "text": "17", "correct": false },
-            { "id": "C", "text": "21", "correct": false },
-            { "id": "D", "text": "9", "correct": false }
+            "25",
+            "17",
+            "21",
+            "9"
           ],
-          "hint": "(4)² + 2(4) + 1 = 16 + 8 + 1 = 25. Substitute into every term.",
-          "misconception_addressed": "Students may forget to substitute into the middle term 2x. Every term in the expression needs the substitution."
+          "correct_answer": "25",
+          "feedback_correct": "Correct! (4)² + 2(4) + 1 = 16 + 8 + 1 = 25. Substitute into every term.",
+          "feedback_incorrect": "Students may forget to substitute into the middle term 2x. Every term in the expression needs the substitution.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "bodmas",
+            "error_type": "incomplete_substitution_missing_term",
+            "revision_priority": "medium"
+          }
         },
         {
           "question_id": "M4_S2_Q3",
-          "question": "Evaluate 2x² + x when x = –3.",
+          "question_type": "MCQ",
+          "question_text": "Evaluate 2x² + x when x = –3.",
           "options": [
-            { "id": "A", "text": "15", "correct": true },
-            { "id": "B", "text": "–15", "correct": false },
-            { "id": "C", "text": "12", "correct": false },
-            { "id": "D", "text": "–12", "correct": false }
+            "15",
+            "–15",
+            "12",
+            "–12"
           ],
-          "hint": "2(–3)² + (–3) = 2(9) + (–3) = 18 – 3 = 15. Squaring a negative gives positive.",
-          "misconception_addressed": "(–3)² is NOT –9. A negative squared is always positive: (–3) × (–3) = +9."
+          "correct_answer": "15",
+          "feedback_correct": "Correct! 2(–3)² + (–3) = 2(9) + (–3) = 18 – 3 = 15. Squaring a negative gives positive.",
+          "feedback_incorrect": "(–3)² is NOT –9. A negative squared is always positive: (–3) × (–3) = +9.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "bodmas",
+            "error_type": "negative_squared_sign_error",
+            "revision_priority": "medium"
+          }
         },
         {
           "question_id": "M4_S2_Q4",
-          "question": "What is the FIRST step when evaluating 5x² + 3x – 4 for x = 2?",
+          "question_type": "MCQ",
+          "question_text": "What is the FIRST step when evaluating 5x² + 3x – 4 for x = 2?",
           "options": [
-            { "id": "A", "text": "Calculate 5 × 3", "correct": false },
-            { "id": "B", "text": "Replace x with 2 in the full expression", "correct": true },
-            { "id": "C", "text": "Subtract 4 from the expression", "correct": false },
-            { "id": "D", "text": "Add 3x and 5x² together", "correct": false }
+            "Calculate 5 × 3",
+            "Replace x with 2 in the full expression",
+            "Subtract 4 from the expression",
+            "Add 3x and 5x² together"
           ],
-          "hint": "Always substitute first. Replace every x with 2, then follow BODMAS from there.",
-          "misconception_addressed": "Students sometimes add or multiply terms before substituting. Substitution is always the very first step."
+          "correct_answer": "Replace x with 2 in the full expression",
+          "feedback_correct": "Correct! Always substitute first. Replace every x with 2, then follow BODMAS from there.",
+          "feedback_incorrect": "Students sometimes add or multiply terms before substituting. Substitution is always the very first step.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "bodmas",
+            "error_type": "operation_performed_before_substitution",
+            "revision_priority": "medium"
+          }
         }
       ],
       "interaction": {
@@ -411,10 +549,26 @@
             "expression": "x² + 4x + 2",
             "value": "x = 3",
             "steps": [
-              { "label": "Substitute", "answer": "(3)² + 4(3) + 2", "type": "tap" },
-              { "label": "Powers", "answer": "9 + 4(3) + 2", "type": "tap" },
-              { "label": "Multiply", "answer": "9 + 12 + 2", "type": "type" },
-              { "label": "Result", "answer": "23", "type": "type" }
+              {
+                "label": "Substitute",
+                "answer": "(3)² + 4(3) + 2",
+                "type": "tap"
+              },
+              {
+                "label": "Powers",
+                "answer": "9 + 4(3) + 2",
+                "type": "tap"
+              },
+              {
+                "label": "Multiply",
+                "answer": "9 + 12 + 2",
+                "type": "type"
+              },
+              {
+                "label": "Result",
+                "answer": "23",
+                "type": "type"
+              }
             ]
           },
           {
@@ -422,10 +576,26 @@
             "expression": "2y² + 3y",
             "value": "y = 2",
             "steps": [
-              { "label": "Substitute", "answer": "2(2²) + 3(2)", "type": "tap" },
-              { "label": "Powers", "answer": "2(4) + 3(2)", "type": "tap" },
-              { "label": "Multiply", "answer": "8 + 6", "type": "type" },
-              { "label": "Result", "answer": "14", "type": "type" }
+              {
+                "label": "Substitute",
+                "answer": "2(2²) + 3(2)",
+                "type": "tap"
+              },
+              {
+                "label": "Powers",
+                "answer": "2(4) + 3(2)",
+                "type": "tap"
+              },
+              {
+                "label": "Multiply",
+                "answer": "8 + 6",
+                "type": "type"
+              },
+              {
+                "label": "Result",
+                "answer": "14",
+                "type": "type"
+              }
             ]
           },
           {
@@ -433,10 +603,26 @@
             "expression": "3a² – a + 1",
             "value": "a = –2",
             "steps": [
-              { "label": "Substitute", "answer": "3(–2)² – (–2) + 1", "type": "type" },
-              { "label": "Powers", "answer": "3(4) – (–2) + 1", "type": "type" },
-              { "label": "Multiply", "answer": "12 + 2 + 1", "type": "type" },
-              { "label": "Result", "answer": "15", "type": "type" }
+              {
+                "label": "Substitute",
+                "answer": "3(–2)² – (–2) + 1",
+                "type": "type"
+              },
+              {
+                "label": "Powers",
+                "answer": "3(4) – (–2) + 1",
+                "type": "type"
+              },
+              {
+                "label": "Multiply",
+                "answer": "12 + 2 + 1",
+                "type": "type"
+              },
+              {
+                "label": "Result",
+                "answer": "15",
+                "type": "type"
+              }
             ]
           }
         ]
@@ -465,7 +651,12 @@
       "title": "Simplify First, Then Solve",
       "objective": "Students discover that simplifying before substituting is faster and reduces errors — connecting Module 2's simplification skill with Module 4's evaluation skill.",
       "difficulty": "intermediate",
-      "concept_tags": ["simplify_first", "like_terms", "efficient_substitution", "multi_variable"],
+      "concept_tags": [
+        "simplify_first",
+        "like_terms",
+        "efficient_substitution",
+        "multi_variable"
+      ],
       "assets": {
         "background": "detective_bureau_bg",
         "character_portraits": {
@@ -563,13 +754,22 @@
           "slow_method": {
             "label": "Chintu's Method (Slow)",
             "expression": "5x + 3x + 2x – x, x = 7",
-            "steps": ["5(7) = 35", "3(7) = 21", "2(7) = 14", "(7) = 7", "35 + 21 + 14 – 7 = 63"],
+            "steps": [
+              "5(7) = 35",
+              "3(7) = 21",
+              "2(7) = 14",
+              "(7) = 7",
+              "35 + 21 + 14 – 7 = 63"
+            ],
             "substitutions": 4
           },
           "smart_method": {
             "label": "Priya's Method (Smart)",
             "expression": "5x + 3x + 2x – x, x = 7",
-            "steps": ["Simplify: 9x", "Substitute: 9(7) = 63"],
+            "steps": [
+              "Simplify: 9x",
+              "Substitute: 9(7) = 63"
+            ],
             "substitutions": 1
           }
         },
@@ -605,39 +805,63 @@
       "quiz_questions": [
         {
           "question_id": "M4_S3_Q1",
-          "question": "What is the smartest first step when evaluating 4x + x + 3x at x = 10?",
+          "question_type": "MCQ",
+          "question_text": "What is the smartest first step when evaluating 4x + x + 3x at x = 10?",
           "options": [
-            { "id": "A", "text": "Substitute x = 10 into each term separately", "correct": false },
-            { "id": "B", "text": "Simplify to 8x, then substitute once", "correct": true },
-            { "id": "C", "text": "Multiply all three coefficients together", "correct": false },
-            { "id": "D", "text": "Add 4 + 1 + 3 without the variable", "correct": false }
+            "Substitute x = 10 into each term separately",
+            "Simplify to 8x, then substitute once",
+            "Multiply all three coefficients together",
+            "Add 4 + 1 + 3 without the variable"
           ],
-          "hint": "All three terms have the same variable x. Combine them: 4x + x + 3x = 8x. Then 8(10) = 80.",
-          "misconception_addressed": "Students often substitute before simplifying. Simplifying first is faster and less error-prone."
+          "correct_answer": "Simplify to 8x, then substitute once",
+          "feedback_correct": "Correct! All three terms have the same variable x. Combine them: 4x + x + 3x = 8x. Then 8(10) = 80.",
+          "feedback_incorrect": "Students often substitute before simplifying. Simplifying first is faster and less error-prone.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "simplify_first",
+            "error_type": "substituted_before_simplifying",
+            "revision_priority": "medium"
+          }
         },
         {
           "question_id": "M4_S3_Q2",
-          "question": "Simplify then evaluate: 6x + 2y + 4x + 3y when x = 2, y = 1.",
+          "question_type": "MCQ",
+          "question_text": "Simplify then evaluate: 6x + 2y + 4x + 3y when x = 2, y = 1.",
           "options": [
-            { "id": "A", "text": "26", "correct": false },
-            { "id": "B", "text": "30", "correct": false },
-            { "id": "C", "text": "25", "correct": true },
-            { "id": "D", "text": "20", "correct": false }
+            "26",
+            "30",
+            "25",
+            "20"
           ],
-          "hint": "Simplify: 10x + 5y. Then substitute: 10(2) + 5(1) = 20 + 5 = 25.",
-          "misconception_addressed": "Students may combine unlike terms (x with y). Only combine x-terms with x-terms and y-terms with y-terms."
+          "correct_answer": "25",
+          "feedback_correct": "Correct! Simplify: 10x + 5y. Then substitute: 10(2) + 5(1) = 20 + 5 = 25.",
+          "feedback_incorrect": "Students may combine unlike terms (x with y). Only combine x-terms with x-terms and y-terms with y-terms.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "simplify_first",
+            "error_type": "unlike_terms_combined",
+            "revision_priority": "medium"
+          }
         },
         {
           "question_id": "M4_S3_Q3",
-          "question": "Simplify then evaluate: 2x² + 5x – x² + 3x when x = 4.",
+          "question_type": "MCQ",
+          "question_text": "Simplify then evaluate: 2x² + 5x – x² + 3x when x = 4.",
           "options": [
-            { "id": "A", "text": "x² + 8x → 48", "correct": true },
-            { "id": "B", "text": "3x² + 8x → 80", "correct": false },
-            { "id": "C", "text": "2x² + 8x → 64", "correct": false },
-            { "id": "D", "text": "x² + 5x → 36", "correct": false }
+            "x² + 8x → 48",
+            "3x² + 8x → 80",
+            "2x² + 8x → 64",
+            "x² + 5x → 36"
           ],
-          "hint": "2x² – x² = x². 5x + 3x = 8x. So: x² + 8x. At x=4: 16 + 32 = 48.",
-          "misconception_addressed": "Students may not simplify the x² terms with each other. x² terms combine only with other x² terms."
+          "correct_answer": "x² + 8x → 48",
+          "feedback_correct": "Correct! 2x² – x² = x². 5x + 3x = 8x. So: x² + 8x. At x=4: 16 + 32 = 48.",
+          "feedback_incorrect": "Students may not simplify the x² terms with each other. x² terms combine only with other x² terms.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "simplify_first",
+            "error_type": "squared_terms_not_simplified",
+            "revision_priority": "medium"
+          }
         }
       ],
       "interaction": {
@@ -658,7 +882,10 @@
           },
           {
             "expression": "4a + 2b + 3a + 5b",
-            "values": { "a": 2, "b": 1 },
+            "values": {
+              "a": 2,
+              "b": 1
+            },
             "simplified": "7a + 7b",
             "answer": 21
           }
@@ -688,7 +915,12 @@
       "title": "Formulas in the Wild",
       "objective": "Students recognise that real-world formulas are algebraic expressions and that evaluating them is identical to the substitution skill they have been practising.",
       "difficulty": "intermediate",
-      "concept_tags": ["real_world_formulas", "substitution_application", "multi_variable_evaluation", "formula_context"],
+      "concept_tags": [
+        "real_world_formulas",
+        "substitution_application",
+        "multi_variable_evaluation",
+        "formula_context"
+      ],
       "assets": {
         "background": "city_scene_bg",
         "character_portraits": {
@@ -788,32 +1020,63 @@
           {
             "name": "Ticket Cost",
             "formula": "C = 150n + 50",
-            "variables": { "n": "number of tickets" },
-            "example": { "n": 4, "working": "150(4) + 50 = 600 + 50", "answer": "₹650" }
+            "variables": {
+              "n": "number of tickets"
+            },
+            "example": {
+              "n": 4,
+              "working": "150(4) + 50 = 600 + 50",
+              "answer": "₹650"
+            }
           },
           {
             "name": "Taxi Fare",
             "formula": "F = 25 + 12k",
-            "variables": { "k": "kilometres travelled" },
-            "example": { "k": 8, "working": "25 + 12(8) = 25 + 96", "answer": "₹121" }
+            "variables": {
+              "k": "kilometres travelled"
+            },
+            "example": {
+              "k": 8,
+              "working": "25 + 12(8) = 25 + 96",
+              "answer": "₹121"
+            }
           },
           {
             "name": "Prize Score",
             "formula": "P = 10C – 3W",
-            "variables": { "C": "correct answers", "W": "wrong answers" },
-            "example": { "C": 15, "W": 4, "working": "10(15) – 3(4) = 150 – 12", "answer": "138 points" }
+            "variables": {
+              "C": "correct answers",
+              "W": "wrong answers"
+            },
+            "example": {
+              "C": 15,
+              "W": 4,
+              "working": "10(15) – 3(4) = 150 – 12",
+              "answer": "138 points"
+            }
           },
           {
             "name": "Cricket Run Rate",
             "formula": "R = T ÷ O",
-            "variables": { "T": "total runs", "O": "overs bowled" },
-            "example": { "T": 180, "O": 20, "working": "180 ÷ 20", "answer": "9 runs per over" }
+            "variables": {
+              "T": "total runs",
+              "O": "overs bowled"
+            },
+            "example": {
+              "T": 180,
+              "O": 20,
+              "working": "180 ÷ 20",
+              "answer": "9 runs per over"
+            }
           }
         ],
         "practical_example": {
           "scenario": "Dosa stall profit formula",
           "formula": "P = S × D – (5000 + 10D)",
-          "values": { "S": 70, "D": 100 },
+          "values": {
+            "S": 70,
+            "D": 100
+          },
           "working": "70(100) – (5000 + 10(100)) = 7000 – 6000",
           "answer": "₹1000 profit"
         }
@@ -821,47 +1084,83 @@
       "practical_example": {
         "scenario": "The detectives evaluate four formulas found across the city, proving algebra is present in everyday life.",
         "examples": [
-          { "formula": "C = 150n + 50", "values": "n = 4", "answer": 650 },
-          { "formula": "F = 25 + 12k", "values": "k = 8", "answer": 121 },
-          { "formula": "P = 10C – 3W", "values": "C = 15, W = 4", "answer": 138 }
+          {
+            "formula": "C = 150n + 50",
+            "values": "n = 4",
+            "answer": 650
+          },
+          {
+            "formula": "F = 25 + 12k",
+            "values": "k = 8",
+            "answer": 121
+          },
+          {
+            "formula": "P = 10C – 3W",
+            "values": "C = 15, W = 4",
+            "answer": 138
+          }
         ]
       },
       "quiz_questions": [
         {
           "question_id": "M4_S4_Q1",
-          "question": "Ticket cost: C = 150n + 50. Find C when n = 6.",
+          "question_type": "MCQ",
+          "question_text": "Ticket cost: C = 150n + 50. Find C when n = 6.",
           "options": [
-            { "id": "A", "text": "950", "correct": true },
-            { "id": "B", "text": "900", "correct": false },
-            { "id": "C", "text": "1050", "correct": false },
-            { "id": "D", "text": "800", "correct": false }
+            "950",
+            "900",
+            "1050",
+            "800"
           ],
-          "hint": "C = 150(6) + 50 = 900 + 50 = 950.",
-          "misconception_addressed": "Students may forget the base charge (+50) and stop at 150 × 6 = 900. Always evaluate every term."
+          "correct_answer": "950",
+          "feedback_correct": "Correct! C = 150(6) + 50 = 900 + 50 = 950.",
+          "feedback_incorrect": "Students may forget the base charge (+50) and stop at 150 × 6 = 900. Always evaluate every term.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "real_world_formulas",
+            "error_type": "constant_term_omitted",
+            "revision_priority": "medium"
+          }
         },
         {
           "question_id": "M4_S4_Q2",
-          "question": "Taxi fare: F = 25 + 12k. Find F when k = 5.",
+          "question_type": "MCQ",
+          "question_text": "Taxi fare: F = 25 + 12k. Find F when k = 5.",
           "options": [
-            { "id": "A", "text": "85", "correct": true },
-            { "id": "B", "text": "61", "correct": false },
-            { "id": "C", "text": "90", "correct": false },
-            { "id": "D", "text": "77", "correct": false }
+            "85",
+            "61",
+            "90",
+            "77"
           ],
-          "hint": "F = 25 + 12(5) = 25 + 60 = 85.",
-          "misconception_addressed": "Students may add 25 + 12 = 37 before multiplying by k. Multiply 12 × 5 first, then add 25."
+          "correct_answer": "85",
+          "feedback_correct": "Correct! F = 25 + 12(5) = 25 + 60 = 85.",
+          "feedback_incorrect": "Students may add 25 + 12 = 37 before multiplying by k. Multiply 12 × 5 first, then add 25.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "real_world_formulas",
+            "error_type": "incorrect_order_of_operations",
+            "revision_priority": "medium"
+          }
         },
         {
           "question_id": "M4_S4_Q3",
-          "question": "Prize score: P = 10C – 3W. Find P when C = 20, W = 5.",
+          "question_type": "MCQ",
+          "question_text": "Prize score: P = 10C – 3W. Find P when C = 20, W = 5.",
           "options": [
-            { "id": "A", "text": "185", "correct": true },
-            { "id": "B", "text": "150", "correct": false },
-            { "id": "C", "text": "165", "correct": false },
-            { "id": "D", "text": "200", "correct": false }
+            "185",
+            "150",
+            "165",
+            "200"
           ],
-          "hint": "P = 10(20) – 3(5) = 200 – 15 = 185.",
-          "misconception_addressed": "Students must substitute both variables. A formula with two variables requires two substitutions — one for each."
+          "correct_answer": "185",
+          "feedback_correct": "Correct! P = 10(20) – 3(5) = 200 – 15 = 185.",
+          "feedback_incorrect": "Students must substitute both variables. A formula with two variables requires two substitutions — one for each.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "real_world_formulas",
+            "error_type": "incomplete_multivariable_substitution",
+            "revision_priority": "medium"
+          }
         }
       ],
       "interaction": {
@@ -870,19 +1169,26 @@
         "rounds": [
           {
             "formula": "C = 150n + 50",
-            "values": { "n": 3 },
+            "values": {
+              "n": 3
+            },
             "working": "150(3) + 50 = 450 + 50",
             "answer": 500
           },
           {
             "formula": "F = 25 + 12k",
-            "values": { "k": 10 },
+            "values": {
+              "k": 10
+            },
             "working": "25 + 12(10) = 25 + 120",
             "answer": 145
           },
           {
             "formula": "P = 10C – 3W",
-            "values": { "C": 12, "W": 3 },
+            "values": {
+              "C": 12,
+              "W": 3
+            },
             "working": "10(12) – 3(3) = 120 – 9",
             "answer": 111
           }
@@ -912,7 +1218,13 @@
       "title": "The Number Trick Arena",
       "objective": "Students decode number tricks using algebra — proving why the x always cancels — and then invent their own trick using the same substitution skills.",
       "difficulty": "advanced",
-      "concept_tags": ["number_tricks", "algebraic_proof", "substitution_mastery", "simplification", "variable_cancellation"],
+      "concept_tags": [
+        "number_tricks",
+        "algebraic_proof",
+        "substitution_mastery",
+        "simplification",
+        "variable_cancellation"
+      ],
       "assets": {
         "background": "detective_arena_bg",
         "character_portraits": {
@@ -1002,27 +1314,60 @@
         "classic_proof": {
           "trick": "Think of a number. Triple it. Add 9. Divide by 3. Subtract your original. Answer is always 3.",
           "algebraic_trace": [
-            { "step": "Think of a number", "expression": "x" },
-            { "step": "Triple it", "expression": "3x" },
-            { "step": "Add 9", "expression": "3x + 9" },
-            { "step": "Divide by 3", "expression": "x + 3" },
-            { "step": "Subtract original number", "expression": "(x + 3) – x = 3" }
+            {
+              "step": "Think of a number",
+              "expression": "x"
+            },
+            {
+              "step": "Triple it",
+              "expression": "3x"
+            },
+            {
+              "step": "Add 9",
+              "expression": "3x + 9"
+            },
+            {
+              "step": "Divide by 3",
+              "expression": "x + 3"
+            },
+            {
+              "step": "Subtract original number",
+              "expression": "(x + 3) – x = 3"
+            }
           ],
           "key_insight": "The x cancels completely. No matter what x was, the result is always 3. The trick was designed with algebra."
         },
         "second_trick": {
           "trick": "Think of a number. Double it. Add 6. Divide by 2. Subtract your original.",
-          "trace": ["x", "2x", "2x + 6", "x + 3", "x + 3 – x = 3"],
+          "trace": [
+            "x",
+            "2x",
+            "2x + 6",
+            "x + 3",
+            "x + 3 – x = 3"
+          ],
           "result": "Always 3"
         },
         "third_trick": {
           "trick": "Think of a number. Add 5. Multiply by 2. Subtract 10. Divide by 2.",
-          "trace": ["x", "x + 5", "2x + 10", "2x", "x"],
+          "trace": [
+            "x",
+            "x + 5",
+            "2x + 10",
+            "2x",
+            "x"
+          ],
           "result": "Returns the original number"
         },
         "practical_example": {
           "trick": "x → multiply by 4 → add 8 → divide by 4 → subtract x",
-          "trace": ["x", "4x", "4x + 8", "x + 2", "x + 2 – x = 2"],
+          "trace": [
+            "x",
+            "4x",
+            "4x + 8",
+            "x + 2",
+            "x + 2 – x = 2"
+          ],
           "result": "Always 2"
         }
       },
@@ -1031,12 +1376,24 @@
         "examples": [
           {
             "trick_name": "Trick A — Returns Original",
-            "steps": ["x", "x + 5", "2x + 10", "2x", "x"],
+            "steps": [
+              "x",
+              "x + 5",
+              "2x + 10",
+              "2x",
+              "x"
+            ],
             "result": "Original number returned"
           },
           {
             "trick_name": "Trick B — Always 2",
-            "steps": ["x", "4x", "4x + 8", "x + 2", "2"],
+            "steps": [
+              "x",
+              "4x",
+              "4x + 8",
+              "x + 2",
+              "2"
+            ],
             "result": "Always 2"
           }
         ]
@@ -1044,51 +1401,83 @@
       "quiz_questions": [
         {
           "question_id": "M4_S5_Q1",
-          "question": "In the trick x → ×2 → +6 → ÷2 → –x, what is the expression after 'add 6'?",
+          "question_type": "MCQ",
+          "question_text": "In the trick x → ×2 → +6 → ÷2 → –x, what is the expression after 'add 6'?",
           "options": [
-            { "id": "A", "text": "2x + 6", "correct": true },
-            { "id": "B", "text": "x + 6", "correct": false },
-            { "id": "C", "text": "2x + 12", "correct": false },
-            { "id": "D", "text": "6x", "correct": false }
+            "2x + 6",
+            "x + 6",
+            "2x + 12",
+            "6x"
           ],
-          "hint": "Start with x. Multiply by 2 → 2x. Add 6 → 2x + 6.",
-          "misconception_addressed": "Students may forget the previous step and write x + 6 instead of tracking the full expression from step one."
+          "correct_answer": "2x + 6",
+          "feedback_correct": "Correct! Start with x. Multiply by 2 → 2x. Add 6 → 2x + 6.",
+          "feedback_incorrect": "Students may forget the previous step and write x + 6 instead of tracking the full expression from step one.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "number_tricks",
+            "error_type": "expression_tracking_failure",
+            "revision_priority": "medium"
+          }
         },
         {
           "question_id": "M4_S5_Q2",
-          "question": "After dividing 2x + 6 by 2, what expression do you get?",
+          "question_type": "MCQ",
+          "question_text": "After dividing 2x + 6 by 2, what expression do you get?",
           "options": [
-            { "id": "A", "text": "x + 3", "correct": true },
-            { "id": "B", "text": "x + 6", "correct": false },
-            { "id": "C", "text": "2x + 3", "correct": false },
-            { "id": "D", "text": "x + 12", "correct": false }
+            "x + 3",
+            "x + 6",
+            "2x + 3",
+            "x + 12"
           ],
-          "hint": "(2x + 6) ÷ 2 = x + 3. Divide every term by 2: 2x ÷ 2 = x, and 6 ÷ 2 = 3.",
-          "misconception_addressed": "Students may only divide the first term. Every term inside the expression must be divided."
+          "correct_answer": "x + 3",
+          "feedback_correct": "Correct! (2x + 6) ÷ 2 = x + 3. Divide every term by 2: 2x ÷ 2 = x, and 6 ÷ 2 = 3.",
+          "feedback_incorrect": "Students may only divide the first term. Every term inside the expression must be divided.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "number_tricks",
+            "error_type": "partial_term_division",
+            "revision_priority": "medium"
+          }
         },
         {
           "question_id": "M4_S5_Q3",
-          "question": "After subtracting x from x + 3, what remains?",
+          "question_type": "MCQ",
+          "question_text": "After subtracting x from x + 3, what remains?",
           "options": [
-            { "id": "A", "text": "x + 3", "correct": false },
-            { "id": "B", "text": "2x + 3", "correct": false },
-            { "id": "C", "text": "3", "correct": true },
-            { "id": "D", "text": "0", "correct": false }
+            "x + 3",
+            "2x + 3",
+            "3",
+            "0"
           ],
-          "hint": "x + 3 – x = 3. The x terms cancel. Only the constant 3 remains.",
-          "misconception_addressed": "Students sometimes think x + 3 – x = 0 (forgetting the +3) or leave x + 3 – x unsimplified."
+          "correct_answer": "3",
+          "feedback_correct": "Correct! x + 3 – x = 3. The x terms cancel. Only the constant 3 remains.",
+          "feedback_incorrect": "Students sometimes think x + 3 – x = 0 (forgetting the +3) or leave x + 3 – x unsimplified.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "number_tricks",
+            "error_type": "constant_term_dropped",
+            "revision_priority": "medium"
+          }
         },
         {
           "question_id": "M4_S5_Q4",
-          "question": "Which of these number tricks returns the original number at the end?",
+          "question_type": "MCQ",
+          "question_text": "Which of these number tricks returns the original number at the end?",
           "options": [
-            { "id": "A", "text": "x → ×2 → +6 → ÷2 → –x", "correct": false },
-            { "id": "B", "text": "x → +5 → ×2 → –10 → ÷2", "correct": true },
-            { "id": "C", "text": "x → ×3 → –x", "correct": false },
-            { "id": "D", "text": "x → +4 → –4", "correct": false }
+            "x → ×2 → +6 → ÷2 → –x",
+            "x → +5 → ×2 → –10 → ÷2",
+            "x → ×3 → –x",
+            "x → +4 → –4"
           ],
-          "hint": "Trace Option B: x → x+5 → 2x+10 → 2x → x. The original x is returned.",
-          "misconception_addressed": "Students may guess without tracing. The only way to know what a trick returns is to write it algebraically, step by step."
+          "correct_answer": "x → +5 → ×2 → –10 → ÷2",
+          "feedback_correct": "Correct! Trace Option B: x → x+5 → 2x+10 → 2x → x. The original x is returned.",
+          "feedback_incorrect": "Students may guess without tracing. The only way to know what a trick returns is to write it algebraically, step by step.",
+          "points": 5,
+          "mistake_tracking": {
+            "concept_tag": "number_tricks",
+            "error_type": "trick_not_traced_algebraically",
+            "revision_priority": "medium"
+          }
         }
       ],
       "interaction": {
@@ -1102,22 +1491,102 @@
               {
                 "name": "Trick A — Returns Original",
                 "steps": [
-                  { "instruction": "Think of a number", "expression": "x", "options": ["x", "0", "1"] },
-                  { "instruction": "Add 5", "expression": "x + 5", "options": ["x + 5", "5x", "x – 5"] },
-                  { "instruction": "Multiply by 2", "expression": "2x + 10", "options": ["2x + 10", "2x + 5", "x + 10"] },
-                  { "instruction": "Subtract 10", "expression": "2x", "options": ["2x", "2x + 10", "x"] },
-                  { "instruction": "Divide by 2", "expression": "x", "options": ["x", "2", "x + 5"] }
+                  {
+                    "instruction": "Think of a number",
+                    "expression": "x",
+                    "options": [
+                      "x",
+                      "0",
+                      "1"
+                    ]
+                  },
+                  {
+                    "instruction": "Add 5",
+                    "expression": "x + 5",
+                    "options": [
+                      "x + 5",
+                      "5x",
+                      "x – 5"
+                    ]
+                  },
+                  {
+                    "instruction": "Multiply by 2",
+                    "expression": "2x + 10",
+                    "options": [
+                      "2x + 10",
+                      "2x + 5",
+                      "x + 10"
+                    ]
+                  },
+                  {
+                    "instruction": "Subtract 10",
+                    "expression": "2x",
+                    "options": [
+                      "2x",
+                      "2x + 10",
+                      "x"
+                    ]
+                  },
+                  {
+                    "instruction": "Divide by 2",
+                    "expression": "x",
+                    "options": [
+                      "x",
+                      "2",
+                      "x + 5"
+                    ]
+                  }
                 ],
                 "result": "Returns original number"
               },
               {
                 "name": "Trick B — Always 2",
                 "steps": [
-                  { "instruction": "Think of a number", "expression": "x", "options": ["x", "2", "0"] },
-                  { "instruction": "Multiply by 4", "expression": "4x", "options": ["4x", "x + 4", "4"] },
-                  { "instruction": "Add 8", "expression": "4x + 8", "options": ["4x + 8", "4x + 4", "x + 8"] },
-                  { "instruction": "Divide by 4", "expression": "x + 2", "options": ["x + 2", "x + 8", "4x + 2"] },
-                  { "instruction": "Subtract original number", "expression": "2", "options": ["2", "x", "x + 2"] }
+                  {
+                    "instruction": "Think of a number",
+                    "expression": "x",
+                    "options": [
+                      "x",
+                      "2",
+                      "0"
+                    ]
+                  },
+                  {
+                    "instruction": "Multiply by 4",
+                    "expression": "4x",
+                    "options": [
+                      "4x",
+                      "x + 4",
+                      "4"
+                    ]
+                  },
+                  {
+                    "instruction": "Add 8",
+                    "expression": "4x + 8",
+                    "options": [
+                      "4x + 8",
+                      "4x + 4",
+                      "x + 8"
+                    ]
+                  },
+                  {
+                    "instruction": "Divide by 4",
+                    "expression": "x + 2",
+                    "options": [
+                      "x + 2",
+                      "x + 8",
+                      "4x + 2"
+                    ]
+                  },
+                  {
+                    "instruction": "Subtract original number",
+                    "expression": "2",
+                    "options": [
+                      "2",
+                      "x",
+                      "x + 2"
+                    ]
+                  }
                 ],
                 "result": "Always 2"
               }
@@ -1129,18 +1598,51 @@
             "description": "Student builds their own trick by tapping operation tiles in sequence (×2, +6, ÷2, –x, +4, ×3, –12, ÷3, +5, ×2, –10). A Verify button runs the algebraic trace. The trick is valid if the result is a fixed number or the original x.",
             "valid_sequences": [
               {
-                "sequence": ["×2", "+6", "÷2", "–x"],
-                "trace": ["x", "2x", "2x+6", "x+3", "3"],
+                "sequence": [
+                  "×2",
+                  "+6",
+                  "÷2",
+                  "–x"
+                ],
+                "trace": [
+                  "x",
+                  "2x",
+                  "2x+6",
+                  "x+3",
+                  "3"
+                ],
                 "result": "Always 3"
               },
               {
-                "sequence": ["+4", "×3", "–12", "÷3"],
-                "trace": ["x", "x+4", "3x+12", "3x", "x"],
+                "sequence": [
+                  "+4",
+                  "×3",
+                  "–12",
+                  "÷3"
+                ],
+                "trace": [
+                  "x",
+                  "x+4",
+                  "3x+12",
+                  "3x",
+                  "x"
+                ],
                 "result": "Returns original"
               },
               {
-                "sequence": ["×3", "+15", "÷3", "–x"],
-                "trace": ["x", "3x", "3x+15", "x+5", "5"],
+                "sequence": [
+                  "×3",
+                  "+15",
+                  "÷3",
+                  "–x"
+                ],
+                "trace": [
+                  "x",
+                  "3x",
+                  "3x+15",
+                  "x+5",
+                  "5"
+                ],
                 "result": "Always 5"
               }
             ]

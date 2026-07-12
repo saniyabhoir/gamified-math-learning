@@ -14,6 +14,14 @@ const Module2Game = lazy(() =>
   import("../components/games/Module2Game")
 );
 
+const Module3Game = lazy(() =>
+  import("../components/games/Module3Game")
+);
+
+const Module4Game = lazy(() =>
+  import("../components/games/Module4Game")
+);
+
 // ── Placeholder component for unbuilt games ────────────────────────────────────
 const ComingSoonGame = ({ moduleId, onExit }) => (
   <div
@@ -87,29 +95,32 @@ export const GAME_REGISTRY = {
   2: {
     component: Module2Game,
     gameId: "module-2-game",
-    title: "Simplification Showdown",
-    description: "Timed simplification quiz at Priya's Fruit Shop.",
+    title: "Expression Forge",
+    description:
+      "Repair the machine cell by cell: select like terms, then prove the simplified result yourself in the Forge Chamber. 10 curated levels, including interactive BODMAS and distribution.",
     estimatedMinutes: 12,
     icon: "🍎",
     available: true,
   },
   3: {
-    component: (props) => <ComingSoonGame {...props} moduleId={3} />,
+    component: Module3Game,
     gameId: "multiplication-arena",
     title: "Multiplication Arena",
-    description: "Factory-floor quiz on algebraic multiplication rules.",
+    description:
+      "Build blueprint grids tile by tile to master multiplying algebraic terms — from monomials to full binomial expansion.",
     estimatedMinutes: 12,
-    icon: "⚙️",
-    available: false,
+    icon: "🏗️",
+    available: true,
   },
   4: {
-    component: (props) => <ComingSoonGame {...props} moduleId={4} />,
-    gameId: "formula-detective",
-    title: "Formula Detective",
-    description: "Solve case files by substituting values into formulas.",
+    component: Module4Game,
+    gameId: "blueprint-detective",
+    title: "Blueprint Detective",
+    description:
+      "Reverse-engineer the factors behind a finished expression \u2014 crack common-factor and trinomial cases before the trail runs cold.",
     estimatedMinutes: 15,
-    icon: "🔍",
-    available: false,
+    icon: "\uD83D\uDD0D",
+    available: true,
   },
   5: {
     component: (props) => <ComingSoonGame {...props} moduleId={5} />,
