@@ -1,6 +1,7 @@
 ﻿const express = require("express");
 const User = require("../models/User");
 const Progress = require("../models/Progress");
+const { CURRICULUM_MODULES } = require("../config/curriculum");
 
 const { protect } = require("../middleware/auth");
 const roleMiddleware = require("../middleware/roleMiddleware");
@@ -9,6 +10,17 @@ const router = express.Router();
 
 const avg = (arr) =>
   arr.length ? arr.reduce((s, v) => s + v, 0) / arr.length : 0;
+
+// FIX: some Progress.modules records predate the score-clamping validation
+// in progressController.js and still contain raw, un-clamped values (e.g.
+// 215 instead of 0-100). Scores are always a percentage for display
+// purposes, so we defensively clamp on every read — this protects the UI
+// even if bad data ever re-enters the collection (manual edits, old
+// clients, etc.) without needing a one-off migration to keep working.
+const clampScore = (value) => {
+  const num = Number(value) || 0;
+  return Math.min(100, Math.max(0, num));
+};
 
 /* ---------------- OVERVIEW ---------------- */
 router.get("/overview", protect, roleMiddleware("teacher"), async (req, res) => {
@@ -20,15 +32,41 @@ router.get("/overview", protect, roleMiddleware("teacher"), async (req, res) => 
       (p.modules || []).filter((m) => m.completed)
     );
 
-    const allScores = completedModules.map((m) => m.score || 0);
+    // FIX: clamp defensively — see clampScore() above.
+    const allScores = completedModules.map((m) => clampScore(m.score));
     const totalCompleted = completedModules.length;
+
+    // FIX: frontend (OverviewCards.jsx) expects `modulesCompleted` rendered
+    // as a percentage ("Completion Rate"), not the raw `totalCompleted` count.
+    // Completion rate = completed attempts / (students * total curriculum modules).
+    // FIX: use the canonical curriculum size (CURRICULUM_MODULES), not just
+    // whichever module IDs happen to already have data — otherwise the rate
+    // is only ever computed against modules someone has already touched,
+    // which inflates it as more students start but nobody finishes.
+    const totalPossibleCompletions = totalStudents * CURRICULUM_MODULES.length;
+    const modulesCompleted =
+      totalPossibleCompletions > 0
+        ? Math.round((totalCompleted / totalPossibleCompletions) * 100)
+        : 0;
+
+    // FIX: `avgTimeSpent` was never computed/returned. Progress.totalTimeSpent
+    // is stored in seconds, so we average across students and convert to minutes.
+    const totalTimeSpentSeconds = allProgress.reduce(
+      (sum, p) => sum + (p.totalTimeSpent || 0),
+      0
+    );
+    const avgTimeSpent =
+      totalStudents > 0
+        ? Math.round(totalTimeSpentSeconds / totalStudents / 60) // seconds -> minutes
+        : 0;
 
     res.json({
       success: true,
       data: {
         totalStudents,
         averageScore: Math.round(avg(allScores)),
-        totalCompleted,
+        modulesCompleted,
+        avgTimeSpent,
       },
     });
   } catch (err) {
@@ -60,11 +98,15 @@ router.get("/students", protect, roleMiddleware("teacher"), async (req, res) => 
           name: student.name || student.username || "Student",
           email: student.email || "",
           modulesCompleted: progress?.modulesCompleted || completedModules.length || 0,
-          averageScore:
+          // FIX: clamp defensively in case of stale/dirty score data.
+          averageScore: clampScore(
             progress?.averageScore ||
-            Math.round(avg(completedModules.map((m) => m.score || 0))),
+              Math.round(avg(completedModules.map((m) => m.score || 0)))
+          ),
           overallAccuracy: progress?.overallAccuracy || 0,
-          totalTimeSpent: progress?.totalTimeSpent || 0,
+          // FIX: StudentsTable.jsx expects `timeSpent` in MINUTES, not
+          // `totalTimeSpent` in seconds.
+          timeSpent: Math.round((progress?.totalTimeSpent || 0) / 60),
           totalRewardPoints: progress?.totalRewardPoints || 0,
           weakTopics: progress?.weakTopics || [],
           weakTopic: progress?.weakTopics?.[0] || "",
@@ -77,7 +119,7 @@ router.get("/students", protect, roleMiddleware("teacher"), async (req, res) => 
           moduleScores: completedModules.map((m) => ({
             moduleId: m.moduleId,
             moduleTitle: m.moduleTitle,
-            score: m.score || 0,
+            score: clampScore(m.score),
           })),
         };
       })
@@ -100,53 +142,88 @@ router.get("/modules", protect, roleMiddleware("teacher"), async (req, res) => {
   try {
     const allProgress = await Progress.find().lean();
 
+    // FIX: ModuleAnalytics.jsx requires every module object to contain
+    // title, avgAttempts, completionRate, avgScore, enrolledStudents and
+    // moduleOrder. The previous implementation returned a completely
+    // different shape (moduleTitle/attempts/completedCount/averageScore/
+    // averageAccuracy/averageTime), none of which the UI reads.
     const moduleMap = {};
 
+    // FIX: pre-seed every module from the canonical curriculum so modules
+    // nobody has attempted yet still show up as a 0% card, instead of only
+    // ever displaying modules that already happen to have data.
+    CURRICULUM_MODULES.forEach((cm) => {
+      moduleMap[String(cm.moduleId)] = {
+        moduleId: cm.moduleId,
+        title: cm.title,
+        enrolledStudentIds: new Set(),
+        completedCount: 0,
+        totalAttempts: 0,
+        scores: [],
+      };
+    });
+
     allProgress.forEach((progress) => {
+      // A student "enrolls" in a module the moment they have an entry for
+      // it in progress.modules (whether completed or still in progress).
+      // Track enrolled students with a Set so each student is only ever
+      // counted once, even though saveModuleProgress keeps a single entry
+      // per moduleId per student.
       (progress.modules || []).forEach((module) => {
-        const id = module.moduleId || module.gameId || module.moduleTitle || "unknown";
+        const id =
+          module.moduleId != null
+            ? String(module.moduleId)
+            : module.gameId || module.moduleTitle || "unknown";
 
         if (!moduleMap[id]) {
           moduleMap[id] = {
-            moduleId: module.moduleId || id,
-            moduleTitle: module.moduleTitle || `Module ${module.moduleId || id}`,
-            attempts: 0,
+            moduleId: module.moduleId ?? id,
+            title: module.moduleTitle || `Module ${module.moduleId ?? id}`,
+            enrolledStudentIds: new Set(),
             completedCount: 0,
+            totalAttempts: 0,
             scores: [],
-            accuracies: [],
-            totalTime: 0,
           };
         }
 
-        moduleMap[id].attempts += module.attempts || 1;
+        const entry = moduleMap[id];
+
+        entry.enrolledStudentIds.add(String(progress.studentId));
 
         if (module.completed) {
-          moduleMap[id].completedCount += 1;
+          entry.completedCount += 1;
         }
+
+        entry.totalAttempts += module.attempts || 1;
 
         if (typeof module.score === "number") {
-          moduleMap[id].scores.push(module.score);
+          entry.scores.push(clampScore(module.score));
         }
-
-        if (typeof module.accuracy === "number") {
-          moduleMap[id].accuracies.push(module.accuracy);
-        }
-
-        moduleMap[id].totalTime += module.completionTime || 0;
       });
     });
 
-    const data = Object.values(moduleMap).map((m) => ({
-      moduleId: m.moduleId,
-      moduleTitle: m.moduleTitle,
-      attempts: m.attempts,
-      completedCount: m.completedCount,
-      averageScore: Math.round(avg(m.scores)),
-      averageAccuracy: Math.round(avg(m.accuracies)),
-      averageTime: m.completedCount
-        ? Math.round(m.totalTime / m.completedCount)
-        : 0,
-    }));
+    const data = Object.values(moduleMap)
+      .map((m) => {
+        const enrolledStudents = m.enrolledStudentIds.size;
+
+        return {
+          moduleId: m.moduleId,
+          // moduleOrder drives both the card icon and the "M#" label on the
+          // frontend, so it must be a stable numeric sequence — moduleId
+          // already serves that purpose in the data model.
+          moduleOrder: Number(m.moduleId) || 0,
+          title: m.title,
+          enrolledStudents,
+          completionRate: enrolledStudents
+            ? Math.round((m.completedCount / enrolledStudents) * 100)
+            : 0,
+          avgScore: Math.round(avg(m.scores)),
+          avgAttempts: enrolledStudents
+            ? Number((m.totalAttempts / enrolledStudents).toFixed(1))
+            : 0,
+        };
+      })
+      .sort((a, b) => a.moduleOrder - b.moduleOrder);
 
     res.json({
       success: true,
