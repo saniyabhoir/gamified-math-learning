@@ -134,6 +134,12 @@ const ModulePage = () => {
   const parsedId = parseInt(moduleId, 10);
   const isInvalidId = !parsedId || isNaN(parsedId);
 
+  // FIX: completionTime was always hardcoded to 0 when saving progress,
+  // which is why "Avg Time Spent" on the teacher dashboard could never be
+  // anything but 0m. Track a real session start timestamp so we can send
+  // actual elapsed seconds instead.
+  const sessionStartRef = useRef(Date.now());
+
   // ── Backend progress save ──────────────────────────────────────────────────
   const saveProgressToBackend = async (progressData) => {
     try {
@@ -335,14 +341,22 @@ const ModulePage = () => {
       ),
     ];
 
+    // FIX: measure actual time spent in the module (in seconds) instead of
+    // hardcoding 0, so teacher analytics can report real average time spent.
+    const completionTimeSeconds = Math.max(
+      0,
+      Math.round((Date.now() - sessionStartRef.current) / 1000)
+    );
+
     await saveProgressToBackend({
       moduleId: parsedId,
       moduleTitle: moduleData.module_title || `Module ${parsedId}`,
       gameId: `module-${parsedId}`,
-      score: finalPoints,
+      //score: finalPoints,
+      score: accuracy,
       accuracy,
       mistakes: mistakeLog.length,
-      completionTime: 0,
+      completionTime: completionTimeSeconds,
       stars: finalPoints >= 80 ? 3 : finalPoints >= 50 ? 2 : 1,
       rewardPoints: finalPoints,
       completed: true,
