@@ -1,0 +1,1018 @@
+/* ==========================================================================
+   Module5Game.css — "Algebra Summit"
+   Alpine-dusk theme: deep indigo-navy backdrop, icy cyan accents, warm
+   summit-gold reserved for stars and the camp-complete celebration.
+   Deliberately distinct from Module 3's cyan blueprint and Module 4's
+   sepia case-file palettes, while sharing the same layout grammar, radii,
+   and typography conventions used across the other modules.
+   ========================================================================== */
+
+:root {
+  --as-bg: #0a0e1a;
+  --as-panel: #131a2e;
+  --as-panel-alt: #1a2340;
+  --as-board: #0f1526;
+  --as-line: rgba(140, 190, 230, 0.22);
+  --as-ice: #8fd6ff;
+  --as-ice-soft: rgba(143, 214, 255, 0.14);
+  --as-gold: #f0c05a;
+  --as-gold-soft: rgba(240, 192, 90, 0.16);
+  --as-red: #ef6a5e;
+  --as-red-soft: rgba(239, 106, 94, 0.15);
+  --as-green: #6fe0a0;
+  --as-green-soft: rgba(111, 224, 160, 0.14);
+  --as-amber-flag: #f2a640;
+  --as-amber-flag-soft: rgba(242, 166, 64, 0.16);
+  --as-text: #eaf3fb;
+  --as-text-dim: #93a8c2;
+  --as-radius: 14px;
+  --as-radius-sm: 9px;
+  --as-color-0: #5fd7c4;
+  --as-color-1: #f28fa3;
+  --as-color-2: #b79cf0;
+  --as-color-3: #f0c05a;
+  font-family: inherit;
+}
+
+.as-game {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 20px 16px 40px;
+  color: var(--as-text);
+  font-family: 'Nunito', Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-sizing: border-box;
+}
+
+.as-game * {
+  box-sizing: border-box;
+}
+
+.as-game button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* -------------------------------------------------------------------- */
+/* Buttons                                                               */
+/* -------------------------------------------------------------------- */
+
+.as-btn {
+  border: none;
+  border-radius: var(--as-radius-sm);
+  padding: 12px 22px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, opacity 0.15s ease;
+}
+
+.as-btn:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+.as-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+  transform: none;
+}
+
+.as-btn--primary {
+  background: linear-gradient(135deg, var(--as-ice), #4fa8d8);
+  color: #061420;
+  box-shadow: 0 6px 18px rgba(143, 214, 255, 0.25);
+}
+
+.as-btn--primary:hover {
+  box-shadow: 0 8px 22px rgba(143, 214, 255, 0.35);
+}
+
+.as-btn--ghost {
+  background: transparent;
+  border: 1px solid rgba(147, 168, 194, 0.35);
+  color: var(--as-text-dim);
+}
+
+.as-btn--ghost:hover {
+  color: var(--as-text);
+  border-color: var(--as-text-dim);
+}
+
+.as-btn--large {
+  padding: 14px 30px;
+  font-size: 1.02rem;
+}
+
+.as-btn--declare {
+  background: linear-gradient(135deg, var(--as-gold), #c98f2c);
+  color: #241704;
+  box-shadow: 0 6px 18px rgba(240, 192, 90, 0.3);
+  width: 100%;
+}
+
+.as-btn--declare:hover:not(:disabled) {
+  box-shadow: 0 8px 24px rgba(240, 192, 90, 0.42);
+}
+
+/* -------------------------------------------------------------------- */
+/* Intro screen                                                          */
+/* -------------------------------------------------------------------- */
+
+.as-intro {
+  background: radial-gradient(circle at top, var(--as-panel-alt), var(--as-panel) 70%);
+  border: 1px solid var(--as-line);
+  border-radius: var(--as-radius);
+  padding: 32px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.as-intro-icon {
+  font-size: 2.8rem;
+}
+
+.as-intro-title {
+  margin: 0;
+  font-family: 'Cinzel', 'Nunito', serif;
+  font-size: 1.7rem;
+  color: var(--as-ice);
+}
+
+.as-intro-subtitle {
+  margin: 0;
+  color: var(--as-text-dim);
+  max-width: 460px;
+  line-height: 1.55;
+  font-size: 0.95rem;
+}
+
+.as-intro-rules {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+  margin-top: 6px;
+}
+
+.as-rule {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--as-line);
+  border-radius: var(--as-radius-sm);
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  color: var(--as-text);
+}
+
+.as-rule-icon {
+  flex-shrink: 0;
+}
+
+.as-intro-tiers {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.as-intro-tier {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--as-text-dim);
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: var(--as-radius-sm);
+  padding: 8px 12px;
+}
+
+.as-intro-tier-icon {
+  font-size: 1rem;
+}
+
+/* -------------------------------------------------------------------- */
+/* Tier intro banner                                                     */
+/* -------------------------------------------------------------------- */
+
+.as-tier-intro {
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-align: center;
+  background: linear-gradient(160deg, var(--as-board), var(--as-panel));
+  border: 1px solid var(--as-line);
+  border-radius: var(--as-radius);
+  padding: 32px 20px;
+  animation: as-fade-in 0.35s ease both;
+}
+
+.as-tier-intro-icon {
+  font-size: 3rem;
+  animation: as-pulse-scale 1.4s ease-in-out infinite;
+}
+
+.as-tier-intro-heading {
+  margin: 0;
+  font-family: 'Cinzel', 'Nunito', serif;
+  font-size: 1.3rem;
+  color: var(--as-ice);
+}
+
+.as-tier-intro-text {
+  margin: 0;
+  color: var(--as-text-dim);
+  font-size: 0.95rem;
+  max-width: 380px;
+}
+
+/* -------------------------------------------------------------------- */
+/* Tier summary screen                                                   */
+/* -------------------------------------------------------------------- */
+
+.as-tier-summary {
+  background: radial-gradient(circle at top, var(--as-panel-alt), var(--as-panel) 70%);
+  border: 1px solid var(--as-line);
+  border-radius: var(--as-radius);
+  padding: 32px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  animation: as-fade-in 0.4s ease both;
+}
+
+.as-tier-summary-icon {
+  font-size: 2.4rem;
+}
+
+.as-tier-summary-title {
+  margin: 0;
+  font-family: 'Cinzel', 'Nunito', serif;
+  font-size: 1.35rem;
+  color: var(--as-ice);
+}
+
+.as-tier-summary-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 6px;
+}
+
+/* -------------------------------------------------------------------- */
+/* HUD                                                                   */
+/* -------------------------------------------------------------------- */
+
+.as-hud {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: var(--as-panel);
+  border: 1px solid var(--as-line);
+  border-radius: var(--as-radius-sm);
+  padding: 10px 16px;
+}
+
+.as-hud-stat {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.as-hud-label {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--as-text-dim);
+}
+
+.as-hud-value {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--as-ice);
+}
+
+.as-hud-exit {
+  margin-left: auto;
+  background: transparent;
+  border: 1px solid rgba(147, 168, 194, 0.35);
+  color: var(--as-text-dim);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+}
+
+.as-hud-exit:hover {
+  color: var(--as-red);
+  border-color: var(--as-red);
+}
+
+/* -------------------------------------------------------------------- */
+/* Camp progress                                                        */
+/* -------------------------------------------------------------------- */
+
+.as-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.as-progress-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--as-text-dim);
+}
+
+.as-progress-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  color: var(--as-text);
+}
+
+.as-progress-icon {
+  font-size: 0.95rem;
+}
+
+.as-trail-track {
+  display: flex;
+  gap: 5px;
+}
+
+.as-trail-dot {
+  flex: 1;
+  height: 8px;
+  border-radius: 3px;
+  background: rgba(147, 168, 194, 0.18);
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.as-trail-dot--done {
+  background: linear-gradient(180deg, var(--as-ice), #3f83ad);
+}
+
+.as-trail-dot--active {
+  background: var(--as-gold);
+  transform: scaleY(1.6);
+  animation: as-pulse-scale 1.2s ease-in-out infinite;
+}
+
+/* -------------------------------------------------------------------- */
+/* Camp badge                                                           */
+/* -------------------------------------------------------------------- */
+
+.as-camp-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--as-text-dim);
+  background: rgba(143, 214, 255, 0.06);
+  border: 1px solid var(--as-line);
+  border-radius: var(--as-radius-sm);
+  padding: 8px 14px;
+  flex-wrap: wrap;
+}
+
+.as-camp-badge-icon {
+  font-size: 1rem;
+}
+
+.as-camp-badge-prompt {
+  margin-left: auto;
+  font-family: 'Cinzel', 'Nunito', serif;
+  font-weight: 700;
+  color: var(--as-text);
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+}
+
+/* -------------------------------------------------------------------- */
+/* Ascent trail strip                                                    */
+/* -------------------------------------------------------------------- */
+
+.as-ascent-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  color: var(--as-text-dim);
+}
+
+.as-ascent-chip {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--as-line);
+  border-radius: 100px;
+  padding: 4px 10px;
+  color: var(--as-text);
+}
+
+.as-ascent-arrow {
+  opacity: 0.5;
+  font-size: 0.75rem;
+}
+
+/* -------------------------------------------------------------------- */
+/* Camp-complete banner — distinct celebration, not reused elsewhere    */
+/* -------------------------------------------------------------------- */
+
+.as-camp-complete-banner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: var(--as-gold-soft);
+  border: 1px solid rgba(240, 192, 90, 0.45);
+  color: var(--as-gold);
+  border-radius: var(--as-radius);
+  padding: 18px 14px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-align: center;
+  animation: as-fade-in 0.3s ease both;
+}
+
+.as-summit-flag {
+  position: relative;
+  height: 44px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.as-summit-flag-pole {
+  position: absolute;
+  bottom: 0;
+  width: 3px;
+  height: 36px;
+  background: linear-gradient(180deg, var(--as-text-dim), transparent);
+  border-radius: 2px;
+}
+
+.as-summit-flag-cloth {
+  font-size: 1.8rem;
+  transform-origin: bottom left;
+  animation: as-flag-rise 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both,
+             as-sparkle-burst 1.1s ease-out 0.5s both;
+}
+
+/* -------------------------------------------------------------------- */
+/* Board / expression                                                    */
+/* -------------------------------------------------------------------- */
+
+.as-board {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--as-board);
+  border: 1px solid var(--as-line);
+  border-radius: var(--as-radius);
+  padding: 22px 18px;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(143, 214, 255, 0.035) 0px, rgba(143, 214, 255, 0.035) 1px, transparent 1px, transparent 24px);
+}
+
+.as-expr {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 6px;
+  border-radius: var(--as-radius-sm);
+  transition: box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.as-expr--factorable {
+  cursor: pointer;
+  box-shadow: 0 0 0 2px rgba(240, 192, 90, 0.4) inset;
+  background: rgba(240, 192, 90, 0.05);
+}
+
+.as-expr--factor-active {
+  box-shadow: 0 0 0 2px rgba(240, 192, 90, 0.7) inset;
+}
+
+.as-factor-hint {
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--as-gold);
+  opacity: 0.85;
+}
+
+/* -------------------------------------------------------------------- */
+/* Chips                                                                 */
+/* -------------------------------------------------------------------- */
+
+.as-chip {
+  border: 2px solid rgba(147, 168, 194, 0.22);
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--as-text-dim);
+  border-radius: var(--as-radius-sm);
+  padding: 10px 14px;
+  font-family: 'Cinzel', 'Nunito', serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+}
+
+.as-chip--term.as-chip--inert {
+  cursor: default;
+  opacity: 0.65;
+}
+
+.as-chip--actionable {
+  cursor: pointer;
+  color: var(--as-text);
+  border-style: solid;
+}
+
+.as-chip--bracket.as-chip--actionable {
+  border-color: var(--as-ice);
+  background: var(--as-ice-soft);
+  animation: as-slot-glow 2.4s ease-in-out infinite;
+}
+
+.as-chip--bracket.as-chip--actionable:hover {
+  transform: translateY(-1px);
+}
+
+.as-chip--term.as-chip--actionable {
+  border-style: dashed;
+}
+
+.as-chip--color-0.as-chip--actionable { border-color: var(--as-color-0); background: rgba(95, 215, 196, 0.14); color: var(--as-color-0); }
+.as-chip--color-1.as-chip--actionable { border-color: var(--as-color-1); background: rgba(242, 143, 163, 0.14); color: var(--as-color-1); }
+.as-chip--color-2.as-chip--actionable { border-color: var(--as-color-2); background: rgba(183, 156, 240, 0.14); color: var(--as-color-2); }
+.as-chip--color-3.as-chip--actionable { border-color: var(--as-color-3); background: rgba(240, 192, 90, 0.14); color: var(--as-color-3); }
+
+.as-chip--selected {
+  border-style: solid !important;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.12);
+  transform: translateY(-2px);
+}
+
+.as-chip--shake {
+  animation: as-shake 0.45s ease;
+}
+
+.as-chip--nested-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'Cinzel', 'Nunito', serif;
+  font-weight: 700;
+  color: var(--as-text-dim);
+  font-size: 1.05rem;
+  padding: 4px 2px;
+  flex-wrap: wrap;
+}
+
+.as-chip--nested-inner {
+  font-size: 1rem;
+  padding: 8px 12px;
+}
+
+/* -------------------------------------------------------------------- */
+/* Feedback message                                                      */
+/* -------------------------------------------------------------------- */
+
+.as-feedback {
+  text-align: center;
+  font-size: 0.88rem;
+  font-weight: 700;
+  border-radius: var(--as-radius-sm);
+  padding: 8px 14px;
+  animation: as-fade-in 0.25s ease both;
+}
+
+.as-feedback--error,
+.as-feedback--mismatch {
+  background: var(--as-red-soft);
+  color: var(--as-red);
+  border: 1px solid rgba(239, 106, 94, 0.4);
+}
+
+.as-feedback--nudge {
+  background: var(--as-gold-soft);
+  color: var(--as-gold);
+  border: 1px solid rgba(240, 192, 90, 0.4);
+}
+
+.as-feedback--sign,
+.as-feedback--multiply {
+  background: var(--as-amber-flag-soft);
+  color: var(--as-amber-flag);
+  border: 1px solid rgba(242, 166, 64, 0.4);
+}
+
+.as-feedback--correct {
+  background: var(--as-green-soft);
+  color: var(--as-green);
+  border: 1px solid rgba(111, 224, 160, 0.4);
+}
+
+/* -------------------------------------------------------------------- */
+/* Anchored option / palette panel — appears near what was tapped,      */
+/* never a full-screen modal                                            */
+/* -------------------------------------------------------------------- */
+
+.as-panel-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: as-fade-in 0.25s ease both;
+}
+
+.as-panel-wrap--wrong .as-panel {
+  animation: as-shake 0.4s ease;
+}
+
+.as-panel-caret {
+  width: 16px;
+  height: 16px;
+  transform: rotate(45deg);
+  background: var(--as-panel-alt);
+  border-left: 1px solid var(--as-ice);
+  border-top: 1px solid var(--as-ice);
+  margin-bottom: -9px;
+  z-index: 1;
+}
+
+.as-panel {
+  width: 100%;
+  background: var(--as-panel-alt);
+  border: 1px solid var(--as-ice);
+  border-radius: var(--as-radius);
+  padding: 14px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}
+
+.as-panel-heading {
+  text-align: center;
+  font-weight: 700;
+  color: var(--as-ice);
+  margin-bottom: 10px;
+  font-size: 0.92rem;
+}
+
+.as-panel-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  gap: 8px;
+}
+
+.as-panel-btn {
+  background: rgba(143, 214, 255, 0.08);
+  border: 1px solid rgba(143, 214, 255, 0.35);
+  border-radius: var(--as-radius-sm);
+  color: var(--as-text);
+  font-family: 'Cinzel', 'Nunito', serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 10px 8px;
+  transition: transform 0.12s ease, background 0.15s ease, border-color 0.15s ease;
+}
+
+.as-panel-btn:hover {
+  background: rgba(143, 214, 255, 0.18);
+  border-color: var(--as-ice);
+  transform: translateY(-1px);
+}
+
+.as-panel-btn:active {
+  transform: translateY(0) scale(0.97);
+}
+
+.as-palette-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(46px, 1fr));
+  gap: 8px;
+}
+
+.as-palette-chip {
+  background: rgba(143, 214, 255, 0.08);
+  border: 1px solid rgba(143, 214, 255, 0.35);
+  border-radius: var(--as-radius-sm);
+  color: var(--as-text);
+  font-family: 'Cinzel', 'Nunito', serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 10px 6px;
+  transition: transform 0.12s ease, background 0.15s ease, border-color 0.15s ease;
+}
+
+.as-palette-chip:hover {
+  background: rgba(143, 214, 255, 0.18);
+  border-color: var(--as-ice);
+  transform: translateY(-1px);
+}
+
+.as-palette-chip--selected {
+  background: var(--as-ice);
+  border-color: var(--as-ice);
+  color: #061420;
+}
+
+/* -------------------------------------------------------------------- */
+/* Factor stage                                                          */
+/* -------------------------------------------------------------------- */
+
+.as-factor-instructions {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--as-text-dim);
+}
+
+.as-test-btn-row {
+  display: flex;
+  justify-content: center;
+  padding-top: 4px;
+}
+
+/* -------------------------------------------------------------------- */
+/* Declare Done                                                          */
+/* -------------------------------------------------------------------- */
+
+.as-declare-row {
+  display: flex;
+  justify-content: center;
+  padding-top: 6px;
+}
+
+/* -------------------------------------------------------------------- */
+/* Summary screen                                                        */
+/* -------------------------------------------------------------------- */
+
+.as-summary {
+  background: radial-gradient(circle at top, var(--as-panel-alt), var(--as-panel) 70%);
+  border: 1px solid var(--as-line);
+  border-radius: var(--as-radius);
+  padding: 32px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  animation: as-fade-in 0.4s ease both;
+}
+
+.as-summary-icon {
+  font-size: 2.6rem;
+}
+
+.as-summary-title {
+  margin: 0;
+  font-family: 'Cinzel', 'Nunito', serif;
+  font-size: 1.5rem;
+  color: var(--as-ice);
+}
+
+.as-summary-flavor {
+  margin: 0;
+  color: var(--as-text-dim);
+  font-size: 0.92rem;
+  max-width: 380px;
+}
+
+.as-stars-row {
+  display: flex;
+  gap: 8px;
+  font-size: 2rem;
+  margin: 4px 0;
+}
+
+.as-star {
+  color: rgba(147, 168, 194, 0.25);
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.as-star--filled {
+  color: var(--as-gold);
+  animation: as-pop 0.4s ease both;
+}
+
+.as-summary-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.as-summary-stat {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: var(--as-radius-sm);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.as-summary-stat-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--as-text-dim);
+}
+
+.as-summary-stat-value {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--as-ice);
+}
+
+.as-summary-breakdown {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--as-line);
+  border-radius: var(--as-radius-sm);
+  padding: 12px 16px;
+  text-align: left;
+}
+
+.as-summary-breakdown-title {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--as-text-dim);
+  margin-bottom: 8px;
+}
+
+.as-summary-breakdown-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.88rem;
+  padding: 4px 0;
+  color: var(--as-text);
+}
+
+.as-summary-breakdown-row--soft {
+  margin-top: 4px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(147, 168, 194, 0.15);
+  color: var(--as-text-dim);
+  font-style: italic;
+}
+
+.as-summary-trail {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--as-line);
+  border-radius: var(--as-radius-sm);
+  padding: 12px 16px;
+  text-align: left;
+}
+
+.as-summary-trail-title {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--as-text-dim);
+  margin-bottom: 8px;
+}
+
+.as-summary-reward {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--as-ice-soft);
+  border: 1px solid rgba(143, 214, 255, 0.4);
+  color: var(--as-ice);
+  border-radius: var(--as-radius-sm);
+  padding: 10px 18px;
+  font-weight: 700;
+}
+
+.as-summary-reward-icon {
+  font-size: 1.1rem;
+}
+
+.as-summary-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--as-gold-soft);
+  border: 1px solid rgba(240, 192, 90, 0.4);
+  color: var(--as-gold);
+  border-radius: var(--as-radius-sm);
+  padding: 10px 18px;
+  font-weight: 700;
+}
+
+.as-summary-badge-icon {
+  font-size: 1.1rem;
+}
+
+.as-summary-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* -------------------------------------------------------------------- */
+/* Animations                                                            */
+/* -------------------------------------------------------------------- */
+
+@keyframes as-fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes as-pulse-scale {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.12); }
+}
+
+@keyframes as-slot-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(143, 214, 255, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(143, 214, 255, 0); }
+}
+
+@keyframes as-pop {
+  0% { transform: scale(0.85); opacity: 0.4; }
+  60% { transform: scale(1.06); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes as-shake {
+  10%, 90% { transform: translateX(-2px); }
+  20%, 80% { transform: translateX(4px); }
+  30%, 50%, 70% { transform: translateX(-7px); }
+  40%, 60% { transform: translateX(7px); }
+}
+
+/* Camp-complete celebration — unique to Module 5, not reused elsewhere */
+@keyframes as-flag-rise {
+  0% { transform: translateY(18px) rotate(-8deg) scale(0.6); opacity: 0; }
+  60% { transform: translateY(-4px) rotate(4deg) scale(1.08); opacity: 1; }
+  100% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
+}
+
+@keyframes as-sparkle-burst {
+  0% { text-shadow: 0 0 0 rgba(240, 192, 90, 0); }
+  40% { text-shadow: 0 0 18px rgba(240, 192, 90, 0.9), 0 0 34px rgba(240, 192, 90, 0.5); }
+  100% { text-shadow: 0 0 0 rgba(240, 192, 90, 0); }
+}
+
+/* -------------------------------------------------------------------- */
+/* Responsive                                                            */
+/* -------------------------------------------------------------------- */
+
+@media (max-width: 480px) {
+  .as-chip {
+    font-size: 0.92rem;
+    padding: 8px 10px;
+  }
+
+  .as-chip--nested-wrap {
+    font-size: 0.92rem;
+  }
+
+  .as-summary-grid,
+  .as-tier-summary-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .as-palette-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  .as-camp-badge-prompt {
+    margin-left: 0;
+    width: 100%;
+    text-align: left;
+  }
+
+  .as-panel-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
