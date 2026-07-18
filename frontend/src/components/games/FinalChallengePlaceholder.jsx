@@ -25,6 +25,8 @@ const FinalChallengePlaceholder = ({
   completionBadge,
   completionPoints,
   onComplete,
+  isSaving = false,
+  saveError = false,
 }) => {
   const [visible, setVisible] = useState(false);
 
@@ -150,9 +152,20 @@ const FinalChallengePlaceholder = ({
         </div>
 
         {/* ── CTA ── */}
-        <button className="fc-complete-btn" onClick={onComplete} aria-label="Complete module">
-          Complete Module  →
+        <button
+          className="fc-complete-btn"
+          onClick={onComplete}
+          aria-label="Complete module"
+          disabled={isSaving}
+        >
+          {isSaving ? "Saving…" : "Complete Module  →"}
         </button>
+
+        {saveError && (
+          <p className="fc-note" role="alert" style={{ color: "#f87171" }}>
+            ⚠️ Couldn't save your progress — check your connection and try again.
+          </p>
+        )}
 
         <p className="fc-note" aria-hidden="true">
           Your progress has been saved · Concepts logged for adaptive revision
