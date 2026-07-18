@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useCallback, useContext, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import API from "../services/authService";
+import { saveProgressToBackend } from "../services/progressService";
 
 import StoryCard from "../components/learning/StoryCard";
 import QuizCard from "../components/learning/QuizCard";
@@ -140,19 +140,6 @@ const ModulePage = () => {
   // actual elapsed seconds instead.
   const sessionStartRef = useRef(Date.now());
 
-  // ── Backend progress save ──────────────────────────────────────────────────
-  const saveProgressToBackend = async (progressData) => {
-    try {
-      const res = await API.post("/progress/save", progressData);
-      console.log("✅ Progress saved to backend:", res.data);
-    } catch (err) {
-      console.error(
-        "❌ Failed to save progress to backend:",
-        err.response?.data || err.message
-      );
-    }
-  };
-
   // ── Data loading state ────────────────────────────────────────────────────
   const [moduleData, setModuleData] = useState(null);
   const [dataLoading, setDataLoading] = useState(true);
@@ -173,6 +160,15 @@ const ModulePage = () => {
   const [currentPhase, setCurrentPhase] = useState(saved.phase || "story");
   const [totalPoints, setTotalPoints] = useState(saved.totalPoints || 0);
   const [mistakeLog, setMistakeLog] = useState(saved.mistakeLog || []);
+
+  // FIX: track whether the backend save has actually succeeded, so
+  // "completedScreens" (read by the Student Dashboard) can never claim a
+  // module is done before MongoDB agrees it's done.
+  const [backendSaveConfirmed, setBackendSaveConfirmed] = useState(
+    saved.backendSaveConfirmed || false
+  );
+  const [isSavingFinal, setIsSavingFinal] = useState(false);
+  const [saveError, setSaveError] = useState(false);
 
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [showReward, setShowReward] = useState(false);
@@ -208,11 +204,16 @@ const ModulePage = () => {
       phase: currentPhase,
       totalPoints,
       mistakeLog,
+      backendSaveConfirmed,
 
-      completedScreens:
-        currentPhase === "final_challenge" || currentPhase === "module_complete"
-          ? totalScreens
-          : currentScreenIndex,
+      // FIX: previously this flipped to totalScreens the instant the student
+      // reached "final_challenge"/"module_complete", i.e. before the
+      // "Complete Module" button was even clicked and long before the
+      // backend save resolved. That let the Student Dashboard show a module
+      // as done while MongoDB (and thus the Teacher Dashboard) still had
+      // nothing recorded. Now it only reflects "done" once the backend save
+      // has actually succeeded.
+      completedScreens: backendSaveConfirmed ? totalScreens : currentScreenIndex,
 
       quizAccuracy:
         mistakeLog.length > 0
@@ -229,6 +230,7 @@ const ModulePage = () => {
     currentPhase,
     totalPoints,
     mistakeLog,
+    backendSaveConfirmed,
     moduleData,
     user,
     moduleId,
@@ -313,10 +315,13 @@ const ModulePage = () => {
 
   // ── Final module complete: save to backend MongoDB ───────────────────────
   const handleFinalChallengeComplete = async () => {
+    if (isSavingFinal) return; // guard against double-submit while a save is in flight
+
+    setIsSavingFinal(true);
+    setSaveError(false);
+
     const completionPoints = moduleData.module_rewards?.completion_points || 0;
     const finalPoints = totalPoints + completionPoints;
-
-    setTotalPoints(finalPoints);
 
     const totalQuestions = Math.max(currentScreenIndex + mistakeLog.length, 1);
 
@@ -348,11 +353,10 @@ const ModulePage = () => {
       Math.round((Date.now() - sessionStartRef.current) / 1000)
     );
 
-    await saveProgressToBackend({
+    const success = await saveProgressToBackend({
       moduleId: parsedId,
       moduleTitle: moduleData.module_title || `Module ${parsedId}`,
       gameId: `module-${parsedId}`,
-      //score: finalPoints,
       score: accuracy,
       accuracy,
       mistakes: mistakeLog.length,
@@ -364,6 +368,20 @@ const ModulePage = () => {
       playedAt: new Date(),
     });
 
+    setIsSavingFinal(false);
+
+    if (!success) {
+      // Backend save failed — do NOT mark the module complete locally.
+      // Leave the student on the final-challenge screen so they can retry
+      // by clicking "Complete Module" again.
+      setSaveError(true);
+      return;
+    }
+
+    // Only now, with a confirmed backend save, do we award points locally,
+    // mark the module truly complete, and advance the phase.
+    setTotalPoints(finalPoints);
+    setBackendSaveConfirmed(true);
     transitionTo(() => setCurrentPhase("module_complete"));
   };
 
@@ -465,6 +483,8 @@ const ModulePage = () => {
           completionBadge={moduleData.module_rewards?.completion_badge}
           completionPoints={moduleData.module_rewards?.completion_points || 0}
           onComplete={handleFinalChallengeComplete}
+          isSaving={isSavingFinal}
+          saveError={saveError}
         />
       )}
 

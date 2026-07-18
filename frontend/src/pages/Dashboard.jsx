@@ -118,23 +118,25 @@ const Dashboard = () => {
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
   const [modules, setModules] = useState([]);
-  const progressMap = useMemo(() => {
-  if (!user?.id || modules.length === 0) return {};
-  const pm = {};
-  for (const m of modules) {
-    pm[m.id] = loadProgress(user.id, m.id);
-  }
-  return pm;
-}, [modules, user]);
 
-const gameStats = useMemo(() => {
-  if (!user?.id || modules.length === 0) return {};
-  const gm = {};
-  for (const m of modules) {
-    gm[m.id] = getGameStatSummary(user.id, m.id);
-  }
-  return gm;
-}, [modules, user]);
+  const progressMap = useMemo(() => {
+    if (!user?.id || modules.length === 0) return {};
+    const pm = {};
+    for (const m of modules) {
+      pm[m.id] = loadProgress(user.id, m.id);
+    }
+    return pm;
+  }, [modules, user]);
+
+  const gameStats = useMemo(() => {
+    if (!user?.id || modules.length === 0) return {};
+    const gm = {};
+    for (const m of modules) {
+      gm[m.id] = getGameStatSummary(user.id, m.id);
+    }
+    return gm;
+  }, [modules, user]);
+
   const [loading, setLoading] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeCard, setActiveCard] = useState(0);
@@ -157,7 +159,6 @@ const gameStats = useMemo(() => {
     };
     loadModules();
   }, []);
-
 
   // ── Track active card via scroll ──────────────────────────────────────────
   useEffect(() => {

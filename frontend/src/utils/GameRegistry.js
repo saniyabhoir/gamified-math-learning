@@ -22,6 +22,10 @@ const Module4Game = lazy(() =>
   import("../components/games/Module4Game")
 );
 
+const Module5Game = lazy(() =>
+  import("../components/games/Module5Game")
+);
+
 // ── Placeholder component for unbuilt games ────────────────────────────────────
 const ComingSoonGame = ({ moduleId, onExit }) => (
   <div
@@ -123,14 +127,15 @@ export const GAME_REGISTRY = {
     available: true,
   },
   5: {
-    component: (props) => <ComingSoonGame {...props} moduleId={5} />,
-    gameId: "bureau-grand-prix",
-    title: "Bureau Grand Prix",
-    description: "Multi-level capstone challenge — the ultimate algebra test.",
-    estimatedMinutes: 20,
-    icon: "🏆",
-    available: false,
-  },
+  component: Module5Game,
+  gameId: "algebra-summit",
+  title: "Algebra Summit",
+  description:
+    "No pre-built structure this time — tap straight into a live, messy expression, choose the right technique, and declare the climb finished yourself.",
+  estimatedMinutes: 18,
+  icon: "🏔️",
+  available: true,
+},
 };
 
 // ── Lookup helpers ─────────────────────────────────────────────────────────────
