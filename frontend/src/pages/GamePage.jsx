@@ -1,5 +1,5 @@
 // frontend/src/pages/GamePage.jsx
-import React, { Suspense, useContext } from "react";
+import React, { Suspense, useContext, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../src/context/AuthContext";
 import { getGameForModule } from "../utils/GameRegistry";
@@ -38,6 +38,10 @@ const GamePage = () => {
   const gameEntry = getGameForModule(moduleId);
   const parsedModuleId = parseInt(moduleId, 10);
 
+  // Guard against duplicate MongoDB writes if onComplete somehow fires
+  // more than once for the same play-through (e.g. a fast double-tap).
+  const backendSavedRef = useRef(false);
+
   const handleExit = () => navigate("/dashboard");
 
   const handleComplete = async (result) => {
@@ -50,8 +54,11 @@ const GamePage = () => {
     // so MongoDB (and the Teacher Dashboard) had zero record of completed
     // games. Now it goes through the same saveProgressToBackend() call the
     // Learning flow uses, so there is one save path / one endpoint / one
-    // MongoDB write shape for both flows.
-    if (result) {
+    // MongoDB write shape for both flows — guarded so it fires at most once
+    // per play-through.
+    if (result && !backendSavedRef.current) {
+      backendSavedRef.current = true;
+
       await saveProgressToBackend({
         moduleId: result.moduleId ?? parsedModuleId,
         moduleTitle: gameEntry?.title || `Module ${parsedModuleId}`,
@@ -64,7 +71,7 @@ const GamePage = () => {
         rewardPoints: result.rewardPoints,
         completed: true,
         weakTopics: [],
-        playedAt: new Date(),
+        playedAt: result.completedAt || new Date(),
       });
     }
 

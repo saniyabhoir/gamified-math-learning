@@ -28,3 +28,5 @@ export const saveProgressToBackend = async (progressData) => {
     return false;
   }
 };
+
+export default saveProgressToBackend;

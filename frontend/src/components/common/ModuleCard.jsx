@@ -1,10 +1,10 @@
-// frontend/src/components/common/.jsx
+// frontend/src/components/common/ModuleCard.jsx
 import React, { useState, useCallback, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { getGameForModule, isGameAvailable } from "../../utils/GameRegistry";
 import { getGameStatSummary } from "../../utils/GameMatrics";
-import { ModuleCard } from "../components/common/ModuleCard";
+import "./ModuleCard.css";
 
 // ── Module theme config ────────────────────────────────────────────────────────
 const MODULE_THEMES = {
@@ -68,8 +68,8 @@ const StarRow = ({ count }) => (
   </div>
 );
 
-// ──  ─────────────────────────────────────────────────────────────────
-const ModuleCard  = ({ moduleData = {}, moduleId, progressData = {} }) => {
+// ── ModuleCard ─────────────────────────────────────────────────────────────────
+const ModuleCard = ({ moduleData = {}, moduleId, progressData = {} }) => {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const [hovered, setHovered] = useState(false);
