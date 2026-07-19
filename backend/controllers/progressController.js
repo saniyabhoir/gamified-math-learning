@@ -1,15 +1,60 @@
 const Progress = require("../models/Progress");
 const User = require("../models/User");
+const { clampPercentage, safeNumber } = require("../utils/progressMath");
 
 // ─────────────────────────────────────────────
 // HELPERS
 // ─────────────────────────────────────────────
-const clampPercentage = (value) => {
-  const num = Number(value) || 0;
-  return Math.min(100, Math.max(0, num));
-};
+// CLEANUP: clampPercentage/safeNumber moved to utils/progressMath.js so
+// routes/analytics.js can share the exact same clamping rules instead of
+// maintaining its own copy.
 
-const safeNumber = (value) => Number(value) || 0;
+// CLEANUP: pulls the modulesCompleted/averageScore/overallAccuracy/
+// totalTimeSpent/totalRewardPoints/weakTopics recalculation out of
+// saveModuleProgress so the "recompute the summary after any module write"
+// step is one named, testable operation instead of being inlined in the
+// middle of the save handler.
+const recalculateProgressSummary = (progress) => {
+  const modules = progress.modules;
+
+  progress.modulesCompleted = modules.filter((m) => m.completed).length;
+
+  progress.averageScore =
+    modules.length > 0
+      ? Math.round(
+          modules.reduce((sum, m) => sum + clampPercentage(m.score), 0) /
+            modules.length
+        )
+      : 0;
+
+  progress.overallAccuracy =
+    modules.length > 0
+      ? Math.round(
+          modules.reduce((sum, m) => sum + clampPercentage(m.accuracy), 0) /
+            modules.length
+        )
+      : 0;
+
+  progress.totalTimeSpent = modules.reduce(
+    (sum, m) => sum + safeNumber(m.completionTime),
+    0
+  );
+
+  progress.totalRewardPoints = modules.reduce(
+    (sum, m) => sum + safeNumber(m.rewardPoints),
+    0
+  );
+
+  progress.weakTopics = [
+    ...new Set(
+      modules.flatMap((m) => (Array.isArray(m.weakTopics) ? m.weakTopics : []))
+    ),
+  ];
+
+  progress.lastActiveAt = new Date();
+
+  return progress;
+};
 
 // ─────────────────────────────────────────────
 // SAVE MODULE PROGRESS
@@ -101,49 +146,7 @@ const saveModuleProgress = async (req, res) => {
     }
 
     // ── SUMMARY CALCULATION ─────────────────────
-    const modules = progress.modules;
-
-    progress.modulesCompleted = modules.filter((m) => m.completed).length;
-
-    progress.averageScore =
-      modules.length > 0
-        ? Math.round(
-            modules.reduce(
-              (sum, m) => sum + clampPercentage(m.score),
-              0
-            ) / modules.length
-          )
-        : 0;
-
-    progress.overallAccuracy =
-      modules.length > 0
-        ? Math.round(
-            modules.reduce(
-              (sum, m) => sum + clampPercentage(m.accuracy),
-              0
-            ) / modules.length
-          )
-        : 0;
-
-    progress.totalTimeSpent = modules.reduce(
-      (sum, m) => sum + safeNumber(m.completionTime),
-      0
-    );
-
-    progress.totalRewardPoints = modules.reduce(
-      (sum, m) => sum + safeNumber(m.rewardPoints),
-      0
-    );
-
-    progress.weakTopics = [
-      ...new Set(
-        modules.flatMap((m) =>
-          Array.isArray(m.weakTopics) ? m.weakTopics : []
-        )
-      ),
-    ];
-
-    progress.lastActiveAt = new Date();
+    recalculateProgressSummary(progress);
 
     await progress.save();
 
@@ -164,16 +167,33 @@ const saveModuleProgress = async (req, res) => {
 // ─────────────────────────────────────────────
 // GET STUDENT PROGRESS
 // ─────────────────────────────────────────────
+// FIX: this previously ignored req.params.studentId entirely and always
+// returned req.user._id's own progress, regardless of which studentId was
+// requested in the URL. Nothing in the frontend currently calls this route
+// with another student's id (confirmed: unused today), so this was never
+// visibly wrong — but it meant a teacher hitting this endpoint for a
+// specific student would silently get their own (empty) progress instead.
+// Now: a student may only fetch their own record; a teacher may fetch any
+// student's record by id.
 const getStudentProgress = async (req, res) => {
   try {
-    const studentId = req.user._id;
+    const requestedId = req.params.studentId;
+    const isSelf = String(req.user._id) === String(requestedId);
+    const isTeacher = req.user.role === "teacher";
 
-    const progress = await Progress.findOne({ studentId });
+    if (!isSelf && !isTeacher) {
+      return res.status(403).json({
+        success: false,
+        message: "You do not have permission to view this student's progress",
+      });
+    }
+
+    const progress = await Progress.findOne({ studentId: requestedId });
 
     return res.status(200).json({
       success: true,
       data: progress || {
-        studentId,
+        studentId: requestedId,
         modules: [],
         modulesCompleted: 0,
         averageScore: 0,

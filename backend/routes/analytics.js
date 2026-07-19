@@ -2,32 +2,25 @@
 const User = require("../models/User");
 const Progress = require("../models/Progress");
 const { CURRICULUM_MODULES } = require("../config/curriculum");
+const {
+  clampPercentage,
+  clampStars,
+  average,
+} = require("../utils/progressMath");
 
 const { protect } = require("../middleware/auth");
 const roleMiddleware = require("../middleware/roleMiddleware");
 
 const router = express.Router();
 
-const avg = (arr) =>
-  arr.length ? arr.reduce((s, v) => s + v, 0) / arr.length : 0;
-
-// FIX: some Progress.modules records predate the score-clamping validation
-// in progressController.js and still contain raw, un-clamped values (e.g.
-// 215 instead of 0-100). Scores are always a percentage for display
-// purposes, so we defensively clamp on every read — this protects the UI
-// even if bad data ever re-enters the collection (manual edits, old
-// clients, etc.) without needing a one-off migration to keep working.
-const clampScore = (value) => {
-  const num = Number(value) || 0;
-  return Math.min(100, Math.max(0, num));
-};
-
-// Stars are stored 0-3 per module (see ModulePage.jsx: finalPoints >= 80 ? 3 :
-// finalPoints >= 50 ? 2 : 1). Clamp for the same defensive reason as scores.
-const clampStars = (value) => {
-  const num = Number(value) || 0;
-  return Math.min(3, Math.max(0, num));
-};
+// CLEANUP: clampScore/clampStars/avg used to be defined locally here as a
+// second, independent copy of the same logic already living in
+// progressController.js. Both now pull from utils/progressMath.js so a
+// module score is clamped identically whether it's being saved or read for
+// analytics. Local alias kept so the rest of this file's variable names
+// don't need to change.
+const clampScore = clampPercentage;
+const avg = average;
 
 // A student counts as "active" if their Progress doc has moved in the last
 // 7 days. Mirrors the activeThisWeek window already used in /students.
