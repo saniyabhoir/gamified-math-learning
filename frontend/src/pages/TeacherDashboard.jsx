@@ -9,6 +9,13 @@
 //  7. Error shown in all three panels simultaneously — fixed (only overview shows error)
 //  8. Missing clock / live time display
 //  9. analyticsHelpers.js was empty — logic inlined here
+//
+// ANALYTICS UPDATE (Teacher Dashboard Analytics Implementation):
+//  10. Added Leaderboard (new nav section), Students Requiring Attention and
+//      Recent Student Activity (Overview widgets), all derived client-side
+//      from the `students` data already fetched here — no extra API calls.
+//  11. Student detail modal now also shows Avg Stars (backed by the new
+//      per-student `avgStars` field from GET /analytics/students).
 
 import React, { useContext, useState, useEffect, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
@@ -17,6 +24,9 @@ import API from "../services/authService";
 import OverviewCards   from "../components/teacher/OverviewCards";
 import StudentsTable   from "../components/teacher/StudentsTable";
 import ModuleAnalytics from "../components/teacher/ModuleAnalytics";
+import Leaderboard      from "../components/teacher/Leaderboard";
+import AttentionPanel   from "../components/teacher/AttentionPanel";
+import RecentActivity   from "../components/teacher/RecentActivity";
 import "./TeacherDashboard.css";
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -85,6 +95,14 @@ const StudentModal = ({ student, onClose }) => {
               </span>
               <span className="td-modal-stat-lbl">Active This Week</span>
             </div>
+            {student.avgStars != null && (
+              <div className="td-modal-stat">
+                <span className="td-modal-stat-val">
+                  {Number(student.avgStars).toFixed(1)} ⭐
+                </span>
+                <span className="td-modal-stat-lbl">Avg Stars</span>
+              </div>
+            )}
           </div>
 
           {student.weakTopic && (
@@ -130,10 +148,11 @@ const StudentModal = ({ student, onClose }) => {
 // ── Sidebar config ────────────────────────────────────────────────────────────
 
 const NAV_ITEMS = [
-  { id: "overview",  icon: "📊", label: "Overview"   },
-  { id: "modules",   icon: "📚", label: "Modules"    },
-  { id: "students",  icon: "👥", label: "Students"   },
-  { id: "topics",    icon: "🎯", label: "Weak Topics"},
+  { id: "overview",    icon: "📊", label: "Overview"   },
+  { id: "modules",     icon: "📚", label: "Modules"    },
+  { id: "students",    icon: "👥", label: "Students"   },
+  { id: "leaderboard", icon: "🏆", label: "Leaderboard"},
+  { id: "topics",      icon: "🎯", label: "Weak Topics"},
 ];
 
 // ── Main Component ────────────────────────────────────────────────────────────
@@ -312,9 +331,37 @@ const TeacherDashboard = () => {
             </section>
           )}
 
+          {/* ── Requiring Attention + Recent Activity (Overview only) ── */}
+          {(activeNav === "overview") && (
+            <section>
+              <div className="td-overview-split">
+                <div>
+                  <div className="td-section-header">
+                    <h2 className="td-section-title">Students Requiring Attention</h2>
+                  </div>
+                  <AttentionPanel
+                    data={students}
+                    loading={loading}
+                    error={students.length === 0 && error ? error : null}
+                  />
+                </div>
+                <div>
+                  <div className="td-section-header">
+                    <h2 className="td-section-title">Recent Activity</h2>
+                  </div>
+                  <RecentActivity
+                    data={students}
+                    loading={loading}
+                    error={students.length === 0 && error ? error : null}
+                  />
+                </div>
+              </div>
+            </section>
+          )}
+
           {/* ── Modules ── */}
           {(activeNav === "overview" || activeNav === "modules") && (
-            <section>
+            <section className="td-section-modules">
               <div className="td-section-header">
                 <h2 className="td-section-title">Module Analytics</h2>
               </div>
@@ -323,6 +370,21 @@ const TeacherDashboard = () => {
                 loading={loading}
                 // FIX: Don't show global error in sub-panels; show empty state instead
                 error={modules.length === 0 && error ? error : null}
+              />
+            </section>
+          )}
+
+          {/* ── Leaderboard ── */}
+          {(activeNav === "overview" || activeNav === "leaderboard") && (
+            <section>
+              <div className="td-section-header">
+                <h2 className="td-section-title">🏆 Student Leaderboard</h2>
+                <span className="td-section-action">Ranked by reward points</span>
+              </div>
+              <Leaderboard
+                data={students}
+                loading={loading}
+                error={students.length === 0 && error ? error : null}
               />
             </section>
           )}
