@@ -53,6 +53,14 @@ const QuizCard = ({ screenData, onComplete, onAnswerLogged }) => {
       correctAnswer: currentQ.correct_answer,
       isCorrect,
       mistakeTracking: currentQ.mistake_tracking || null,
+      // ANALYTICS FIX: mistake_tracking.concept_tag holds the actual topic
+      // name (e.g. "monomial_multiplication") authored into each question,
+      // but it was only ever passed up nested inside `mistakeTracking`.
+      // ModulePage's weakTopics extraction looks for a flat `topic` field,
+      // so that data was silently dropped and the Weak Topics dashboard
+      // section always ended up empty. Surface it directly here, without
+      // removing the original object (kept for any other future use).
+      topic: currentQ.mistake_tracking?.concept_tag || null,
     });
   }, [showFeedback, currentQ, onAnswerLogged]);
 
