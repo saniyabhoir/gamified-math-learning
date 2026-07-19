@@ -22,6 +22,19 @@ const clampScore = (value) => {
   return Math.min(100, Math.max(0, num));
 };
 
+// Stars are stored 0-3 per module (see ModulePage.jsx: finalPoints >= 80 ? 3 :
+// finalPoints >= 50 ? 2 : 1). Clamp for the same defensive reason as scores.
+const clampStars = (value) => {
+  const num = Number(value) || 0;
+  return Math.min(3, Math.max(0, num));
+};
+
+// A student counts as "active" if their Progress doc has moved in the last
+// 7 days. Mirrors the activeThisWeek window already used in /students.
+const ACTIVE_WINDOW_MS = 7 * 24 * 60 * 60 * 1000;
+const isActiveWithin = (date, windowMs) =>
+  !!date && new Date(date).getTime() >= Date.now() - windowMs;
+
 /* ---------------- OVERVIEW ---------------- */
 router.get("/overview", protect, roleMiddleware("teacher"), async (req, res) => {
   try {
@@ -60,13 +73,29 @@ router.get("/overview", protect, roleMiddleware("teacher"), async (req, res) => 
         ? Math.round(totalTimeSpentSeconds / totalStudents / 60) // seconds -> minutes
         : 0;
 
+    // NEW: Active Students — count of students whose Progress.lastActiveAt
+    // falls inside the last 7 days. Reuses allProgress already loaded above,
+    // so this adds no extra query.
+    const activeStudents = allProgress.filter((p) =>
+      isActiveWithin(p.lastActiveAt, ACTIVE_WINDOW_MS)
+    ).length;
+
+    // NEW: Average Stars Earned — mean of the 0-3 star rating across every
+    // completed module attempt class-wide. completedModules is already
+    // computed above for the score aggregation, so this is a cheap extra pass.
+    const avgStars = Number(
+      avg(completedModules.map((m) => clampStars(m.stars))).toFixed(1)
+    );
+
     res.json({
       success: true,
       data: {
         totalStudents,
+        activeStudents,
         averageScore: Math.round(avg(allScores)),
         modulesCompleted,
         avgTimeSpent,
+        avgStars,
       },
     });
   } catch (err) {
@@ -108,6 +137,12 @@ router.get("/students", protect, roleMiddleware("teacher"), async (req, res) => 
           // `totalTimeSpent` in seconds.
           timeSpent: Math.round((progress?.totalTimeSpent || 0) / 60),
           totalRewardPoints: progress?.totalRewardPoints || 0,
+          // NEW: per-student average stars (0-3), powers the Leaderboard and
+          // the student detail modal. Derived from completedModules already
+          // computed above for this student — no extra query.
+          avgStars: Number(
+            avg(completedModules.map((m) => clampStars(m.stars))).toFixed(1)
+          ),
           weakTopics: progress?.weakTopics || [],
           weakTopic: progress?.weakTopics?.[0] || "",
           lastActiveAt: progress?.lastActiveAt || null,
