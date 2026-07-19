@@ -1,9 +1,10 @@
 // frontend/src/pages/Dashboard.jsx
-import React, { useContext, useMemo, useState, useEffect, useRef } from "react";
+import React, { useContext, useMemo, useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import ModuleCard from "../components/common/ModuleCard";
 import { getGameStatSummary } from "../utils/GameMatrics";
+import { getMyProgress } from "../services/progressService";
 import "./Dashboard.css";
 
 // ─── Module IDs ────────────────────────────────────────────────────────────────
@@ -23,30 +24,61 @@ const createPlaceholderModule = (id) => ({
   _placeholder: true,
 });
 
-// ─── Progress storage helpers ─────────────────────────────────────────────────
-const getProgressKey = (userId, moduleId) =>
+// ─── Local progress cache (OPTIONAL, non-authoritative) ───────────────────────
+// MongoDB (via GET /progress/student/:studentId) is now the single source of
+// truth for the dashboard. ModulePage.jsx still mirrors its in-session state
+// (current screen index, in-progress quiz accuracy, etc.) into this key so a
+// student can resume mid-module on the SAME device — the backend Progress
+// schema has no concept of "which screen am I on", only completed-module
+// summaries. We only ever read this as a fallback for a module the backend
+// doesn't have a record for yet; once the backend has an entry, it wins.
+const getLocalProgressKey = (userId, moduleId) =>
   `mq_progress_u${userId}_m${moduleId}`;
 
-const loadProgress = (userId, moduleId) => {
+const loadLocalProgressCache = (userId, moduleId) => {
   try {
-    const raw = localStorage.getItem(getProgressKey(userId, moduleId));
+    const raw = localStorage.getItem(getLocalProgressKey(userId, moduleId));
     return raw ? JSON.parse(raw) : { completedScreens: 0, totalPoints: 0 };
   } catch {
     return { completedScreens: 0, totalPoints: 0 };
   }
 };
 
+// ─── Offline-resilience cache for the last known backend progress ────────────
+// Purely optional: if a fetch fails (e.g. flaky network), we show the last
+// successful MongoDB response instead of an empty dashboard, clearly labelled
+// as possibly-stale. This is never written to except right after a
+// successful backend fetch, so it can never drift ahead of MongoDB.
+const getBackendCacheKey = (userId) => `mq_backend_progress_cache_u${userId}`;
+
+const saveBackendProgressCache = (userId, modules) => {
+  try {
+    localStorage.setItem(getBackendCacheKey(userId), JSON.stringify(modules));
+  } catch {
+    /* storage full or unavailable — non-critical */
+  }
+};
+
+const loadBackendProgressCache = (userId) => {
+  try {
+    const raw = localStorage.getItem(getBackendCacheKey(userId));
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+};
+
 // ─── Hero Stats Bar ───────────────────────────────────────────────────────────
 const HeroStats = ({ modules, progressMap, gameStats }) => {
-  const totalXP = Object.values(progressMap).reduce(
+  // Total XP comes entirely from MongoDB's per-module rewardPoints (see
+  // progressMap above). The backend already folds Learning-flow and
+  // Arcade-Game-flow rewards into that single field (taking the higher of
+  // the two on save), so it must not be added to again here — doing so
+  // would double-count XP for any module played both ways.
+  const allXP = Object.values(progressMap).reduce(
     (sum, p) => sum + (p.totalPoints || 0),
     0
   );
-  const gameXP = Object.values(gameStats).reduce(
-    (sum, g) => sum + (g?.rewardPoints || 0),
-    0
-  );
-  const allXP = totalXP + gameXP;
 
   const completedModules = modules.filter((m) => {
     const p = progressMap[m.id] || {};
@@ -119,15 +151,111 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [modules, setModules] = useState([]);
 
+  const [loading, setLoading] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeCard, setActiveCard] = useState(0);
+  const deckRef = useRef(null);
+
+  // ── Backend progress state (MongoDB is the source of truth) ─────────────
+  // backendModules: the `modules` array from the Progress document, keyed
+  //   later by moduleId. null until the first fetch resolves.
+  // progressLoading: true while a fetch is in flight (initial load OR retry).
+  // progressError: true if the most recent fetch failed.
+  // usingCachedProgress: true if we're showing a previously-cached backend
+  //   response because the live fetch failed (offline resilience only).
+  const [backendModules, setBackendModules] = useState(null);
+  const [progressLoading, setProgressLoading] = useState(true);
+  const [progressError, setProgressError] = useState(false);
+  const [usingCachedProgress, setUsingCachedProgress] = useState(false);
+
+  // ── Fetch progress from MongoDB via the Progress API ─────────────────────
+  const fetchProgress = useCallback(async () => {
+    if (!user?.id) return;
+    setProgressLoading(true);
+    setProgressError(false);
+    try {
+      const data = await getMyProgress(user.id);
+      const freshModules = data?.modules || [];
+      setBackendModules(freshModules);
+      setUsingCachedProgress(false);
+      // Refresh the offline-resilience cache with this known-good response.
+      saveBackendProgressCache(user.id, freshModules);
+    } catch (err) {
+      console.error("❌ Failed to load progress from backend:", err);
+      // Fall back to the last successful response (if any) so the student
+      // still sees something useful instead of a blank dashboard, while we
+      // surface a retry banner so they know it may be out of date.
+      const cached = loadBackendProgressCache(user.id);
+      if (cached) {
+        setBackendModules(cached);
+        setUsingCachedProgress(true);
+      }
+      setProgressError(true);
+    } finally {
+      setProgressLoading(false);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    fetchProgress();
+  }, [fetchProgress]);
+
+  // Re-sync whenever the student returns to this tab (e.g. after finishing
+  // a module/game on another device, or the token refreshing after login).
+  useEffect(() => {
+    const handleFocus = () => fetchProgress();
+    window.addEventListener("focus", handleFocus);
+    return () => window.removeEventListener("focus", handleFocus);
+  }, [fetchProgress]);
+
+  // ── Merge backend progress with the optional local cache ─────────────────
+  // For each module:
+  //  - If MongoDB has a record, it always wins for completion/XP/accuracy.
+  //  - completedScreens is only ever taken from MongoDB's `completed` flag
+  //    (mapped to the full screen count) or, for a module MongoDB has no
+  //    record of yet, from the local same-device "resume" cache — never the
+  //    other way around, so a stale local cache can't override a real save.
   const progressMap = useMemo(() => {
-    if (!user?.id || modules.length === 0) return {};
+    if (!user?.id || modules.length === 0 || backendModules === null) return {};
     const pm = {};
     for (const m of modules) {
-      pm[m.id] = loadProgress(user.id, m.id);
+      const totalScreens = m.data.total_screens || m.data.screens?.length || 0;
+      const beMod = backendModules.find(
+        (bm) => String(bm.moduleId) === String(m.id)
+      );
+
+      if (beMod) {
+        pm[m.id] = {
+          completedScreens: beMod.completed ? totalScreens : 0,
+          totalPoints: beMod.rewardPoints || 0,
+          quizAccuracy:
+            typeof beMod.accuracy === "number" ? beMod.accuracy : null,
+          mistakeLog: new Array(beMod.mistakes || 0).fill(null),
+        };
+      } else {
+        // No backend record yet — fall back to the local same-device cache
+        // purely so an in-progress (not-yet-completed) module still shows a
+        // partial progress bar instead of resetting to 0.
+        const local = loadLocalProgressCache(user.id, m.id);
+        pm[m.id] = {
+          completedScreens: Math.min(local.completedScreens || 0, totalScreens),
+          totalPoints: local.totalPoints || 0,
+          quizAccuracy: local.quizAccuracy ?? null,
+          mistakeLog: local.mistakeLog || [],
+        };
+      }
     }
     return pm;
-  }, [modules, user]);
+  }, [modules, user, backendModules]);
 
+  // ── Game stats ─────────────────────────────────────────────────────────
+  // NOTE (known limitation, see README): the backend Progress schema stores
+  // one merged record per moduleId shared by both the Learning flow and the
+  // Arcade Game flow, with no field distinguishing "this record came from a
+  // game play". Game-specific display (stars/best score/badge) therefore
+  // still reads the local per-device cache written by GamePage.jsx. This is
+  // an intentional, documented cache — not a duplicate source of truth for
+  // module completion/XP, which come entirely from MongoDB above.
   const gameStats = useMemo(() => {
     if (!user?.id || modules.length === 0) return {};
     const gm = {};
@@ -136,11 +264,6 @@ const Dashboard = () => {
     }
     return gm;
   }, [modules, user]);
-
-  const [loading, setLoading] = useState(true);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [activeCard, setActiveCard] = useState(0);
-  const deckRef = useRef(null);
 
   // ── Load all modules ─────────────────────────────────────────────────────
   useEffect(() => {
@@ -198,7 +321,14 @@ const Dashboard = () => {
   );
   const userName = user?.username || user?.name || "Student";
 
-  if (loading) {
+  // Show the full-page loader while modules load AND while the first
+  // progress fetch is in flight (unless we already have a cached fallback
+  // to show, in which case we render the dashboard with a stale-data banner
+  // instead of blocking on the network).
+  const initialProgressPending =
+    progressLoading && backendModules === null;
+
+  if (loading || initialProgressPending) {
     return (
       <div className="db-root">
         <div className="db-bg-fx">
@@ -265,6 +395,35 @@ const Dashboard = () => {
           )}
         </div>
       </nav>
+
+      {/* ── Progress sync status ── */}
+      {progressError && (
+        <div className="db-progress-banner db-progress-banner--error">
+          <span>
+            ⚠️ Couldn't reach the server to load your latest progress
+            {usingCachedProgress ? " — showing your last synced data." : "."}
+          </span>
+          <button
+            className="db-progress-banner-retry"
+            onClick={fetchProgress}
+            disabled={progressLoading}
+          >
+            {progressLoading ? "Retrying…" : "Retry"}
+          </button>
+        </div>
+      )}
+      {!progressError && usingCachedProgress && (
+        <div className="db-progress-banner db-progress-banner--stale">
+          <span>Showing cached progress from your last sync.</span>
+          <button
+            className="db-progress-banner-retry"
+            onClick={fetchProgress}
+            disabled={progressLoading}
+          >
+            {progressLoading ? "Syncing…" : "Sync now"}
+          </button>
+        </div>
+      )}
 
       {/* ── Main content ── */}
       <main className="db-main">
