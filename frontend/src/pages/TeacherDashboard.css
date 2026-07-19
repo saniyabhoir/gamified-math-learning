@@ -319,7 +319,10 @@
 /* ── Overview Cards ── */
 .td-overview-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  /* ANALYTICS UPDATE: auto-fit instead of a fixed 4 columns so the extra
+     Active Students / Avg Stars Earned cards reflow cleanly at any card
+     count instead of leaving an orphaned half-row. */
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1.25rem;
 }
 .td-overview-card {
@@ -599,6 +602,42 @@ table.td-table {
 }
 
 /* ── Module Analytics ── */
+/* ANALYTICS UPDATE: Strongest / Needs Focus highlight strip */
+.td-module-highlights {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+.td-module-highlight-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  background: linear-gradient(145deg, #0d1520 0%, #111827 100%);
+  border: 1px solid var(--td-border);
+  border-left: 3px solid var(--chip-accent, var(--td-primary));
+  border-radius: var(--radius-md);
+  padding: 0.9rem 1.1rem;
+}
+.td-module-highlight-chip.strongest { --chip-accent: var(--td-secondary); }
+.td-module-highlight-chip.weakest { --chip-accent: var(--td-danger); }
+.td-module-highlight-icon { font-size: 1.4rem; flex-shrink: 0; }
+.td-module-highlight-label {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--td-text-muted);
+  margin-bottom: 0.15rem;
+}
+.td-module-highlight-value {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--td-text);
+}
+
 .td-modules-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -831,7 +870,9 @@ table.td-table {
 .td-modal-body { padding: 1.5rem; }
 .td-modal-stats {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  /* ANALYTICS UPDATE: auto-fit so the new Avg Stars stat (5th item) reflows
+     cleanly instead of leaving an empty cell in a fixed 4-column grid. */
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   gap: 0.75rem;
   margin-bottom: 1.5rem;
 }
@@ -901,6 +942,176 @@ table.td-table {
   width: 36px;
   text-align: right;
   flex-shrink: 0;
+}
+
+/* ── ANALYTICS UPDATE: Overview two-column widget row (Attention + Activity) ── */
+.td-overview-split {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 1.5rem;
+}
+
+/* ANALYTICS UPDATE: Module Analytics sits right after the two-column
+   Attention/Activity row on the Overview tab and felt cramped against it —
+   a little extra breathing room on top of the base .td-content gap. */
+.td-section-modules {
+  margin-top: 0.75rem;
+}
+
+
+/* ── ANALYTICS UPDATE: Student Leaderboard ── */
+.td-leaderboard-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  background: linear-gradient(145deg, #0d1520 0%, #111827 100%);
+  border: 1px solid var(--td-border);
+  border-radius: var(--radius-lg);
+  padding: 1rem;
+  box-shadow: var(--shadow-sm);
+}
+.td-leaderboard-row {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: var(--radius-md);
+  transition: background 0.2s ease;
+}
+.td-leaderboard-row:hover { background: rgba(255, 255, 255, 0.03); }
+.td-leaderboard-row.top3 { background: rgba(232, 168, 56, 0.06); }
+.td-leaderboard-rank {
+  width: 28px;
+  flex-shrink: 0;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--td-text-muted);
+}
+.td-leaderboard-info { flex: 1; min-width: 0; }
+.td-leaderboard-meta {
+  font-size: 0.75rem;
+  color: var(--td-text-muted);
+  font-weight: 600;
+}
+.td-leaderboard-points {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+.td-leaderboard-points-val {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--td-primary);
+  line-height: 1.1;
+}
+.td-leaderboard-points-lbl {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--td-text-dim);
+}
+
+/* ── ANALYTICS UPDATE: Students Requiring Attention ── */
+.td-attention-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  background: linear-gradient(145deg, #0d1520 0%, #111827 100%);
+  border: 1px solid var(--td-border);
+  border-radius: var(--radius-lg);
+  padding: 1rem;
+  box-shadow: var(--shadow-sm);
+  height: 100%;
+}
+.td-attention-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.6rem;
+  border-radius: var(--radius-md);
+  transition: background 0.2s ease;
+}
+.td-attention-row:hover { background: rgba(255, 255, 255, 0.03); }
+.td-attention-info { flex: 1; min-width: 0; }
+.td-attention-sub {
+  font-size: 0.75rem;
+  color: var(--td-text-muted);
+  font-weight: 600;
+}
+.td-attention-reason {
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.25rem 0.6rem;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+.td-attention-reason.danger {
+  background: rgba(248, 113, 113, 0.1);
+  color: var(--td-danger);
+  border: 1px solid rgba(248, 113, 113, 0.25);
+}
+.td-attention-reason.warning {
+  background: rgba(232, 168, 56, 0.1);
+  color: var(--td-warning);
+  border: 1px solid rgba(232, 168, 56, 0.25);
+}
+
+/* ── ANALYTICS UPDATE: Recent Student Activity ── */
+.td-activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  background: linear-gradient(145deg, #0d1520 0%, #111827 100%);
+  border: 1px solid var(--td-border);
+  border-radius: var(--radius-lg);
+  padding: 1rem;
+  box-shadow: var(--shadow-sm);
+  height: 100%;
+}
+.td-activity-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.6rem;
+  border-radius: var(--radius-md);
+  transition: background 0.2s ease;
+}
+.td-activity-row:hover { background: rgba(255, 255, 255, 0.03); }
+.td-activity-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+.td-activity-info { flex: 1; min-width: 0; }
+.td-activity-text {
+  font-size: 0.82rem;
+  color: var(--td-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.td-activity-text em { font-style: normal; color: var(--td-text-muted); }
+.td-activity-time {
+  font-size: 0.72rem;
+  color: var(--td-text-dim);
+  font-weight: 600;
+}
+.td-activity-score {
+  flex-shrink: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
 }
 
 /* ── Error / Empty States ── */

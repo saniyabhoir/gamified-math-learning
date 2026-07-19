@@ -4,6 +4,12 @@
 //     which is confusing — changed to "Completion Rate" for clarity
 //  2. Skeleton used wrong prop name (accent was passed but not used)
 //  3. No aria labels for accessibility
+//
+// ANALYTICS UPDATE (Teacher Dashboard Analytics Implementation):
+//  - Added "Active Students" and "Avg Stars Earned" cards, backed by the new
+//    `activeStudents` / `avgStars` fields returned by GET /analytics/overview.
+//    Both are real, already-collected data (Progress.lastActiveAt and
+//    Progress.modules[].stars) — no invented metrics.
 
 import React from 'react';
 
@@ -15,6 +21,14 @@ const CARD_CONFIG = [
     iconBg: 'rgba(20,184,166,0.1)',
     accent: '#14B8A6',
     // FIX: totalStudents is a raw number, not a percentage
+    format: (v) => (v != null ? v.toLocaleString() : '—'),
+  },
+  {
+    key: 'activeStudents',
+    label: 'Active Students',
+    icon: '🟢',
+    iconBg: 'rgba(74,222,128,0.1)',
+    accent: '#4ADE80',
     format: (v) => (v != null ? v.toLocaleString() : '—'),
   },
   {
@@ -33,6 +47,14 @@ const CARD_CONFIG = [
     iconBg: 'rgba(245,158,11,0.1)',
     accent: '#F59E0B',
     format: (v) => (v != null ? `${Math.round(v)}%` : '—'),
+  },
+  {
+    key: 'avgStars',
+    label: 'Avg Stars Earned',
+    icon: '⭐',
+    iconBg: 'rgba(232,168,56,0.1)',
+    accent: '#E8A838',
+    format: (v) => (v != null ? `${Number(v).toFixed(1)} / 3` : '—'),
   },
   {
     key: 'avgTimeSpent',

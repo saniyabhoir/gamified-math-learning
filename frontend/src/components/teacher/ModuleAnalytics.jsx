@@ -3,6 +3,13 @@
 //  1. avgAttempts.toFixed(1) crashes if avgAttempts is undefined/null — added fallback
 //  2. No aria labels on progress bars
 //  3. Animation using inline style string — moved to CSS class reference
+//
+// ANALYTICS UPDATE (Teacher Dashboard Analytics Implementation):
+//  - Added a Strongest / Needs Focus highlight strip above the module grid,
+//    satisfying the "Strongest/Weakest Performing Modules" recommendation.
+//    Derived entirely from the `data` prop already returned by
+//    GET /analytics/modules (avgScore, enrolledStudents) — no new endpoint,
+//    no extra request.
 
 import React from 'react';
 
@@ -42,6 +49,23 @@ const getCompletionColor = (rate) => {
   return '#EF4444';
 };
 
+// Only compare modules that at least one student has actually attempted —
+// a module nobody has touched yet defaults to avgScore 0, which would
+// otherwise always "win" the Needs Focus slot for the wrong reason.
+const getModuleHighlights = (data) => {
+  const attempted = (data || []).filter((m) => (m.enrolledStudents ?? 0) > 0);
+  if (attempted.length < 2) return null;
+
+  const strongest = attempted.reduce((a, b) => (b.avgScore > a.avgScore ? b : a));
+  const weakest = attempted.reduce((a, b) => (b.avgScore < a.avgScore ? b : a));
+
+  // If every attempted module ties on avgScore there's nothing meaningful
+  // to contrast — skip the strip rather than show a misleading "weakest".
+  if (strongest.avgScore === weakest.avgScore) return null;
+
+  return { strongest, weakest };
+};
+
 const ModuleAnalytics = ({ data, loading, error }) => {
   if (loading) {
     return (
@@ -73,9 +97,35 @@ const ModuleAnalytics = ({ data, loading, error }) => {
     );
   }
 
+  const highlights = getModuleHighlights(data);
+
   return (
-    <div className="td-modules-grid">
-      {data.map((module, i) => {
+    <>
+      {highlights && (
+        <div className="td-module-highlights">
+          <div className="td-module-highlight-chip strongest">
+            <span className="td-module-highlight-icon" aria-hidden="true">🏆</span>
+            <div>
+              <span className="td-module-highlight-label">Strongest Module</span>
+              <span className="td-module-highlight-value">
+                {highlights.strongest.title} · {Math.round(highlights.strongest.avgScore)}% avg
+              </span>
+            </div>
+          </div>
+          <div className="td-module-highlight-chip weakest">
+            <span className="td-module-highlight-icon" aria-hidden="true">⚠️</span>
+            <div>
+              <span className="td-module-highlight-label">Needs Focus</span>
+              <span className="td-module-highlight-value">
+                {highlights.weakest.title} · {Math.round(highlights.weakest.avgScore)}% avg
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="td-modules-grid">
+        {data.map((module, i) => {
         const completionRate = module.completionRate ?? 0;
         const avgScore       = module.avgScore       ?? 0;
         // FIX: guard against null/undefined before calling .toFixed()
@@ -156,8 +206,9 @@ const ModuleAnalytics = ({ data, loading, error }) => {
             </div>
           </div>
         );
-      })}
-    </div>
+        })}
+      </div>
+    </>
   );
 };
 
