@@ -891,6 +891,10 @@ table.td-table {
   border-radius: var(--radius-md);
   padding: 0.9rem;
   text-align: center;
+  /* FIX: without min-width: 0, a long unbreakable module title (e.g.
+     "Multiplication of Algebraic Expressions") forces this grid track
+     wider than its allotted column, overlapping the next cell. */
+  min-width: 0;
 }
 .td-modal-stat-val {
   font-family: var(--font-display);
@@ -898,6 +902,10 @@ table.td-table {
   font-weight: 700;
   color: var(--td-primary);
   display: block;
+  /* FIX: wrap long module titles inside their own cell instead of
+     overflowing into the neighboring stat. */
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 .td-modal-stat-lbl {
   font-size: 0.68rem;
