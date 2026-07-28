@@ -36,6 +36,27 @@ const moduleSchema = new mongoose.Schema({
     default: 0,
   },
 
+  // ── Module Learning Time Analytics (research metric) ──────────────────────
+  // NOT the game timer. This is the total time spent inside the module's
+  // learning flow (story, examples, quizzes, feedback, navigation) from the
+  // moment the student enters the module until it is successfully completed.
+  // `completionTime` above continues to be used as-is by the existing game
+  // flows (GamePage.jsx) and is left untouched — this is a separate,
+  // additive field so both metrics can be analysed independently.
+  // Stored in seconds.
+  moduleTime: {
+    type: Number,
+    default: 0,
+  },
+
+  // Reserved for future hint-usage tracking (see research analytics goals).
+  // Not currently populated by any UI interaction — defaults to 0 so the
+  // schema is ready for research analysis as soon as hint tracking exists.
+  hintsUsed: {
+    type: Number,
+    default: 0,
+  },
+
   stars: {
     type: Number,
     default: 0,
@@ -96,6 +117,14 @@ const progressSchema = new mongoose.Schema(
     },
 
     totalTimeSpent: {
+      type: Number,
+      default: 0,
+    },
+
+    // Sum of modules[].moduleTime (research metric — total learning time
+    // across all modules, in seconds). Additive alongside totalTimeSpent,
+    // which is left untouched.
+    totalModuleTimeSpent: {
       type: Number,
       default: 0,
     },

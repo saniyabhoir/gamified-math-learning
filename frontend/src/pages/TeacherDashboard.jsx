@@ -24,16 +24,10 @@ import API from "../services/authService";
 import OverviewCards   from "../components/teacher/OverviewCards";
 import StudentsTable   from "../components/teacher/StudentsTable";
 import ModuleAnalytics from "../components/teacher/ModuleAnalytics";
+import ModuleTimeAnalytics from "../components/teacher/ModuleTimeAnalytics";
 import Leaderboard      from "../components/teacher/Leaderboard";
 import AttentionPanel   from "../components/teacher/AttentionPanel";
 import RecentActivity   from "../components/teacher/RecentActivity";
-import AnalyticsCharts  from "../components/teacher/charts/AnalyticsCharts";
-import InsightsPanel    from "../components/teacher/InsightsPanel";
-import ExportButtons    from "../components/teacher/ExportButtons";
-import ModuleDetailCard from "../components/teacher/ModuleDetailCard";
-import { computeStudentHighlights } from "../utils/studentAnalytics";
-import { formatMinutes } from "../utils/formatTime";
-import { motion, AnimatePresence } from "framer-motion";
 import "./TeacherDashboard.css";
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -54,26 +48,22 @@ const useClock = () => {
 
 // ── Student Detail Modal ───────────────────────────────────────────────────────
 
+const MODULE_LABELS = [
+  "Intro to Algebra",
+  "Simplification",
+  "Multiplication",
+  "Substitution",
+  "Algebra in Action",
+];
+
 const StudentModal = ({ student, onClose }) => {
   if (!student) return null;
 
-  // ANALYTICS UPDATE: richer, derived-from-real-data statistics (see
-  // utils/studentAnalytics.js#computeStudentHighlights) — highest/lowest
-  // module score, best/weakest module, longest session, total XP,
-  // current streak (from playedAt dates), completion percentage.
-  const highlights = computeStudentHighlights(student);
-  const modules = student.modules || [];
+  const scoreColor = (s) => (s >= 80 ? "#10B981" : s >= 60 ? "#F59E0B" : "#EF4444");
 
   return (
     <div className="td-modal-backdrop" onClick={onClose}>
-      <motion.div
-        className="td-modal"
-        onClick={(e) => e.stopPropagation()}
-        initial={{ opacity: 0, scale: 0.95, y: 20 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.95, y: 20 }}
-        transition={{ duration: 0.22, ease: [0.34, 1.56, 0.64, 1] }}
-      >
+      <div className="td-modal" onClick={(e) => e.stopPropagation()}>
         <div className="td-modal-header">
           <div className="td-modal-student-info">
             <div className="td-modal-avatar">{getInitials(student.name)}</div>
@@ -85,7 +75,6 @@ const StudentModal = ({ student, onClose }) => {
           <button className="td-modal-close" onClick={onClose}>✕</button>
         </div>
         <div className="td-modal-body">
-          {/* ── Core stats (existing) ── */}
           <div className="td-modal-stats">
             <div className="td-modal-stat">
               <span className="td-modal-stat-val">{student.modulesCompleted ?? 0}</span>
@@ -97,7 +86,7 @@ const StudentModal = ({ student, onClose }) => {
             </div>
             <div className="td-modal-stat">
               <span className="td-modal-stat-val">
-                {student.timeSpent != null ? formatMinutes(student.timeSpent) : "—"}
+                {student.timeSpent != null ? `${Math.round(student.timeSpent)}m` : "—"}
               </span>
               <span className="td-modal-stat-lbl">Time Spent</span>
             </div>
@@ -117,53 +106,6 @@ const StudentModal = ({ student, onClose }) => {
             )}
           </div>
 
-          {/* ── ANALYTICS UPDATE: richer statistics ── */}
-          <h4 className="td-modal-section-title">Deeper Analytics</h4>
-          <div className="td-modal-stats" style={{ marginBottom: "1.5rem" }}>
-            <div className="td-modal-stat">
-              <span className="td-modal-stat-val">
-                {highlights.highestModuleScore != null ? `${Math.round(highlights.highestModuleScore)}%` : "—"}
-              </span>
-              <span className="td-modal-stat-lbl">Highest Module Score</span>
-            </div>
-            <div className="td-modal-stat">
-              <span className="td-modal-stat-val">
-                {highlights.lowestModuleScore != null ? `${Math.round(highlights.lowestModuleScore)}%` : "—"}
-              </span>
-              <span className="td-modal-stat-lbl">Lowest Module Score</span>
-            </div>
-            <div className="td-modal-stat">
-              <span className="td-modal-stat-val" style={{ fontSize: "0.95rem" }}>
-                {highlights.bestModuleTitle || "—"}
-              </span>
-              <span className="td-modal-stat-lbl">Best Module</span>
-            </div>
-            <div className="td-modal-stat">
-              <span className="td-modal-stat-val" style={{ fontSize: "0.95rem" }}>
-                {highlights.weakestModuleTitle || "—"}
-              </span>
-              <span className="td-modal-stat-lbl">Weakest Module</span>
-            </div>
-            <div className="td-modal-stat">
-              <span className="td-modal-stat-val">{highlights.longestSession}</span>
-              <span className="td-modal-stat-lbl">Longest Session</span>
-            </div>
-            <div className="td-modal-stat">
-              <span className="td-modal-stat-val">{highlights.totalXP.toLocaleString()}</span>
-              <span className="td-modal-stat-lbl">Total XP</span>
-            </div>
-            <div className="td-modal-stat">
-              <span className="td-modal-stat-val">
-                {highlights.currentStreak > 0 ? `🔥 ${highlights.currentStreak}d` : "—"}
-              </span>
-              <span className="td-modal-stat-lbl">Current Streak</span>
-            </div>
-            <div className="td-modal-stat">
-              <span className="td-modal-stat-val">{highlights.completionPercentage}%</span>
-              <span className="td-modal-stat-lbl">Completion</span>
-            </div>
-          </div>
-
           {student.weakTopic && (
             <>
               <h4 className="td-modal-section-title">Weak Area</h4>
@@ -173,27 +115,33 @@ const StudentModal = ({ student, onClose }) => {
             </>
           )}
 
-          {/* ── ANALYTICS UPDATE: expandable module cards, replaces the flat
-               progress-bar list. Each card shows completion status, stars,
-               score, accuracy, mistakes, completion time, attempts, reward
-               points and completed date — all sourced from the raw
-               `modules` array already returned by GET /analytics/students. ── */}
-          <h4 className="td-modal-section-title">Modules</h4>
-          {modules.length > 0 ? (
-            <div className="td-module-detail-list">
-              {modules.map((m, i) => (
-                <ModuleDetailCard key={m.moduleId ?? i} module={m} index={i} />
-              ))}
-            </div>
-          ) : (
-            <div className="td-empty-state" style={{ padding: "2rem 1.5rem" }}>
-              <span className="td-empty-icon">📚</span>
-              <p className="td-empty-title">No modules started yet</p>
-              <p className="td-empty-sub">This student hasn't attempted any modules.</p>
-            </div>
+          {/* Per-module scores if available */}
+          {student.moduleScores && student.moduleScores.length > 0 && (
+            <>
+              <h4 className="td-modal-section-title">Module Scores</h4>
+              <div className="td-module-score-list">
+                {student.moduleScores.map((ms, i) => (
+                  <div key={i} className="td-module-score-row">
+                    <span className="td-module-score-label">
+                      {MODULE_LABELS[i] ?? `Module ${i + 1}`}
+                    </span>
+                    <div className="td-module-score-bar-wrap">
+                      <div
+                        className="td-module-score-bar-fill"
+                        style={{
+                          width: `${ms.score}%`,
+                          background: scoreColor(ms.score),
+                        }}
+                      />
+                    </div>
+                    <span className="td-module-score-val">{Math.round(ms.score)}%</span>
+                  </div>
+                ))}
+              </div>
+            </>
           )}
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 };
@@ -203,6 +151,7 @@ const StudentModal = ({ student, onClose }) => {
 const NAV_ITEMS = [
   { id: "overview",    icon: "📊", label: "Overview"   },
   { id: "modules",     icon: "📚", label: "Modules"    },
+  { id: "moduleTime",  icon: "⏱", label: "Module Time" },
   { id: "students",    icon: "👥", label: "Students"   },
   { id: "leaderboard", icon: "🏆", label: "Leaderboard"},
   { id: "topics",      icon: "🎯", label: "Weak Topics"},
@@ -219,6 +168,7 @@ const TeacherDashboard = () => {
   const [overview,     setOverview]     = useState(null);
   const [students,     setStudents]     = useState([]);
   const [modules,      setModules]      = useState([]);
+  const [moduleTime,   setModuleTime]   = useState(null);
   const [weakTopics,   setWeakTopics]   = useState([]);
   const [loading,      setLoading]      = useState(true);
   const [refreshing,   setRefreshing]   = useState(false);
@@ -244,18 +194,20 @@ const TeacherDashboard = () => {
       isRefresh ? setRefreshing(true) : setLoading(true);
       setError(null);
 
-      // Fetch all four endpoints in parallel
-      const [overviewRes, studentsRes, modulesRes, weakRes] = await Promise.all([
+      // Fetch all five endpoints in parallel
+      const [overviewRes, studentsRes, modulesRes, weakRes, moduleTimeRes] = await Promise.all([
         API.get("/analytics/overview"),
         API.get("/analytics/students"),
         API.get("/analytics/modules"),
         API.get("/analytics/weak-topics"),
+        API.get("/analytics/module-time"),
       ]);
 
       setOverview(overviewRes.data.data);
       setStudents(studentsRes.data.data  || []);
       setModules(modulesRes.data.data    || []);
       setWeakTopics(weakRes.data.data    || []);
+      setModuleTime(moduleTimeRes.data.data || null);
     } catch (err) {
       console.error("Dashboard Error:", err);
       // FIX: handle 401 (token expired) gracefully
@@ -363,35 +315,16 @@ const TeacherDashboard = () => {
                 })}
               </p>
             </div>
-            <div className="td-page-header-actions">
-              <ExportButtons overview={overview} students={students} disabled={loading} />
-              <button
-                className="td-refresh-btn"
-                onClick={() => fetchAnalytics(true)}
-                disabled={refreshing || loading}
-                title="Refresh data"
-              >
-                <span className={`td-refresh-icon ${refreshing ? "spinning" : ""}`}>↻</span>
-                {refreshing ? "Refreshing…" : "Refresh"}
-              </button>
-            </div>
+            <button
+              className="td-refresh-btn"
+              onClick={() => fetchAnalytics(true)}
+              disabled={refreshing || loading}
+              title="Refresh data"
+            >
+              <span className={`td-refresh-icon ${refreshing ? "spinning" : ""}`}>↻</span>
+              {refreshing ? "Refreshing…" : "Refresh"}
+            </button>
           </div>
-
-          {/* ── Analytics Charts (top of dashboard) ── */}
-          {(activeNav === "overview") && (
-            <section>
-              <div className="td-section-header">
-                <h2 className="td-section-title">📈 Analytics</h2>
-                <span className="td-section-action">Class-wide performance at a glance</span>
-              </div>
-              <AnalyticsCharts
-                students={students}
-                modules={modules}
-                weakTopics={weakTopics}
-                loading={loading}
-              />
-            </section>
-          )}
 
           {/* ── Overview ── */}
           {(activeNav === "overview") && (
@@ -403,7 +336,7 @@ const TeacherDashboard = () => {
             </section>
           )}
 
-          {/* ── Requiring Attention + Teacher Insights (Overview only) ── */}
+          {/* ── Requiring Attention + Recent Activity (Overview only) ── */}
           {(activeNav === "overview") && (
             <section>
               <div className="td-overview-split">
@@ -419,33 +352,17 @@ const TeacherDashboard = () => {
                 </div>
                 <div>
                   <div className="td-section-header">
-                    <h2 className="td-section-title">🧠 Teacher Insights</h2>
+                    <h2 className="td-section-title">Recent Activity</h2>
                   </div>
-                  <InsightsPanel
-                    students={students}
-                    modules={modules}
-                    weakTopics={weakTopics}
+                  <RecentActivity
+                    data={students}
                     loading={loading}
+                    error={students.length === 0 && error ? error : null}
                   />
                 </div>
               </div>
             </section>
           )}
-
-          {/* ── Recent Activity (Overview only) ── */}
-          {(activeNav === "overview") && (
-            <section>
-              <div className="td-section-header">
-                <h2 className="td-section-title">Recent Activity</h2>
-              </div>
-              <RecentActivity
-                data={students}
-                loading={loading}
-                error={students.length === 0 && error ? error : null}
-              />
-            </section>
-          )}
-
 
           {/* ── Modules ── */}
           {(activeNav === "overview" || activeNav === "modules") && (
@@ -458,6 +375,21 @@ const TeacherDashboard = () => {
                 loading={loading}
                 // FIX: Don't show global error in sub-panels; show empty state instead
                 error={modules.length === 0 && error ? error : null}
+              />
+            </section>
+          )}
+
+          {/* ── Module Time (research analytics) ── */}
+          {(activeNav === "overview" || activeNav === "moduleTime") && (
+            <section className="td-section-modules">
+              <div className="td-section-header">
+                <h2 className="td-section-title">⏱ Module Learning Time Analytics</h2>
+                {/* <span className="td-section-action"></span> */}
+              </div>
+              <ModuleTimeAnalytics
+                data={moduleTime}
+                loading={loading}
+                error={!moduleTime && error ? error : null}
               />
             </section>
           )}
@@ -541,15 +473,12 @@ const TeacherDashboard = () => {
       </div>
 
       {/* ── Student Detail Modal ── */}
-      <AnimatePresence>
-        {selectedStudent && (
-          <StudentModal
-            key={selectedStudent._id || selectedStudent.name}
-            student={selectedStudent}
-            onClose={() => setSelectedStudent(null)}
-          />
-        )}
-      </AnimatePresence>
+      {selectedStudent && (
+        <StudentModal
+          student={selectedStudent}
+          onClose={() => setSelectedStudent(null)}
+        />
+      )}
     </div>
   );
 };

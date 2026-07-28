@@ -2,25 +2,36 @@
 const User = require("../models/User");
 const Progress = require("../models/Progress");
 const { CURRICULUM_MODULES } = require("../config/curriculum");
-const {
-  clampPercentage,
-  clampStars,
-  average,
-} = require("../utils/progressMath");
 
 const { protect } = require("../middleware/auth");
 const roleMiddleware = require("../middleware/roleMiddleware");
 
 const router = express.Router();
+console.log("✅ analytics.js loaded");
 
-// CLEANUP: clampScore/clampStars/avg used to be defined locally here as a
-// second, independent copy of the same logic already living in
-// progressController.js. Both now pull from utils/progressMath.js so a
-// module score is clamped identically whether it's being saved or read for
-// analytics. Local alias kept so the rest of this file's variable names
-// don't need to change.
-const clampScore = clampPercentage;
-const avg = average;
+const avg = (arr) =>
+  arr.length ? arr.reduce((s, v) => s + v, 0) / arr.length : 0;
+
+// Defensive numeric coercion, mirrors safeNumber() in progressController.js.
+const safeNum = (value) => Number(value) || 0;
+
+// FIX: some Progress.modules records predate the score-clamping validation
+// in progressController.js and still contain raw, un-clamped values (e.g.
+// 215 instead of 0-100). Scores are always a percentage for display
+// purposes, so we defensively clamp on every read — this protects the UI
+// even if bad data ever re-enters the collection (manual edits, old
+// clients, etc.) without needing a one-off migration to keep working.
+const clampScore = (value) => {
+  const num = Number(value) || 0;
+  return Math.min(100, Math.max(0, num));
+};
+
+// Stars are stored 0-3 per module (see ModulePage.jsx: finalPoints >= 80 ? 3 :
+// finalPoints >= 50 ? 2 : 1). Clamp for the same defensive reason as scores.
+const clampStars = (value) => {
+  const num = Number(value) || 0;
+  return Math.min(3, Math.max(0, num));
+};
 
 // A student counts as "active" if their Progress doc has moved in the last
 // 7 days. Mirrors the activeThisWeek window already used in /students.
@@ -294,6 +305,151 @@ router.get("/weak-topics", protect, roleMiddleware("teacher"), async (req, res) 
     res.json({
       success: true,
       data,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+});
+
+/* ---------------- MODULE LEARNING TIME ANALYTICS (research) ----------------
+ * NOT the game timer. Aggregates `Progress.modules[].moduleTime`, the
+ * dedicated research metric populated by ModulePage.jsx (time from module
+ * entry to successful completion — story, examples, quizzes, feedback,
+ * navigation). `completionTime` (used as the arcade "game timer") is left
+ * completely untouched by this endpoint.
+ *
+ * Returns both teacher-facing aggregates (fastest/slowest module, averages
+ * per module and per student) and a flat `correlationData` array of raw
+ * per-attempt tuples — moduleTime alongside accuracy, score, hintsUsed,
+ * stars, rewardPoints, attempts and completed — so future researchers can
+ * run Pearson/Spearman correlation, mean/median/standard deviation, etc.
+ * without needing a new endpoint or schema change. No statistics are
+ * computed here; only the data required for that future analysis.
+ */
+router.get("/module-time", protect, roleMiddleware("teacher"), async (req, res) => {
+  try {
+    const students = await User.find({ role: "student" }).select("name email").lean();
+    const studentMap = {};
+    students.forEach((s) => {
+      studentMap[String(s._id)] = s;
+    });
+
+    const allProgress = await Progress.find().lean();
+
+    // Only entries where moduleTime has actually been recorded count toward
+    // the Module Learning Time aggregates — this keeps legacy attempts
+    // (saved before this feature existed, or saved only via the arcade
+    // GamePage flow, which doesn't send moduleTime) from silently dragging
+    // averages toward zero.
+    const timedEntries = [];
+
+    allProgress.forEach((progress) => {
+      (progress.modules || []).forEach((m) => {
+        if (safeNum(m.moduleTime) > 0) {
+          timedEntries.push({
+            studentId: String(progress.studentId),
+            moduleId: m.moduleId,
+            moduleTitle: m.moduleTitle,
+            moduleTime: safeNum(m.moduleTime), // seconds — the research metric
+            accuracy: clampScore(m.accuracy),
+            score: clampScore(m.score),
+            hintsUsed: safeNum(m.hintsUsed),
+            stars: clampStars(m.stars),
+            rewardPoints: safeNum(m.rewardPoints),
+            attempts: safeNum(m.attempts) || 1,
+            completed: !!m.completed,
+          });
+        }
+      });
+    });
+
+    const overallAvgModuleTime = Math.round(avg(timedEntries.map((e) => e.moduleTime)));
+
+    // ── Per module ──────────────────────────────────────────────────────────
+    const perModuleMap = {};
+    CURRICULUM_MODULES.forEach((cm) => {
+      perModuleMap[cm.moduleId] = { moduleId: cm.moduleId, title: cm.title, entries: [] };
+    });
+    timedEntries.forEach((e) => {
+      if (!perModuleMap[e.moduleId]) {
+        perModuleMap[e.moduleId] = {
+          moduleId: e.moduleId,
+          title: e.moduleTitle || `Module ${e.moduleId}`,
+          entries: [],
+        };
+      }
+      perModuleMap[e.moduleId].entries.push(e);
+    });
+
+    const perModule = Object.values(perModuleMap).map((m) => {
+      const times = m.entries.map((e) => e.moduleTime);
+      return {
+        moduleId: m.moduleId,
+        title: m.title,
+        dataPoints: times.length,
+        avgModuleTime: times.length ? Math.round(avg(times)) : 0,
+        fastestTime: times.length ? Math.min(...times) : 0,
+        slowestTime: times.length ? Math.max(...times) : 0,
+        avgAccuracy: m.entries.length ? Math.round(avg(m.entries.map((e) => e.accuracy))) : 0,
+        avgScore: m.entries.length ? Math.round(avg(m.entries.map((e) => e.score))) : 0,
+        avgHintsUsed: m.entries.length ? Number(avg(m.entries.map((e) => e.hintsUsed)).toFixed(1)) : 0,
+      };
+    });
+
+    const modulesWithData = perModule.filter((m) => m.dataPoints > 0);
+    const fastestModule = modulesWithData.length
+      ? modulesWithData.reduce((a, b) => (b.avgModuleTime < a.avgModuleTime ? b : a))
+      : null;
+    const slowestModule = modulesWithData.length
+      ? modulesWithData.reduce((a, b) => (b.avgModuleTime > a.avgModuleTime ? b : a))
+      : null;
+
+    // ── Per student ─────────────────────────────────────────────────────────
+    const perStudentMap = {};
+    timedEntries.forEach((e) => {
+      if (!perStudentMap[e.studentId]) {
+        const s = studentMap[e.studentId];
+        perStudentMap[e.studentId] = {
+          studentId: e.studentId,
+          name: s?.name || "Student",
+          times: [],
+        };
+      }
+      perStudentMap[e.studentId].times.push(e.moduleTime);
+    });
+
+    const perStudent = Object.values(perStudentMap)
+      .map((s) => ({
+        studentId: s.studentId,
+        name: s.name,
+        modulesTimed: s.times.length,
+        avgModuleTime: Math.round(avg(s.times)),
+        totalModuleTime: s.times.reduce((sum, t) => sum + t, 0),
+      }))
+      .sort((a, b) => b.totalModuleTime - a.totalModuleTime);
+
+    res.json({
+      success: true,
+      data: {
+        overallAvgModuleTime, // seconds
+        totalTimedAttempts: timedEntries.length,
+        fastestModule: fastestModule
+          ? { moduleId: fastestModule.moduleId, title: fastestModule.title, avgModuleTime: fastestModule.avgModuleTime }
+          : null,
+        slowestModule: slowestModule
+          ? { moduleId: slowestModule.moduleId, title: slowestModule.title, avgModuleTime: slowestModule.avgModuleTime }
+          : null,
+        perModule,
+        perStudent,
+        // Raw per-attempt tuples for future statistical analysis (Pearson /
+        // Spearman correlation, mean, median, standard deviation, etc.)
+        // between moduleTime and accuracy, score, hintsUsed, stars,
+        // rewardPoints, attempts and completion. Intentionally unaggregated.
+        correlationData: timedEntries,
+      },
     });
   } catch (err) {
     res.status(500).json({

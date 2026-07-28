@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { getGameForModule, isGameAvailable } from "../../utils/GameRegistry";
 import { getGameStatSummary } from "../../utils/GameMatrics";
+import { formatDuration } from "../../utils/moduleTimeTracker";
 import "./ModuleCard.css";
 
 // ── Module theme config ────────────────────────────────────────────────────────
@@ -112,6 +113,10 @@ const ModuleCard = ({ moduleData = {}, moduleId, progressData = {} }) => {
   const quizAccuracy = progressData.quizAccuracy || null;
   const mistakeCount = progressData.mistakeLog?.length || 0;
 
+  // ── Module Learning Time Analytics (research metric, informational only) ──
+  // NOT the game timer. Purely for display — never affects scoring.
+  const moduleTimeSpentSeconds = (progressData.moduleTimeAccumulatedMs || 0) / 1000;
+
   // ── Handlers ───────────────────────────────────────────────────────────────
   const handleOpenModule = useCallback(
     (e) => {
@@ -206,6 +211,9 @@ const ModuleCard = ({ moduleData = {}, moduleId, progressData = {} }) => {
         </div>
         <span className="mc-progress-sub">
           {completedScreens} / {totalScreens} screens · ⏱ {safeData.estimated_completion_time}
+          {moduleTimeSpentSeconds > 0 && (
+            <> · 🕒 {formatDuration(moduleTimeSpentSeconds)} spent</>
+          )}
         </span>
       </div>
 

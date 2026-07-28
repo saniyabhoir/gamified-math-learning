@@ -10,6 +10,7 @@ import ProgressBar from "../components/common/ProgressBar";
 import RewardPopup from "../components/common/RewardPopup";
 import FinalChallengePlaceholder from "../components/games/FinalChallengePlaceholder";
 import { isGameAvailable } from "../utils/GameRegistry";
+import { createModuleTimer } from "../utils/moduleTimeTracker";
 import "./ModulePage.css";
 
 // ─── Progress helpers ─────────────────────────────────────────────────────────
@@ -154,6 +155,21 @@ const ModulePage = () => {
 
   const saved = savedRef.current || {};
 
+  // ── Module Learning Time Analytics (research metric) ──────────────────────
+  // NOT the game timer. Tracks total time in the module's learning flow
+  // (story/examples/quizzes/feedback/navigation) from entry to completion.
+  // Resumes from any time accumulated in a previous, incomplete session
+  // instead of restarting, and starts pre-paused if this module was already
+  // completed (so reopening it to review never adds more research time or
+  // creates a duplicate timing record).
+  const moduleTimerRef = useRef(null);
+  if (moduleTimerRef.current === null) {
+    moduleTimerRef.current = createModuleTimer(
+      saved.moduleTimeAccumulatedMs || 0,
+      !!saved.backendSaveConfirmed
+    );
+  }
+
   const [currentScreenIndex, setCurrentScreenIndex] = useState(
     saved.screenIndex || 0
   );
@@ -192,6 +208,25 @@ const ModulePage = () => {
       });
   }, [parsedId, isInvalidId]);
 
+  // ── Module timer: pause/resume on tab visibility ──────────────────────────
+  // Idle/backgrounded time shouldn't count as learning time for the research
+  // metric. No-op once the module is already complete (timer is pre-paused).
+  useEffect(() => {
+    if (backendSaveConfirmed) return;
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        moduleTimerRef.current.pause();
+      } else {
+        moduleTimerRef.current.resume();
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () =>
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+  }, [backendSaveConfirmed]);
+
   // ── Save local progress ───────────────────────────────────────────────────
   useEffect(() => {
     if (!moduleData || !user) return;
@@ -199,32 +234,50 @@ const ModulePage = () => {
     const screens = moduleData.screens || [];
     const totalScreens = moduleData.total_screens || screens.length;
 
-    saveProgress(user.id, moduleId, {
-      screenIndex: currentScreenIndex,
-      phase: currentPhase,
-      totalPoints,
-      mistakeLog,
-      backendSaveConfirmed,
+    const persist = () => {
+      saveProgress(user.id, moduleId, {
+        screenIndex: currentScreenIndex,
+        phase: currentPhase,
+        totalPoints,
+        mistakeLog,
+        backendSaveConfirmed,
 
-      // FIX: previously this flipped to totalScreens the instant the student
-      // reached "final_challenge"/"module_complete", i.e. before the
-      // "Complete Module" button was even clicked and long before the
-      // backend save resolved. That let the Student Dashboard show a module
-      // as done while MongoDB (and thus the Teacher Dashboard) still had
-      // nothing recorded. Now it only reflects "done" once the backend save
-      // has actually succeeded.
-      completedScreens: backendSaveConfirmed ? totalScreens : currentScreenIndex,
+        // FIX: previously this flipped to totalScreens the instant the student
+        // reached "final_challenge"/"module_complete", i.e. before the
+        // "Complete Module" button was even clicked and long before the
+        // backend save resolved. That let the Student Dashboard show a module
+        // as done while MongoDB (and thus the Teacher Dashboard) still had
+        // nothing recorded. Now it only reflects "done" once the backend save
+        // has actually succeeded.
+        completedScreens: backendSaveConfirmed ? totalScreens : currentScreenIndex,
 
-      quizAccuracy:
-        mistakeLog.length > 0
-          ? Math.max(
-              0,
-              Math.round(
-                100 - (mistakeLog.length / Math.max(currentScreenIndex, 1)) * 20
+        quizAccuracy:
+          mistakeLog.length > 0
+            ? Math.max(
+                0,
+                Math.round(
+                  100 - (mistakeLog.length / Math.max(currentScreenIndex, 1)) * 20
+                )
               )
-            )
-          : null,
-    });
+            : null,
+
+        // ── Module Learning Time Analytics (research metric) ──────────────
+        // Persisted on every relevant state change so an incomplete module
+        // resumes timing correctly instead of restarting from zero.
+        moduleTimeAccumulatedMs: moduleTimerRef.current.getElapsedMs(),
+      });
+    };
+
+    persist();
+
+    // Also refresh the persisted elapsed time periodically, in case the
+    // student stays on a single screen for a long stretch with no other
+    // state change to re-trigger this effect (e.g. reading a long story
+    // screen). Skipped once the module is already complete.
+    const tick = backendSaveConfirmed ? null : setInterval(persist, 15000);
+    return () => {
+      if (tick) clearInterval(tick);
+    };
   }, [
     currentScreenIndex,
     currentPhase,
@@ -340,11 +393,6 @@ const ModulePage = () => {
               m.concept ||
               m.skill ||
               m.questionTopic ||
-              // ANALYTICS FIX: fall back to the nested concept_tag if a
-              // caller only ever sends mistakeTracking without also
-              // flattening it to `topic` (defense in depth alongside the
-              // QuizCard.jsx fix).
-              m.mistakeTracking?.concept_tag ||
               null
           )
           .filter(Boolean)
@@ -358,6 +406,15 @@ const ModulePage = () => {
       Math.round((Date.now() - sessionStartRef.current) / 1000)
     );
 
+    // ── Module Learning Time Analytics (research metric) ───────────────────
+    // NOT the game timer — this is the dedicated moduleTime value (paused
+    // during backgrounded tab time, resumed correctly across sessions).
+    // Sent alongside, not instead of, completionTime above so both metrics
+    // are kept: moduleTime = total learning time, gameTime = final game
+    // duration (completionTime, used unchanged by the existing game flows).
+    moduleTimerRef.current.pause();
+    const moduleTimeSeconds = moduleTimerRef.current.getElapsedSeconds();
+
     const success = await saveProgressToBackend({
       moduleId: parsedId,
       moduleTitle: moduleData.module_title || `Module ${parsedId}`,
@@ -366,6 +423,7 @@ const ModulePage = () => {
       accuracy,
       mistakes: mistakeLog.length,
       completionTime: completionTimeSeconds,
+      moduleTime: moduleTimeSeconds,
       stars: finalPoints >= 80 ? 3 : finalPoints >= 50 ? 2 : 1,
       rewardPoints: finalPoints,
       completed: true,
