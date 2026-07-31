@@ -171,40 +171,111 @@
   pointer-events: none;
 }
 
-/* ── Dialogue box ── */
-.sc-dialogue {
+/* ── Conversation Stack container ──
+   Replaces the old single fixed dialogue box. Holds capped history
+   bubbles (oldest at top) followed by the active bubble at the bottom.
+   Bounded height + internal scroll keeps long screens (6-8 segments)
+   from ever pushing page content around — it auto-scrolls the active
+   bubble into view instead. */
+.sc-stack {
   position: relative;
   z-index: 20;
   margin: 0 0 0 clamp(200px, 32vw, 400px);
   margin-right: clamp(1rem, 3vw, 3rem);
   margin-bottom: clamp(1.2rem, 3vh, 2.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  max-height: min(64vh, 620px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.15) transparent;
+  padding-right: 2px; /* room for scrollbar so bubbles don't shift */
+}
+.sc-stack::-webkit-scrollbar { width: 5px; }
+.sc-stack::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.15);
+  border-radius: 100px;
+}
+
+.sc-stack--narrator {
+  margin-left: clamp(1rem, 5vw, 6rem);
+}
+
+/* ── Bubble base (shared by history + active) ── */
+.sc-bubble {
+  position: relative;
   background: rgba(10,14,26,0.88);
   border: 1px solid rgba(255,255,255,0.1);
   border-radius: 20px;
-  padding: clamp(1.2rem, 2.5vw, 2rem);
+  padding: clamp(1rem, 2.2vw, 1.7rem);
   backdrop-filter: blur(14px);
   box-shadow: 0 16px 48px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.04);
-  min-height: 180px;
   display: flex;
   flex-direction: column;
-  gap: 0.9rem;
-  cursor: pointer;
-  transition: border-color 0.3s ease;
-}
-.sc-dialogue:hover {
-  border-color: rgba(255,255,255,0.15);
+  gap: 0.7rem;
+  flex-shrink: 0;
 }
 
-/* Narrator dialogue — full width, centred */
-.sc-dialogue--narrator {
-  margin-left: clamp(1rem, 5vw, 6rem);
+.sc-bubble--narrator {
   background: rgba(15,12,38,0.9);
   border-color: rgba(167,139,250,0.2);
   text-align: center;
   align-items: center;
 }
 
-/* ── Speaker header ── */
+/* Active bubble — full size, interactive */
+.sc-bubble--active {
+  min-height: 160px;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+.sc-bubble--active:hover {
+  border-color: rgba(255,255,255,0.15);
+}
+
+/* Previous bubbles — faded/shrunk by depth (inline style sets the
+   exact opacity/scale), calm hover-to-restore, no layout jump */
+.sc-bubble--history {
+  cursor: default;
+  padding: clamp(0.8rem, 1.8vw, 1.3rem);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  transform-origin: bottom center;
+}
+.sc-bubble--history:focus-visible {
+  outline: 2px solid var(--mp-teal, #3ecfcf);
+  outline-offset: 2px;
+}
+.sc-bubble--history.sc-bubble--hovered {
+  border-color: rgba(255,255,255,0.22);
+  box-shadow: 0 20px 56px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.08);
+}
+
+.sc-bubble-speaker {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-display, 'Cinzel', serif);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.sc-bubble-emoji { font-size: 0.9rem; }
+
+.sc-bubble-text {
+  font-family: var(--font-body, 'Nunito', sans-serif);
+  font-size: clamp(0.86rem, 1.5vw, 0.98rem);
+  line-height: 1.6;
+  color: #cfd7e6;
+  margin: 0;
+  white-space: pre-wrap;
+}
+.sc-bubble--hovered .sc-bubble-text {
+  color: #e8edf4;
+}
+
+/* ── Speaker header (active bubble) ── */
 .sc-speaker {
   display: flex;
   align-items: center;
@@ -373,17 +444,21 @@
     bottom: auto;
     top: 5vh;
   }
-  .sc-dialogue {
+  .sc-stack {
     margin: 0;
     margin-top: calc(38vh + 60px);
+    max-height: calc(62vh - 60px);
+    padding: 0 0.75rem;
+  }
+  .sc-stack--narrator {
+    margin-left: 0;
+  }
+  .sc-bubble--active {
     border-radius: 20px 20px 0 0;
     border-left: none;
     border-right: none;
     border-bottom: none;
     min-height: 220px;
-  }
-  .sc-dialogue--narrator {
-    margin-left: 0;
   }
   .sc-portrait-accent {
     display: none;
@@ -398,9 +473,12 @@
 }
 
 @media (max-width: 480px) {
-  .sc-dialogue {
+  .sc-bubble--active {
     padding: 1rem;
     border-radius: 16px 16px 0 0;
+  }
+  .sc-bubble--history {
+    padding: 0.75rem 1rem;
   }
   .sc-text {
     font-size: 0.95rem;

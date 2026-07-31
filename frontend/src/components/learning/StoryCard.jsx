@@ -1,6 +1,13 @@
 // frontend/src/components/learning/StoryCard.jsx
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import "./StoryCard.css";
+
+/* How many previous bubbles stay visible above the active one.
+   Keeps long screens (6-8 segments) from growing the page indefinitely —
+   older bubbles still "happened", they just scroll out of the capped
+   history window. Full history is never lost, only the render window. */
+const HISTORY_CAP = 4;
 
 /* ──────────────────────────────────────────────────────────
    Character SVG Avatars  (fallback when real PNGs missing)
@@ -42,15 +49,67 @@ const BG_GRADIENTS = {
 /* Typewriter speed in ms per character */
 const TYPEWRITER_MS = 24;
 
+/* One past dialogue bubble in the Conversation Stack.
+   Depth 0 = most recent (closest to active), higher depth = older/fainter. */
+const HistoryBubble = ({ seg, depth, isHovered, onHover, onLeave }) => {
+  const charMeta = CHARACTER_META[seg.portrait || "narrator"] || CHARACTER_META.narrator;
+  const isNarrator = !seg.portrait;
+
+  const restOpacity = Math.max(0.34, 0.82 - depth * 0.16);
+  const restScale = Math.max(0.86, 0.98 - depth * 0.035);
+
+  return (
+    <motion.div
+      layout
+      key={seg.segment_id}
+      className={`sc-bubble sc-bubble--history ${isNarrator ? "sc-bubble--narrator" : ""} ${isHovered ? "sc-bubble--hovered" : ""}`}
+      initial={{ opacity: 0, y: 14, scale: 0.96 }}
+      animate={{
+        opacity: isHovered ? 1 : restOpacity,
+        y: 0,
+        scale: isHovered ? 1.03 : restScale,
+      }}
+      exit={{ opacity: 0, y: -18, scale: 0.9, transition: { duration: 0.25 } }}
+      transition={{ type: "tween", duration: 0.4, ease: "easeOut" }}
+      onMouseEnter={() => onHover(seg.segment_id)}
+      onMouseLeave={onLeave}
+      onFocus={() => onHover(seg.segment_id)}
+      onBlur={onLeave}
+      tabIndex={0}
+      role="note"
+      aria-label={`Earlier line from ${seg.speaker}: ${seg.text}`}
+      style={{ zIndex: isHovered ? 30 : 10 }}
+    >
+      <div className="sc-bubble-speaker" style={{ color: charMeta.hue }}>
+        <span className="sc-bubble-emoji">{charMeta.emoji}</span>
+        <span>{seg.speaker}</span>
+      </div>
+      <p className="sc-bubble-text">{seg.text}</p>
+    </motion.div>
+  );
+};
+
 const StoryCard = ({ screenData, onComplete }) => {
   const [segIdx, setSegIdx] = useState(0);
   const [displayText, setDisplayText] = useState("");
   const [btnVisible, setBtnVisible] = useState(false);
   const [cardFade, setCardFade] = useState("seg-fade-in");
+  const [hoveredId, setHoveredId] = useState(null);
   const intervalRef = useRef(null);
+  const stackRef = useRef(null);
 
   const segments = screenData.story_segments || [];
   const seg = segments[segIdx];
+
+  /* Fully-shown previous segments for this screen, capped to the most
+     recent HISTORY_CAP entries so long screens don't grow unbounded.
+     Naturally resets to [] whenever a new screenData mounts a fresh
+     StoryCard instance (see ModulePage: story phase always unmounts
+     between screens), so history never leaks across concepts. */
+  const visibleHistory = useMemo(
+    () => segments.slice(Math.max(0, segIdx - HISTORY_CAP), segIdx),
+    [segments, segIdx]
+  );
 
   /* ── Typewriter effect ── */
   const startTypewriter = useCallback((text) => {
@@ -73,7 +132,7 @@ const StoryCard = ({ screenData, onComplete }) => {
     }, TYPEWRITER_MS);
   }, []);
 
-  /* Skip typewriter on tap of dialogue area */
+  /* Skip typewriter on tap of active dialogue bubble */
   const skipTypewriter = useCallback(() => {
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
@@ -90,14 +149,17 @@ const StoryCard = ({ screenData, onComplete }) => {
     return () => clearInterval(intervalRef.current);
   }, [segIdx, seg, startTypewriter]);
 
+  /* ── Keep the active bubble in view as the stack grows ── */
+  useEffect(() => {
+    if (stackRef.current) {
+      stackRef.current.scrollTop = stackRef.current.scrollHeight;
+    }
+  }, [segIdx, displayText, visibleHistory.length]);
+
   /* ── Advance to next segment or quiz ── */
   const handleNext = useCallback(() => {
     if (segIdx < segments.length - 1) {
-      setCardFade("seg-fade-out");
-      setTimeout(() => {
-        setSegIdx((p) => p + 1);
-        setCardFade("seg-fade-in");
-      }, 280);
+      setSegIdx((p) => p + 1);
     } else {
       setCardFade("seg-fade-out");
       setTimeout(onComplete, 280);
@@ -116,6 +178,9 @@ const StoryCard = ({ screenData, onComplete }) => {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [btnVisible, handleNext, skipTypewriter]);
+
+  const handleHoverBubble = useCallback((id) => setHoveredId(id), []);
+  const handleLeaveBubble = useCallback(() => setHoveredId(null), []);
 
   /* ── After all segments ── */
   if (!seg) {
@@ -179,7 +244,7 @@ const StoryCard = ({ screenData, onComplete }) => {
         </div>
       )}
 
-      {/* ── Character portrait ── */}
+      {/* ── Character portrait (reflects the active speaker) ── */}
       {!isNarrator && (
         <div className="sc-portrait-frame" aria-hidden="true">
           {portraitImgPath ? (
@@ -210,46 +275,70 @@ const StoryCard = ({ screenData, onComplete }) => {
         </div>
       )}
 
-      {/* ── Dialogue box ── */}
+      {/* ── Conversation Stack ── */}
       <div
-        className={`sc-dialogue ${isNarrator ? "sc-dialogue--narrator" : ""}`}
-        onClick={skipTypewriter}
-        role="region"
-        aria-live="polite"
-        aria-label="Dialogue"
+        className={`sc-stack ${isNarrator ? "sc-stack--narrator" : ""}`}
+        ref={stackRef}
       >
-        {/* Speaker name */}
-        <div
-          className="sc-speaker"
-          style={{ color: charMeta.hue, borderColor: `${charMeta.hue}55` }}
+        {/* Previous dialogue — capped history, fades & shrinks with age */}
+        <AnimatePresence initial={false}>
+          {visibleHistory.map((histSeg, i) => (
+            <HistoryBubble
+              key={histSeg.segment_id}
+              seg={histSeg}
+              depth={visibleHistory.length - 1 - i}
+              isHovered={hoveredId === histSeg.segment_id}
+              onHover={handleHoverBubble}
+              onLeave={handleLeaveBubble}
+            />
+          ))}
+        </AnimatePresence>
+
+        {/* Active dialogue bubble — full size, typewriter text */}
+        <motion.div
+          layout
+          className={`sc-bubble sc-bubble--active ${isNarrator ? "sc-bubble--narrator" : ""}`}
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ type: "tween", duration: 0.4, ease: "easeOut" }}
+          onClick={skipTypewriter}
+          role="region"
+          aria-live="polite"
+          aria-label="Dialogue"
         >
-          <span className="sc-speaker-emoji">{charMeta.emoji}</span>
-          <span className="sc-speaker-name">{seg.speaker}</span>
-          {isNarrator && <span className="sc-narrator-tag">Narrator</span>}
-        </div>
-
-        {/* Dialogue text with typewriter cursor */}
-        <p className="sc-text" aria-label={seg.text}>
-          {displayText}
-          <span className="sc-cursor" aria-hidden="true">▌</span>
-        </p>
-
-        {/* Action button */}
-        <div className={`sc-btn-row ${btnVisible ? "sc-btn-row--visible" : ""}`}>
-          <button
-            className={`sc-btn ${isLastSeg ? "sc-btn--cta" : "sc-btn--primary"}`}
-            onClick={handleNext}
-            disabled={!btnVisible}
-            aria-label={isLastSeg ? "Continue to quiz" : "Next dialogue"}
+          {/* Speaker name */}
+          <div
+            className="sc-speaker"
+            style={{ color: charMeta.hue, borderColor: `${charMeta.hue}55` }}
           >
-            {isLastSeg ? "Start Quiz  →" : "Next  →"}
-          </button>
-          {!btnVisible && (
-            <span className="sc-skip-hint" onClick={skipTypewriter} role="button" tabIndex={0}>
-              tap to skip
-            </span>
-          )}
-        </div>
+            <span className="sc-speaker-emoji">{charMeta.emoji}</span>
+            <span className="sc-speaker-name">{seg.speaker}</span>
+            {isNarrator && <span className="sc-narrator-tag">Narrator</span>}
+          </div>
+
+          {/* Dialogue text with typewriter cursor */}
+          <p className="sc-text" aria-label={seg.text}>
+            {displayText}
+            <span className="sc-cursor" aria-hidden="true">▌</span>
+          </p>
+
+          {/* Action button */}
+          <div className={`sc-btn-row ${btnVisible ? "sc-btn-row--visible" : ""}`}>
+            <button
+              className={`sc-btn ${isLastSeg ? "sc-btn--cta" : "sc-btn--primary"}`}
+              onClick={handleNext}
+              disabled={!btnVisible}
+              aria-label={isLastSeg ? "Continue to quiz" : "Next dialogue"}
+            >
+              {isLastSeg ? "Start Quiz  →" : "Next  →"}
+            </button>
+            {!btnVisible && (
+              <span className="sc-skip-hint" onClick={skipTypewriter} role="button" tabIndex={0}>
+                tap to skip
+              </span>
+            )}
+          </div>
+        </motion.div>
       </div>
 
       {/* ── Story progress bar strip ── */}

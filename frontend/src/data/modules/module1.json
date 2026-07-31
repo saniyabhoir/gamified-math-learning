@@ -17,14 +17,15 @@
   },
   "total_screens": 5,
   "screens": [
-
     {
       "screen_id": "M1_S1",
       "screen_order": 1,
       "title": "The Mystery Box",
       "objective": "Students discover that unknown values exist and that finding them is satisfying, not scary.",
       "difficulty": "beginner",
-      "concept_tags": ["unknown_values"],
+      "concept_tags": [
+        "unknown_values"
+      ],
       "assets": {
         "background": "sweet_shop_bg",
         "character_portraits": {
@@ -37,7 +38,7 @@
           "segment_id": "M1_S1_SEG1",
           "speaker": "Narrator",
           "portrait": null,
-          "text": "After school on a Tuesday, Arjun ducked into Meena Aunty's sweet shop — the one that always smelled of cardamom and warm ghee. The glass counter was filled with towers of laddoos, barfi, and chakli. But today, something was different.",
+          "text": "At Meena Aunty's sweet shop, Arjun found a puzzle waiting for him.",
           "background": "sweet_shop_bg",
           "trigger": "next"
         },
@@ -45,7 +46,7 @@
           "segment_id": "M1_S1_SEG2",
           "speaker": "Meena Aunty",
           "portrait": "meena",
-          "text": "Arjun! Perfect timing. I have a small puzzle for you. This morning I added 2 laddoos to my jar. Now there are exactly 5 inside. But I forgot how many were there before I added them.",
+          "text": "I added 2 laddoos to a jar. Now there are 5. How many were there before?",
           "background": "sweet_shop_bg",
           "trigger": "next"
         },
@@ -53,7 +54,7 @@
           "segment_id": "M1_S1_SEG3",
           "speaker": "Arjun",
           "portrait": "arjun",
-          "text": "Hmm... so adding 2 gave you 5 total. That means... if I go backwards — 5 minus 2 — there must have been 3 laddoos before!",
+          "text": "5 minus 2... there were 3.",
           "background": "sweet_shop_bg",
           "trigger": "next"
         },
@@ -61,23 +62,7 @@
           "segment_id": "M1_S1_SEG4",
           "speaker": "Meena Aunty",
           "portrait": "meena",
-          "text": "That's it! You found the hidden number without even opening the jar — just by thinking backwards from what you knew. That hidden starting number? In mathematics, we call it an unknown value.",
-          "background": "sweet_shop_bg",
-          "trigger": "next"
-        },
-        {
-          "segment_id": "M1_S1_SEG5",
-          "speaker": "Arjun",
-          "portrait": "arjun",
-          "text": "An unknown value... So it's just a number we don't know yet — but we can figure it out! That doesn't sound scary at all.",
-          "background": "sweet_shop_bg",
-          "trigger": "next"
-        },
-        {
-          "segment_id": "M1_S1_SEG6",
-          "speaker": "Narrator",
-          "portrait": null,
-          "text": "An unknown value is a hidden quantity we haven't been told directly. We find it by reversing the operation — working backwards from the result. This is the very first idea in algebra.",
+          "text": "Correct. You worked backwards from the total. That hidden number is called an unknown value.",
           "background": "sweet_shop_bg",
           "trigger": "next"
         }
@@ -105,7 +90,12 @@
           "question_id": "M1_S1_Q1",
           "question_type": "MCQ",
           "question_text": "A basket had some mangoes. 4 more were added. Now there are 9. How many were there at the start?",
-          "options": ["4", "5", "9", "13"],
+          "options": [
+            "4",
+            "5",
+            "9",
+            "13"
+          ],
           "correct_answer": "5",
           "feedback_correct": "Correct! Work backwards: 9 − 4 = 5. You found the unknown!",
           "feedback_incorrect": "Try working backwards from the final total. If adding 4 gave 9, reverse it: 9 minus 4.",
@@ -140,7 +130,12 @@
           "question_id": "M1_S1_Q3",
           "question_type": "MCQ",
           "question_text": "Meena Aunty's jar had some biscuits. She added 6. Now it has 10. What was the starting number?",
-          "options": ["6", "16", "4", "10"],
+          "options": [
+            "6",
+            "16",
+            "4",
+            "10"
+          ],
           "correct_answer": "4",
           "feedback_correct": "10 − 6 = 4. You found the hidden number — just like Arjun did with the laddoos!",
           "feedback_incorrect": "Reverse the addition to find the start. The jar ended with 10, and 6 were added. So how many were there before the 6 came in?",
@@ -167,14 +162,15 @@
         "Ignoring that the operation needs to be reversed"
       ]
     },
-
     {
       "screen_id": "M1_S2",
       "screen_order": 2,
       "title": "Why Variables Were Invented",
       "objective": "Students understand that variables exist because real-life situations have changing quantities, and one letter can represent any number.",
       "difficulty": "beginner",
-      "concept_tags": ["variables"],
+      "concept_tags": [
+        "variables"
+      ],
       "assets": {
         "background": "sweet_shop_counter",
         "character_portraits": {
@@ -195,7 +191,7 @@
           "segment_id": "M1_S2_SEG2",
           "speaker": "Meena Aunty",
           "portrait": "meena",
-          "text": "Each laddoo costs 10 rupees. Simple enough! But every customer buys a different amount. One person wants 2, the next wants 5, someone else wants 12. I've been writing out every possible total and I'm running out of room.",
+          "text": "Each laddoo costs 10 rupees. But every customer buys a different number, and I'm tired of writing a new line for each one.",
           "background": "sweet_shop_counter",
           "trigger": "next"
         },
@@ -203,31 +199,47 @@
           "segment_id": "M1_S2_SEG3",
           "speaker": "Arjun",
           "portrait": "arjun",
-          "text": "Wait — you're writing a new line for every single customer? That could go on forever! There has to be a smarter way...",
+          "text": "What if we use a letter? Let n be the number of laddoos. Then the total is 10 × n.",
           "background": "sweet_shop_counter",
           "trigger": "next"
         },
         {
           "segment_id": "M1_S2_SEG4",
-          "speaker": "Arjun",
-          "portrait": "arjun",
-          "text": "What if instead of writing every number separately, we use one letter to stand in for 'however many laddoos the customer buys'? Let's call it n. Then the total is always just: 10 times n. Whatever n happens to be!",
+          "speaker": "Meena Aunty",
+          "portrait": "meena",
+          "text": "Let's test it. If n = 2, what's the total?",
           "background": "sweet_shop_counter",
           "trigger": "next"
         },
         {
           "segment_id": "M1_S2_SEG5",
-          "speaker": "Meena Aunty",
-          "portrait": "meena",
-          "text": "Let me check... if n is 1, that's 10. If n is 2, that's 20. If n is 5, that's 50. One rule — 10n — works for every single customer! Arjun, you just invented something mathematicians call a variable!",
+          "speaker": "Arjun",
+          "portrait": "arjun",
+          "text": "20 rupees.",
           "background": "sweet_shop_counter",
           "trigger": "next"
         },
         {
           "segment_id": "M1_S2_SEG6",
-          "speaker": "Narrator",
-          "portrait": null,
-          "text": "A variable is a letter that stands for a quantity that can change. Mathematicians invented variables so that one simple rule could work for all situations — instead of writing a different line for each one.",
+          "speaker": "Meena Aunty",
+          "portrait": "meena",
+          "text": "And if n = 5?",
+          "background": "sweet_shop_counter",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M1_S2_SEG7",
+          "speaker": "Arjun",
+          "portrait": "arjun",
+          "text": "50 rupees.",
+          "background": "sweet_shop_counter",
+          "trigger": "next"
+        },
+        {
+          "segment_id": "M1_S2_SEG8",
+          "speaker": "Meena Aunty",
+          "portrait": "meena",
+          "text": "Exactly. One rule works every time. The letter n is called a variable because its value can change.",
           "background": "sweet_shop_counter",
           "trigger": "next"
         }
@@ -255,7 +267,12 @@
           "question_id": "M1_S2_Q1",
           "question_type": "MCQ",
           "question_text": "Each pencil costs 15 rupees. Which expression gives the total cost for any number of pencils?",
-          "options": ["15 + p", "15p", "p + 15", "150"],
+          "options": [
+            "15 + p",
+            "15p",
+            "p + 15",
+            "150"
+          ],
           "correct_answer": "15p",
           "feedback_correct": "Correct! p stands for however many pencils are bought. 15p works for 1 pencil, 10 pencils, or 100 — every case!",
           "feedback_incorrect": "When the same price applies to a changing quantity, you multiply. 15 times p gives the total for any number.",
@@ -310,7 +327,12 @@
           "question_id": "M1_S2_Q4",
           "question_type": "MCQ",
           "question_text": "Meena Aunty uses the rule 10n. If a customer buys 3 laddoos, what is the total cost?",
-          "options": ["10", "3", "30", "13"],
+          "options": [
+            "10",
+            "3",
+            "30",
+            "13"
+          ],
           "correct_answer": "30",
           "feedback_correct": "10 × 3 = 30. You substituted n = 3 into the rule — that's exactly how variables work!",
           "feedback_incorrect": "Replace n with 3 in the expression 10n, then multiply: 10 times 3.",
@@ -337,14 +359,15 @@
         "Confusing the variable with the constant multiplier"
       ]
     },
-
     {
       "screen_id": "M1_S3",
       "screen_order": 3,
       "title": "Meet Constants",
       "objective": "Students learn that while variables change, some values in an expression are always fixed — these are called constants.",
       "difficulty": "intermediate",
-      "concept_tags": ["constants"],
+      "concept_tags": [
+        "constants"
+      ],
       "assets": {
         "background": "sweet_shop_counter",
         "character_portraits": {
@@ -357,7 +380,7 @@
           "segment_id": "M1_S3_SEG1",
           "speaker": "Arjun",
           "portrait": "arjun",
-          "text": "Meena Aunty, I've been thinking about 10n. Every time a new customer walks in, n changes — 1 laddoo, 5 laddoos, 12 laddoos. But the 10... the 10 never moves. It's always 10 rupees per laddoo.",
+          "text": "In 10n, n changes every time.",
           "background": "sweet_shop_counter",
           "trigger": "next"
         },
@@ -365,7 +388,7 @@
           "segment_id": "M1_S3_SEG2",
           "speaker": "Meena Aunty",
           "portrait": "meena",
-          "text": "You noticed! The price of one laddoo is fixed. Whether I serve 1 customer or 100, one laddoo always costs 10 rupees. That's never going to change because of who's buying.",
+          "text": "Does the 10 ever change?",
           "background": "sweet_shop_counter",
           "trigger": "next"
         },
@@ -373,7 +396,7 @@
           "segment_id": "M1_S3_SEG3",
           "speaker": "Arjun",
           "portrait": "arjun",
-          "text": "So inside an expression, there are two completely different kinds of things? Parts that change — like n — and parts that stay fixed — like 10?",
+          "text": "No.",
           "background": "sweet_shop_counter",
           "trigger": "next"
         },
@@ -381,15 +404,7 @@
           "segment_id": "M1_S3_SEG4",
           "speaker": "Meena Aunty",
           "portrait": "meena",
-          "text": "Exactly right. In algebra, the fixed numbers are called constants. Think of them as the reliable, steady parts of an expression — they hold their value no matter what the variable does.",
-          "background": "sweet_shop_counter",
-          "trigger": "next"
-        },
-        {
-          "segment_id": "M1_S3_SEG5",
-          "speaker": "Narrator",
-          "portrait": null,
-          "text": "In the expression 10n: n is the variable — it changes with every customer. 10 is the constant — it never changes. Every algebraic expression is built from these two ingredients: things that change, and things that stay fixed.",
+          "text": "Exactly. A number that never changes is called a constant. In 10n, 10 is the constant and n is the variable.",
           "background": "sweet_shop_counter",
           "trigger": "next"
         }
@@ -404,11 +419,17 @@
           },
           {
             "expression": "6y + 3",
-            "constants": ["6", "3"]
+            "constants": [
+              "6",
+              "3"
+            ]
           },
           {
             "expression": "2a + 4",
-            "constants": ["2", "4"]
+            "constants": [
+              "2",
+              "4"
+            ]
           }
         ]
       },
@@ -417,7 +438,12 @@
           "question_id": "M1_S3_Q1",
           "question_type": "MCQ",
           "question_text": "In the expression 8x, which part is the constant?",
-          "options": ["x", "8", "Both 8 and x", "Neither"],
+          "options": [
+            "x",
+            "8",
+            "Both 8 and x",
+            "Neither"
+          ],
           "correct_answer": "8",
           "feedback_correct": "Correct! 8 is always 8 — it never changes. x is the variable that changes. So 8 is the constant.",
           "feedback_incorrect": "The constant is the fixed number. In 8x, the letter x changes depending on the situation. The 8 never does.",
@@ -452,7 +478,12 @@
           "question_id": "M1_S3_Q3",
           "question_type": "MCQ",
           "question_text": "In the expression 6y + 3, how many constants are there?",
-          "options": ["0", "1", "2", "3"],
+          "options": [
+            "0",
+            "1",
+            "2",
+            "3"
+          ],
           "correct_answer": "2",
           "feedback_correct": "Both 6 and 3 are constants — they are fixed numbers. y is the only variable.",
           "feedback_incorrect": "Count all the fixed numbers: 6 (the coefficient) stays fixed, and 3 (the standalone number) also stays fixed. That's two constants.",
@@ -479,14 +510,15 @@
         "Believing a constant can change if the variable changes"
       ]
     },
-
     {
       "screen_id": "M1_S4",
       "screen_order": 4,
       "title": "Meet Terms",
       "objective": "Students learn that algebraic expressions are made of individual building blocks called terms — the parts separated by plus or minus signs.",
       "difficulty": "intermediate",
-      "concept_tags": ["terms"],
+      "concept_tags": [
+        "terms"
+      ],
       "assets": {
         "background": "receipt_board",
         "character_portraits": {
@@ -507,7 +539,7 @@
           "segment_id": "M1_S4_SEG2",
           "speaker": "Meena Aunty",
           "portrait": "meena",
-          "text": "So we have 3 boxes — let's call x the cost of one box. That gives us 3x for the laddoos. Plus 5 rupees for packaging. The full bill reads: 3x + 5.",
+          "text": "A customer buys 3 boxes at x rupees each and pays 5 rupees for delivery. That gives us 3x + 5.",
           "background": "receipt_board",
           "trigger": "next"
         },
@@ -515,7 +547,7 @@
           "segment_id": "M1_S4_SEG3",
           "speaker": "Arjun",
           "portrait": "arjun",
-          "text": "Right! The bill has two separate parts. 3x is the laddoo cost — it changes depending on the box price. And 5 is the packaging fee — it's always the same. They're joined by the plus sign, but the plus sign itself isn't a charge. It's just connecting the two actual parts.",
+          "text": "3x and 5 are two separate parts. The plus sign just joins them.",
           "background": "receipt_board",
           "trigger": "next"
         },
@@ -523,15 +555,7 @@
           "segment_id": "M1_S4_SEG4",
           "speaker": "Meena Aunty",
           "portrait": "meena",
-          "text": "That's a wonderful way to see it. In algebra, each of those meaningful pieces — 3x and 5 — has its own name. They're called terms. The plus or minus signs between them are just separators, not terms themselves.",
-          "background": "receipt_board",
-          "trigger": "next"
-        },
-        {
-          "segment_id": "M1_S4_SEG5",
-          "speaker": "Narrator",
-          "portrait": null,
-          "text": "Terms are the individual parts of an algebraic expression. They are separated by plus (+) or minus (−) signs. The signs are separators — they sit between terms, but they are not terms themselves. In 3x + 5, there are exactly two terms: 3x and 5.",
+          "text": "Each part is called a term. 3x + 5 has two terms: 3x and 5.",
           "background": "receipt_board",
           "trigger": "next"
         }
@@ -542,17 +566,28 @@
         "examples": [
           {
             "expression": "3x + 5",
-            "terms": ["3x", "5"],
+            "terms": [
+              "3x",
+              "5"
+            ],
             "term_count": 2
           },
           {
             "expression": "4a + 2b + 7",
-            "terms": ["4a", "2b", "7"],
+            "terms": [
+              "4a",
+              "2b",
+              "7"
+            ],
             "term_count": 3
           },
           {
             "expression": "x + y + 8",
-            "terms": ["x", "y", "8"],
+            "terms": [
+              "x",
+              "y",
+              "8"
+            ],
             "term_count": 3
           }
         ]
@@ -562,7 +597,12 @@
           "question_id": "M1_S4_Q1",
           "question_type": "MCQ",
           "question_text": "How many terms are in the expression 3x + 5?",
-          "options": ["1", "2", "3", "5"],
+          "options": [
+            "1",
+            "2",
+            "3",
+            "5"
+          ],
           "correct_answer": "2",
           "feedback_correct": "Correct! 3x is one term and 5 is another. The plus sign just connects them — it isn't a term.",
           "feedback_incorrect": "Count the meaningful parts separated by the plus sign. The plus sign itself is not a term.",
@@ -577,7 +617,12 @@
           "question_id": "M1_S4_Q2",
           "question_type": "MCQ",
           "question_text": "Which of these is NOT a term in an algebraic expression?",
-          "options": ["3x", "5", "+ sign", "y"],
+          "options": [
+            "3x",
+            "5",
+            "+ sign",
+            "y"
+          ],
           "correct_answer": "+ sign",
           "feedback_correct": "Right! The plus sign is a separator — it lives between terms but is not one itself.",
           "feedback_incorrect": "3x, 5, and y are all meaningful algebraic parts — they are all terms. The + sign just separates them.",
@@ -592,7 +637,12 @@
           "question_id": "M1_S4_Q3",
           "question_type": "MCQ",
           "question_text": "How many terms does the expression 4a + 2b + 7 have?",
-          "options": ["2", "3", "4", "6"],
+          "options": [
+            "2",
+            "3",
+            "4",
+            "6"
+          ],
           "correct_answer": "3",
           "feedback_correct": "Exactly! 4a is one term, 2b is a second term, and 7 is a third term. Two plus signs, three terms.",
           "feedback_incorrect": "Separate the expression at each plus sign: 4a | 2b | 7. Count the pieces, not the signs.",
@@ -639,14 +689,16 @@
         "Thinking only variable-containing parts are terms"
       ]
     },
-
     {
       "screen_id": "M1_S5",
       "screen_order": 5,
       "title": "Like Terms and Unlike Terms",
       "objective": "Students learn to recognise which terms share the same variable (like terms) and which do not (unlike terms) — the gateway to simplification.",
       "difficulty": "advanced",
-      "concept_tags": ["like_terms", "unlike_terms"],
+      "concept_tags": [
+        "like_terms",
+        "unlike_terms"
+      ],
       "assets": {
         "background": "sorting_station",
         "character_portraits": {
@@ -667,7 +719,7 @@
           "segment_id": "M1_S5_SEG2",
           "speaker": "Meena Aunty",
           "portrait": "meena",
-          "text": "I have 3 laddoos here, 5 laddoos over there, and 2 barfi on the side. Arjun, I want one total count for each type. Can I just add all of them up into a single number?",
+          "text": "I have 3 laddoos, 5 laddoos, and 2 barfis. Can I add all three into one number?",
           "background": "sorting_station",
           "trigger": "next"
         },
@@ -675,7 +727,7 @@
           "segment_id": "M1_S5_SEG3",
           "speaker": "Arjun",
           "portrait": "arjun",
-          "text": "Of course not! Laddoos and barfi are completely different things. You can add 3 laddoos and 5 laddoos — that's 8 laddoos. But the 2 barfi stay separate because they're a different type entirely. You'd never call 8 laddoos plus 2 barfi 'ten sweets of the same kind.'",
+          "text": "No — laddoos and barfis are different things. 3 laddoos + 5 laddoos = 8 laddoos. The 2 barfis stay separate.",
           "background": "sorting_station",
           "trigger": "next"
         },
@@ -683,7 +735,7 @@
           "segment_id": "M1_S5_SEG4",
           "speaker": "Meena Aunty",
           "portrait": "meena",
-          "text": "Now write it the algebra way. Let x stand for laddoos and y stand for barfi. We had 3x, 5x, and 2y. The 3x and 5x can be grouped — they're the same type. The 2y stands alone.",
+          "text": "Let's write that using algebra. Let x represent laddoos and y represent barfis. 3x and 5x have the same variable — they're like terms. 2y has a different variable — it's an unlike term.",
           "background": "sorting_station",
           "trigger": "next"
         },
@@ -691,15 +743,7 @@
           "segment_id": "M1_S5_SEG5",
           "speaker": "Arjun",
           "portrait": "arjun",
-          "text": "So 3x and 5x are like terms because they both have the variable x — just like both piles were laddoos. But 2y is an unlike term because y is a completely different variable. Different types, different rules!",
-          "background": "sorting_station",
-          "trigger": "next"
-        },
-        {
-          "segment_id": "M1_S5_SEG6",
-          "speaker": "Narrator",
-          "portrait": null,
-          "text": "Like terms share exactly the same variable. Unlike terms have different variables. Like terms can eventually be combined — unlike terms cannot. The coefficient (the number in front) doesn't matter for deciding: 3x and 7x are like terms. 3x and 3y are unlike terms.",
+          "text": "So the number in front doesn't matter — only the variable does. 3x and 7x are like terms. 3x and 3y aren't.",
           "background": "sorting_station",
           "trigger": "next"
         }
@@ -795,7 +839,12 @@
           "question_id": "M1_S5_Q4",
           "question_type": "MCQ",
           "question_text": "Which of these is a like term for 3x?",
-          "options": ["3y", "3", "7x", "x + 3"],
+          "options": [
+            "3y",
+            "3",
+            "7x",
+            "x + 3"
+          ],
           "correct_answer": "7x",
           "feedback_correct": "7x is correct! It has the variable x, just like 3x. The fact that the coefficient is different (7 instead of 3) doesn't matter — same variable means like terms.",
           "feedback_incorrect": "Focus on the variable: 3x has x. Find the option that also has x — the number in front doesn't matter.",
@@ -822,6 +871,5 @@
         "Combining unlike terms together — a classic and very common error that Module 2 addresses directly"
       ]
     }
-
   ]
 }

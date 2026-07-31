@@ -6,6 +6,10 @@ import { saveProgressToBackend } from "../services/progressService";
 
 import StoryCard from "../components/learning/StoryCard";
 import QuizCard from "../components/learning/QuizCard";
+import MathNotebook, {
+  extractConceptsFromModule,
+  mergeNotebookConcepts,
+} from "../components/learning/MathNotebook";
 import ProgressBar from "../components/common/ProgressBar";
 import RewardPopup from "../components/common/RewardPopup";
 import FinalChallengePlaceholder from "../components/games/FinalChallengePlaceholder";
@@ -15,6 +19,13 @@ import "./ModulePage.css";
 // ─── Progress helpers ─────────────────────────────────────────────────────────
 const getProgressKey = (userId, moduleId) =>
   `mq_progress_u${userId}_m${moduleId}`;
+
+// Tracks whether the Math Notebook has already auto-opened once for this
+// student + module, so returning to an already-completed module's summary
+// screen doesn't pop it open again uninvited — after the first time, it's
+// button-only.
+const getNotebookSeenKey = (userId, moduleId) =>
+  `mq_notebook_seen_u${userId}_m${moduleId}`;
 
 const saveProgress = (userId, moduleId, data) => {
   try {
@@ -50,7 +61,7 @@ const ModuleErrorScreen = ({ moduleId, onBack }) => (
   </div>
 );
 
-const ModuleCompleteScreen = ({ moduleId, moduleTitle, onPlayGame, onDashboard }) => {
+const ModuleCompleteScreen = ({ moduleId, moduleTitle, onPlayGame, onDashboard, onViewNotebook }) => {
   const gameAvailable = isGameAvailable(moduleId);
 
   return (
@@ -105,6 +116,22 @@ const ModuleCompleteScreen = ({ moduleId, moduleTitle, onPlayGame, onDashboard }
           🔒 Game coming soon
         </p>
       )}
+
+      <button
+        onClick={onViewNotebook}
+        style={{
+          padding: "0.75rem 1.8rem",
+          background: "rgba(167,139,250,0.1)",
+          border: "1px solid rgba(167,139,250,0.35)",
+          borderRadius: "14px",
+          color: "#a78bfa",
+          fontWeight: 800,
+          fontSize: "0.9rem",
+          cursor: "pointer",
+        }}
+      >
+        📓 View Math Notebook
+      </button>
 
       <button
         onClick={onDashboard}
@@ -174,6 +201,10 @@ const ModulePage = () => {
   const [showReward, setShowReward] = useState(false);
   const [pendingReward, setPendingReward] = useState(null);
 
+  // ── Math Notebook state ───────────────────────────────────────────────────
+  const [showNotebook, setShowNotebook] = useState(false);
+  const [notebookConcepts, setNotebookConcepts] = useState([]);
+
   // ── Load module JSON ──────────────────────────────────────────────────────
   useEffect(() => {
     if (isInvalidId) return;
@@ -240,6 +271,43 @@ const ModulePage = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [currentScreenIndex, currentPhase]);
+
+  // ── Math Notebook: build + merge concepts on module completion ───────────
+  // concept_explanation already lives on every screen in the module JSON, so
+  // this just reads it — no separate notebook content to author. Concepts
+  // are merged into the student's persistent notebook (keyed by userId) so
+  // future modules append rather than overwrite. The notebook auto-opens
+  // only the very first time this module is completed; after that it's
+  // reachable via the "View Math Notebook" button.
+  useEffect(() => {
+    if (currentPhase !== "module_complete" || !moduleData || !user) return;
+
+    const concepts = extractConceptsFromModule(moduleData);
+    const merged = mergeNotebookConcepts(
+      user.id,
+      parsedId,
+      moduleData.module_title,
+      concepts
+    );
+    setNotebookConcepts(merged);
+
+    const seenKey = getNotebookSeenKey(user.id, moduleId);
+    let alreadySeen = false;
+    try {
+      alreadySeen = localStorage.getItem(seenKey) === "true";
+    } catch {
+      alreadySeen = false;
+    }
+
+    if (!alreadySeen) {
+      setShowNotebook(true);
+      try {
+        localStorage.setItem(seenKey, "true");
+      } catch {
+        /* non-fatal — worst case it auto-opens again next time */
+      }
+    }
+  }, [currentPhase, moduleData, user, parsedId, moduleId]);
 
   // ── Transition helper ────────────────────────────────────────────────────
   const transitionTo = useCallback((fn) => {
@@ -413,12 +481,21 @@ const ModulePage = () => {
 
   if (currentPhase === "module_complete") {
     return (
-      <ModuleCompleteScreen
-        moduleId={parsedId}
-        moduleTitle={moduleData.module_title}
-        onPlayGame={() => navigate(`/module/${moduleId}/game`)}
-        onDashboard={() => navigate("/dashboard")}
-      />
+      <>
+        <ModuleCompleteScreen
+          moduleId={parsedId}
+          moduleTitle={moduleData.module_title}
+          onPlayGame={() => navigate(`/module/${moduleId}/game`)}
+          onDashboard={() => navigate("/dashboard")}
+          onViewNotebook={() => setShowNotebook(true)}
+        />
+        {showNotebook && (
+          <MathNotebook
+            concepts={notebookConcepts}
+            onClose={() => setShowNotebook(false)}
+          />
+        )}
+      </>
     );
   }
 
