@@ -181,12 +181,15 @@
   position: relative;
   z-index: 20;
   margin: 0 0 0 clamp(200px, 32vw, 400px);
-  margin-right: clamp(1rem, 3vw, 3rem);
+  margin-right: clamp(0.75rem, 2.2vw, 2.25rem);
   margin-bottom: clamp(1.2rem, 3vh, 2.5rem);
+  max-width: 1400px; /* keeps the bubble from over-stretching on ultrawide displays */
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
-  max-height: min(64vh, 620px);
+  /* Taller + wider bubble area = less unused space above the dialogue,
+     while still capped so long screens keep their internal scroll. */
+  max-height: min(74vh, 760px);
   overflow-y: auto;
   overflow-x: hidden;
   scrollbar-width: thin;
@@ -227,7 +230,8 @@
 
 /* Active bubble — full size, interactive */
 .sc-bubble--active {
-  min-height: 160px;
+  min-height: 220px;
+  padding: clamp(1.3rem, 2.6vw, 2.1rem);
   cursor: pointer;
   transition: border-color 0.3s ease;
 }
@@ -265,7 +269,7 @@
 
 .sc-bubble-text {
   font-family: var(--font-body, 'Nunito', sans-serif);
-  font-size: clamp(0.86rem, 1.5vw, 0.98rem);
+  font-size: clamp(0.95rem, 1.6vw, 1.05rem);
   line-height: 1.6;
   color: #cfd7e6;
   margin: 0;
@@ -309,12 +313,14 @@
 /* ── Dialogue text ── */
 .sc-text {
   font-family: var(--font-body, 'Nunito', sans-serif);
-  font-size: clamp(0.98rem, 1.8vw, 1.15rem);
-  line-height: 1.75;
+  /* Phase 1A: larger, easier-to-read dialogue text (up from
+     clamp(0.98rem, 1.8vw, 1.15rem)) */
+  font-size: clamp(1.15rem, 2.2vw, 1.45rem);
+  line-height: 1.7;
   color: #e8edf4;
   margin: 0;
   flex: 1;
-  min-height: 3.5em;
+  min-height: 4.5em;
   white-space: pre-wrap;
 }
 
@@ -481,7 +487,8 @@
     padding: 0.75rem 1rem;
   }
   .sc-text {
-    font-size: 0.95rem;
+    /* Still noticeably larger than the pre-redesign 0.95rem baseline */
+    font-size: 1.05rem;
   }
   .sc-speaker-name {
     font-size: 0.85rem;

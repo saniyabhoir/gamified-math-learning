@@ -182,6 +182,60 @@
   background: rgba(11, 15, 26, 0.95);
 }
 
+/* ============================================================
+   Phase 1A — Notebook toggle (☰ hamburger, Module 1 only)
+   Sits directly below the back button on the left edge; opens/closes
+   the Math Notebook overlay without covering the story/quiz content.
+   ============================================================ */
+.mp-notebook-toggle {
+  position: fixed;
+  top: 118px; /* below .mp-back-btn */
+  left: 1rem;
+  z-index: 60;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: rgba(11, 15, 26, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: border-color 0.2s, background 0.2s;
+}
+.mp-notebook-toggle:hover {
+  border-color: rgba(167, 139, 250, 0.45);
+  background: rgba(11, 15, 26, 0.95);
+}
+.mp-notebook-toggle--active {
+  border-color: rgba(167, 139, 250, 0.6);
+  background: rgba(167, 139, 250, 0.12);
+}
+.mp-hamburger-bar {
+  display: block;
+  width: 18px;
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.6);
+  transition: background 0.2s;
+}
+.mp-notebook-toggle:hover .mp-hamburger-bar,
+.mp-notebook-toggle--active .mp-hamburger-bar {
+  background: #a78bfa;
+}
+
+@media (max-width: 768px) {
+  .mp-notebook-toggle {
+    top: 112px;
+    width: 36px;
+    height: 36px;
+  }
+}
+
 /* ── Loading screen ── */
 .mp-loader {
   min-height: 100vh;

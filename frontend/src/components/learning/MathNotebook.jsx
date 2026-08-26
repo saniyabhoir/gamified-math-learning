@@ -36,20 +36,28 @@ export const mergeNotebookConcepts = (userId, moduleId, moduleTitle, newConcepts
   return merged;
 };
 
+/* Build a single notebook-ready entry from one screen's
+   concept_explanation (title / main_rule / examples). Returns null when
+   the screen has no concept_explanation to add. Used both for the
+   whole-module extraction below and for Phase 1A's progressive,
+   subsection-by-subsection Notebook updates (see ModulePage.jsx). */
+export const extractConceptFromScreen = (screen) => {
+  if (!screen?.concept_explanation) return null;
+  return {
+    slug: (screen.concept_tags && screen.concept_tags[0]) || screen.screen_id,
+    title: screen.concept_explanation.title,
+    main_rule: screen.concept_explanation.main_rule,
+    examples: screen.concept_explanation.examples || [],
+  };
+};
+
 /* Build notebook-ready entries straight from a module's screens.
    concept_explanation (title / main_rule / examples) already exists on
    every screen in module1-5.json — no separate content to author, and
    any future module JSON that follows the same shape works automatically. */
 export const extractConceptsFromModule = (moduleData) => {
   const screens = moduleData?.screens || [];
-  return screens
-    .filter((s) => s.concept_explanation)
-    .map((s) => ({
-      slug: (s.concept_tags && s.concept_tags[0]) || s.screen_id,
-      title: s.concept_explanation.title,
-      main_rule: s.concept_explanation.main_rule,
-      examples: s.concept_explanation.examples || [],
-    }));
+  return screens.map(extractConceptFromScreen).filter(Boolean);
 };
 
 /* ── Component ──

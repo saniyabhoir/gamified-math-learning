@@ -7,14 +7,22 @@ import { saveProgressToBackend } from "../services/progressService";
 import StoryCard from "../components/learning/StoryCard";
 import QuizCard from "../components/learning/QuizCard";
 import MathNotebook, {
+  extractConceptFromScreen,
   extractConceptsFromModule,
   mergeNotebookConcepts,
 } from "../components/learning/MathNotebook";
+import NotebookIntro from "../components/learning/NotebookIntro";
+import ModuleOnboarding from "../components/learning/ModuleOnboarding";
 import ProgressBar from "../components/common/ProgressBar";
 import RewardPopup from "../components/common/RewardPopup";
 import FinalChallengePlaceholder from "../components/games/FinalChallengePlaceholder";
 import { isGameAvailable } from "../utils/GameRegistry";
 import "./ModulePage.css";
+
+// Phase 1A: the progressive Notebook, its first-time introduction, and the
+// guided onboarding are scoped to Module 1 only (see module1-phase1a-report.md).
+// Other modules keep their existing end-of-module Notebook behavior untouched.
+const PHASE_1A_MODULE_ID = 1;
 
 // ─── Progress helpers ─────────────────────────────────────────────────────────
 const getProgressKey = (userId, moduleId) =>
@@ -26,6 +34,15 @@ const getProgressKey = (userId, moduleId) =>
 // button-only.
 const getNotebookSeenKey = (userId, moduleId) =>
   `mq_notebook_seen_u${userId}_m${moduleId}`;
+
+// Phase 1A: has this student ever seen the guided Module 1 onboarding?
+const getOnboardingSeenKey = (userId, moduleId) =>
+  `mq_onboarding_seen_u${userId}_m${moduleId}`;
+
+// Phase 1A: has this student ever seen the "here's your Notebook" popup
+// (shown once, the first time any subsection completes and adds a page)?
+const getNotebookIntroSeenKey = (userId) =>
+  `mq_notebook_intro_seen_u${userId}`;
 
 const saveProgress = (userId, moduleId, data) => {
   try {
@@ -205,6 +222,15 @@ const ModulePage = () => {
   const [showNotebook, setShowNotebook] = useState(false);
   const [notebookConcepts, setNotebookConcepts] = useState([]);
 
+  // ── Phase 1A: guided onboarding + first-time Notebook intro state ────────
+  const isPhase1AModule = parsedId === PHASE_1A_MODULE_ID;
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [showNotebookIntro, setShowNotebookIntro] = useState(false);
+  // Holds the "advance to next screen" function while the Notebook intro
+  // popup is blocking progression, so dismissing (or opening the Notebook
+  // from) the intro resumes exactly where the story would have gone next.
+  const pendingAdvanceRef = useRef(null);
+
   // ── Load module JSON ──────────────────────────────────────────────────────
   useEffect(() => {
     if (isInvalidId) return;
@@ -222,6 +248,23 @@ const ModulePage = () => {
         setDataLoading(false);
       });
   }, [parsedId, isInvalidId]);
+
+  // ── Phase 1A: show the guided onboarding once, right at the very start
+  // of Module 1 (screen 0, story phase) — never again after that. ────────
+  useEffect(() => {
+    if (!isPhase1AModule || !moduleData || !user) return;
+    if (currentScreenIndex !== 0 || currentPhase !== "story") return;
+
+    let alreadySeen = false;
+    try {
+      alreadySeen =
+        localStorage.getItem(getOnboardingSeenKey(user.id, moduleId)) === "true";
+    } catch {
+      alreadySeen = false;
+    }
+
+    if (!alreadySeen) setShowOnboarding(true);
+  }, [isPhase1AModule, moduleData, user, currentScreenIndex, currentPhase, moduleId]);
 
   // ── Save local progress ───────────────────────────────────────────────────
   useEffect(() => {
@@ -291,6 +334,14 @@ const ModulePage = () => {
     );
     setNotebookConcepts(merged);
 
+    // Phase 1A: Module 1 now introduces the Notebook and adds to it
+    // progressively after each subsection (see handleRewardClose below),
+    // so by the time the student reaches this screen they've already seen
+    // it — skip the legacy "auto-open on first completion" popup so it
+    // doesn't interrupt them a second time. The merge above still runs so
+    // the Notebook stays complete/consistent either way.
+    if (isPhase1AModule) return;
+
     const seenKey = getNotebookSeenKey(user.id, moduleId);
     let alreadySeen = false;
     try {
@@ -307,7 +358,7 @@ const ModulePage = () => {
         /* non-fatal — worst case it auto-opens again next time */
       }
     }
-  }, [currentPhase, moduleData, user, parsedId, moduleId]);
+  }, [currentPhase, moduleData, user, parsedId, moduleId, isPhase1AModule]);
 
   // ── Transition helper ────────────────────────────────────────────────────
   const transitionTo = useCallback((fn) => {
@@ -359,15 +410,8 @@ const ModulePage = () => {
     }
   }, []);
 
-  // ── Reward close ─────────────────────────────────────────────────────────
-  const handleRewardClose = useCallback(() => {
-    if (pendingReward?.points) {
-      setTotalPoints((p) => p + pendingReward.points);
-    }
-
-    setShowReward(false);
-    setPendingReward(null);
-
+  // ── Advance to the next screen (or final challenge) ──────────────────────
+  const advanceToNextScreen = useCallback(() => {
     const screens = moduleData?.screens || [];
     const isLast = currentScreenIndex >= screens.length - 1;
 
@@ -379,7 +423,112 @@ const ModulePage = () => {
         setCurrentPhase("story");
       });
     }
-  }, [pendingReward, moduleData, currentScreenIndex, transitionTo]);
+  }, [moduleData, currentScreenIndex, transitionTo]);
+
+  // ── Reward close ─────────────────────────────────────────────────────────
+  const handleRewardClose = useCallback(() => {
+    if (pendingReward?.points) {
+      setTotalPoints((p) => p + pendingReward.points);
+    }
+
+    setShowReward(false);
+    setPendingReward(null);
+
+    // Phase 1A: progressively add the just-finished subsection's learning
+    // to the Math Notebook (Module 1 only). The very first time this ever
+    // happens for a student, introduce the Notebook with a short popup
+    // before letting them continue; every time after that it's silent.
+    if (isPhase1AModule && user && currentScreen) {
+      const screenConcept = extractConceptFromScreen(currentScreen);
+      if (screenConcept) {
+        const merged = mergeNotebookConcepts(
+          user.id,
+          parsedId,
+          moduleData?.module_title,
+          [screenConcept]
+        );
+        setNotebookConcepts(merged);
+      }
+
+      let introAlreadySeen = false;
+      try {
+        introAlreadySeen =
+          localStorage.getItem(getNotebookIntroSeenKey(user.id)) === "true";
+      } catch {
+        introAlreadySeen = false;
+      }
+
+      if (!introAlreadySeen) {
+        try {
+          localStorage.setItem(getNotebookIntroSeenKey(user.id), "true");
+        } catch {
+          /* non-fatal — worst case the intro shows again next time */
+        }
+        pendingAdvanceRef.current = advanceToNextScreen;
+        setShowNotebookIntro(true);
+        return; // hold off advancing until the intro popup is dismissed
+      }
+    }
+
+    advanceToNextScreen();
+  }, [
+    pendingReward,
+    isPhase1AModule,
+    user,
+    currentScreen,
+    parsedId,
+    moduleData,
+    advanceToNextScreen,
+  ]);
+
+  // ── Phase 1A: Notebook intro / Notebook close handlers ───────────────────
+  // Both resume any advance that was put on hold while a popup was open,
+  // so dismissing the intro (with or without peeking at the Notebook first)
+  // always continues the story exactly where it left off.
+  const handleNotebookIntroClose = useCallback(() => {
+    setShowNotebookIntro(false);
+    const resume = pendingAdvanceRef.current;
+    pendingAdvanceRef.current = null;
+    if (resume) resume();
+  }, []);
+
+  const handleNotebookIntroOpenNotebook = useCallback(() => {
+    setShowNotebookIntro(false);
+    setShowNotebook(true);
+    // pendingAdvanceRef stays set — resumed when the Notebook itself closes.
+  }, []);
+
+  const handleNotebookClose = useCallback(() => {
+    setShowNotebook(false);
+    const resume = pendingAdvanceRef.current;
+    pendingAdvanceRef.current = null;
+    if (resume) resume();
+  }, []);
+
+  // Used by the ☰ hamburger control, which can both open AND close the
+  // Notebook (unlike MathNotebook's own onClose, which only ever closes).
+  // Routing the "closing" half through handleNotebookClose ensures a
+  // subsection-completion advance that's on hold (see handleRewardClose)
+  // still resumes even if the student closes the Notebook from the
+  // hamburger instead of the Notebook's own close button/Escape key.
+  const handleNotebookToggle = useCallback(() => {
+    if (showNotebook) {
+      handleNotebookClose();
+    } else {
+      setShowNotebook(true);
+    }
+  }, [showNotebook, handleNotebookClose]);
+
+  const handleOnboardingClose = useCallback(() => {
+    setShowOnboarding(false);
+    if (user) {
+      try {
+        localStorage.setItem(getOnboardingSeenKey(user.id, moduleId), "true");
+      } catch {
+        /* non-fatal — worst case onboarding shows again next time */
+      }
+    }
+  }, [user, moduleId]);
 
   // ── Final module complete: save to backend MongoDB ───────────────────────
   const handleFinalChallengeComplete = async () => {
@@ -492,7 +641,7 @@ const ModulePage = () => {
         {showNotebook && (
           <MathNotebook
             concepts={notebookConcepts}
-            onClose={() => setShowNotebook(false)}
+            onClose={handleNotebookClose}
           />
         )}
       </>
@@ -513,6 +662,22 @@ const ModulePage = () => {
       <button className="mp-back-btn" onClick={() => navigate("/dashboard")}>
         ← Dashboard
       </button>
+
+      {/* Phase 1A: Notebook toggle — Module 1 only. Left-side hamburger
+          control that opens/closes the Math Notebook as an overlay without
+          permanently covering the story/quiz content underneath. */}
+      {isPhase1AModule && (
+        <button
+          className={`mp-notebook-toggle ${showNotebook ? "mp-notebook-toggle--active" : ""}`}
+          onClick={handleNotebookToggle}
+          aria-label={showNotebook ? "Close Math Notebook" : "Open Math Notebook"}
+          aria-expanded={showNotebook}
+        >
+          <span className="mp-hamburger-bar" />
+          <span className="mp-hamburger-bar" />
+          <span className="mp-hamburger-bar" />
+        </button>
+      )}
 
       <ProgressBar
         current={currentScreenIndex}
@@ -545,7 +710,7 @@ const ModulePage = () => {
         </div>
       )}
 
-      {currentPhase === "story" && currentScreen && (
+      {currentPhase === "story" && currentScreen && !showOnboarding && (
         <StoryCard screenData={currentScreen} onComplete={handleStoryComplete} />
       )}
 
@@ -579,6 +744,23 @@ const ModulePage = () => {
           onClose={handleRewardClose}
         />
       )}
+
+      {/* Phase 1A: Notebook overlay — available during the story/quiz flow
+          (not just at module completion), toggled via the ☰ control above. */}
+      {showNotebook && (
+        <MathNotebook concepts={notebookConcepts} onClose={handleNotebookClose} />
+      )}
+
+      {/* Phase 1A: first-time "here's your Notebook" introduction. */}
+      {showNotebookIntro && (
+        <NotebookIntro
+          onOpenNotebook={handleNotebookIntroOpenNotebook}
+          onClose={handleNotebookIntroClose}
+        />
+      )}
+
+      {/* Phase 1A: guided onboarding shown once at the very start of Module 1. */}
+      {showOnboarding && <ModuleOnboarding onClose={handleOnboardingClose} />}
     </div>
   );
 };

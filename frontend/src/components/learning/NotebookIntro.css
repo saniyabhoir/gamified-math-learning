@@ -1,0 +1,156 @@
+/* frontend/src/components/learning/NotebookIntro.css */
+/* ============================================================
+   NotebookIntro — one-time "here's your Notebook" popup
+   Styled to match MathNotebook.css / RewardPopup.css conventions.
+   ============================================================ */
+
+.ni-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(5,8,16,0);
+  backdrop-filter: blur(0px);
+  transition: background 0.32s ease, backdrop-filter 0.32s ease;
+}
+.ni-overlay--visible {
+  background: rgba(5,8,16,0.8);
+  backdrop-filter: blur(10px);
+}
+.ni-overlay--leaving {
+  background: rgba(5,8,16,0);
+  backdrop-filter: blur(0px);
+}
+
+.ni-card {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  background: linear-gradient(145deg, #171f3a 0%, #0e1525 100%);
+  border: 1px solid rgba(167,139,250,0.3);
+  border-radius: 24px;
+  padding: 2rem 1.85rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  text-align: center;
+  box-shadow:
+    0 30px 80px rgba(0,0,0,0.7),
+    0 0 0 1px rgba(255,255,255,0.04),
+    0 0 60px rgba(167,139,250,0.16);
+  opacity: 0;
+  transform: scale(0.85) translateY(30px);
+  transition: opacity 0.36s cubic-bezier(0.34,1.56,0.64,1),
+              transform 0.36s cubic-bezier(0.34,1.56,0.64,1);
+}
+.ni-card--in {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+.ni-card--out {
+  opacity: 0;
+  transform: scale(0.9) translateY(16px);
+  transition: opacity 0.26s ease, transform 0.26s ease;
+}
+
+.ni-icon {
+  font-size: 2.6rem;
+  filter: drop-shadow(0 6px 18px rgba(167,139,250,0.4));
+}
+
+.ni-title {
+  font-family: var(--font-display, 'Cinzel', serif);
+  font-size: 1.25rem;
+  color: var(--mp-gold, #e8a838);
+  margin: 0;
+}
+
+.ni-text {
+  font-family: var(--font-body, 'Nunito', sans-serif);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--mp-text, #e8edf4);
+  margin: 0;
+}
+.ni-text strong {
+  color: var(--mp-teal, #3ecfcf);
+}
+
+/* ── "how to open it" strip ── */
+.ni-howto {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 0.7rem 0.9rem;
+  text-align: left;
+}
+.ni-hamburger {
+  flex-shrink: 0;
+  width: 22px;
+  height: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.ni-hamburger span {
+  display: block;
+  height: 2.5px;
+  border-radius: 2px;
+  background: var(--mp-teal, #3ecfcf);
+}
+.ni-howto-text {
+  font-family: var(--font-body, 'Nunito', sans-serif);
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--mp-text-muted, #7a8aaa);
+}
+
+/* ── Actions ── */
+.ni-actions {
+  display: flex;
+  gap: 0.7rem;
+  width: 100%;
+  margin-top: 0.3rem;
+}
+.ni-btn {
+  flex: 1;
+  font-family: var(--font-body, 'Nunito', sans-serif);
+  font-size: 0.88rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  border-radius: 12px;
+  padding: 0.7rem 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.ni-btn--ghost {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.14);
+  color: var(--mp-text, #e8edf4);
+}
+.ni-btn--ghost:hover {
+  background: rgba(255,255,255,0.09);
+  border-color: rgba(255,255,255,0.25);
+}
+.ni-btn--primary {
+  border: none;
+  background: linear-gradient(135deg, #a78bfa 0%, #7c5cf0 100%);
+  color: #0b0f1a;
+  box-shadow: 0 6px 20px rgba(167,139,250,0.4);
+}
+.ni-btn--primary:hover {
+  box-shadow: 0 8px 28px rgba(167,139,250,0.6);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 480px) {
+  .ni-card { padding: 1.6rem 1.4rem 1.4rem; border-radius: 18px; }
+  .ni-actions { flex-direction: column; }
+}
