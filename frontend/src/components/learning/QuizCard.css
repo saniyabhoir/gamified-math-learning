@@ -71,6 +71,31 @@
   border-radius: 100px;
 }
 
+/* ── Guided tour / future Phase 1B: inert Hint placeholder ──
+   Deliberately styled as dashed/disabled (not a real button) so it never
+   reads as functional — it exists solely as a marked location for the
+   guided tour to spotlight and for Phase 1B to later wire up. */
+.qc-meta-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.qc-hint-slot {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--mp-text-dim, #4a5870);
+  background: rgba(255,255,255,0.04);
+  border: 1px dashed rgba(255,255,255,0.16);
+  padding: 0.25rem 0.6rem;
+  border-radius: 100px;
+  opacity: 0.75;
+  cursor: default;
+  user-select: none;
+}
+
 /* Question progress bar */
 .qc-q-track {
   width: 100%;
@@ -363,4 +388,6 @@
   .qc-option-label { width: 26px; height: 26px; font-size: 0.7rem; }
   .qc-question-text { font-size: 0.97rem; }
   .qc-keyboard-hint { display: none; }
+  .qc-hint-slot-label { display: none; }
+  .qc-hint-slot { padding: 0.25rem 0.45rem; }
 }

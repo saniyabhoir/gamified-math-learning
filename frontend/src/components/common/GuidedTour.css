@@ -1,0 +1,170 @@
+/* frontend/src/components/common/GuidedTour.css */
+/* ============================================================
+   GuidedTour — generic spotlight walkthrough engine.
+   Visual language matches ModuleOnboarding/RewardPopup/MathNotebook
+   (dark surface, gold accent, Cinzel/Nunito type).
+   ============================================================ */
+
+.gt-root {
+  position: fixed;
+  inset: 0;
+  /* Above the fixed ProgressBar/back-button/notebook-toggle (≤1000) so
+     it can properly dim them, but below RewardPopup/MathNotebook/
+     NotebookIntro (≥2000) — if one of those ever fires while the tour
+     is still open, the real in-app popup wins and the tour simply
+     reappears underneath once it's dismissed. */
+  z-index: 1500;
+  font-family: var(--font-body, 'Nunito', sans-serif);
+}
+
+.gt-dim {
+  position: fixed;
+  background: rgba(5, 8, 16, 0.82);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  transition: all 0.25s ease;
+  pointer-events: auto;
+}
+.gt-dim--full {
+  inset: 0;
+}
+
+.gt-spotlight-ring {
+  position: fixed;
+  border-radius: 16px;
+  border: 2px solid var(--mp-gold, #e8a838);
+  box-shadow:
+    0 0 0 4px rgba(232, 168, 56, 0.18),
+    0 0 32px rgba(232, 168, 56, 0.45);
+  pointer-events: none;
+  transition: top 0.25s ease, left 0.25s ease, width 0.25s ease, height 0.25s ease;
+  animation: gtPulse 1.8s ease-in-out infinite;
+}
+@keyframes gtPulse {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(232, 168, 56, 0.18), 0 0 32px rgba(232, 168, 56, 0.45); }
+  50%      { box-shadow: 0 0 0 8px rgba(232, 168, 56, 0.10), 0 0 44px rgba(232, 168, 56, 0.60); }
+}
+
+.gt-tooltip {
+  width: min(340px, calc(100vw - 32px));
+  background: linear-gradient(145deg, #171f3a 0%, #0e1525 100%);
+  border: 1px solid rgba(232, 168, 56, 0.25);
+  border-radius: 20px;
+  padding: 1.3rem 1.4rem 1.1rem;
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.65),
+    0 0 0 1px rgba(255, 255, 255, 0.04);
+  pointer-events: auto;
+  animation: gtTooltipIn 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes gtTooltipIn {
+  from { opacity: 0; transform: translateY(6px) scale(0.97); }
+  to   { opacity: 1; transform: none; }
+}
+
+.gt-tooltip-kicker {
+  font-size: 0.66rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--mp-teal, #3ecfcf);
+  margin-bottom: 0.35rem;
+}
+.gt-tooltip-title {
+  font-family: var(--font-display, 'Cinzel', serif);
+  font-size: 1.08rem;
+  color: var(--mp-text, #e8edf4);
+  margin: 0 0 0.4rem;
+}
+.gt-tooltip-body {
+  font-size: 0.86rem;
+  line-height: 1.55;
+  color: var(--mp-text-muted, #7a8aaa);
+  margin: 0 0 0.8rem;
+}
+
+.gt-dots {
+  display: flex;
+  gap: 0.35rem;
+  margin-bottom: 0.9rem;
+}
+.gt-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  transition: all 0.25s ease;
+}
+.gt-dot--active {
+  width: 18px;
+  border-radius: 100px;
+  background: var(--mp-gold, #e8a838);
+  box-shadow: 0 0 8px var(--mp-gold, #e8a838);
+}
+
+.gt-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.gt-actions-left,
+.gt-actions-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.gt-btn {
+  font-family: var(--font-body, 'Nunito', sans-serif);
+  font-size: 0.82rem;
+  font-weight: 800;
+  border-radius: 10px;
+  padding: 0.55rem 0.85rem;
+  cursor: pointer;
+  border: none;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+.gt-btn--ghost {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: var(--mp-text-muted, #7a8aaa);
+}
+.gt-btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.09);
+  color: var(--mp-text, #e8edf4);
+}
+.gt-btn--text {
+  background: transparent;
+  color: var(--mp-text-dim, #4a5870);
+  padding: 0.55rem 0.4rem;
+}
+.gt-btn--text:hover {
+  color: var(--mp-text-muted, #7a8aaa);
+  text-decoration: underline;
+}
+.gt-btn--primary {
+  background: linear-gradient(135deg, #e8a838 0%, #c87820 100%);
+  color: #0b0f1a;
+  box-shadow: 0 6px 18px rgba(232, 168, 56, 0.4);
+}
+.gt-btn--primary:hover {
+  box-shadow: 0 8px 24px rgba(232, 168, 56, 0.6);
+  transform: translateY(-1px);
+}
+
+/* ============================================================
+   Responsive — smaller phones / narrow laptop windows
+   ============================================================ */
+@media (max-width: 480px) {
+  .gt-tooltip {
+    padding: 1.1rem 1.1rem 0.9rem;
+    border-radius: 16px;
+  }
+  .gt-tooltip-title { font-size: 1rem; }
+  .gt-tooltip-body { font-size: 0.82rem; }
+  .gt-actions { gap: 0.4rem; }
+  .gt-btn { font-size: 0.78rem; padding: 0.5rem 0.65rem; }
+}

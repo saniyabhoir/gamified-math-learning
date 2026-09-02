@@ -115,9 +115,18 @@ const QuizCard = ({ screenData, onComplete, onAnswerLogged }) => {
         <div className="qc-header">
           <div className="qc-meta">
             <span className="qc-q-counter">Question {qIdx + 1} <span className="qc-q-of">of {questions.length}</span></span>
-            {currentQ.points && (
-              <span className="qc-points-badge">+{currentQ.points} pts</span>
-            )}
+            <div className="qc-meta-right">
+              {currentQ.points && (
+                <span className="qc-points-badge">+{currentQ.points} pts</span>
+              )}
+              {/* Guided tour + future Phase 1B anchor: a purely visual,
+                  inert placeholder marking where the real Hint control
+                  will live. No state, no click handler — does not change
+                  quiz, answer, or scoring behavior in any way. */}
+              <span className="qc-hint-slot" aria-hidden="true" title="Hints coming soon">
+                💡 <span className="qc-hint-slot-label">Hint</span>
+              </span>
+            </div>
           </div>
           {/* Question progress bar */}
           <div className="qc-q-track" aria-hidden="true">

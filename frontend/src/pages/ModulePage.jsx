@@ -12,7 +12,7 @@ import MathNotebook, {
   mergeNotebookConcepts,
 } from "../components/learning/MathNotebook";
 import NotebookIntro from "../components/learning/NotebookIntro";
-import ModuleOnboarding from "../components/learning/ModuleOnboarding";
+import ModuleGuidedTour from "../components/learning/ModuleGuidedTour";
 import ProgressBar from "../components/common/ProgressBar";
 import RewardPopup from "../components/common/RewardPopup";
 import FinalChallengePlaceholder from "../components/games/FinalChallengePlaceholder";
@@ -35,9 +35,9 @@ const getProgressKey = (userId, moduleId) =>
 const getNotebookSeenKey = (userId, moduleId) =>
   `mq_notebook_seen_u${userId}_m${moduleId}`;
 
-// Phase 1A: has this student ever seen the guided Module 1 onboarding?
-const getOnboardingSeenKey = (userId, moduleId) =>
-  `mq_onboarding_seen_u${userId}_m${moduleId}`;
+// Phase 1A: has this student ever seen the interactive Module 1 guided tour?
+const getTourSeenKey = (userId, moduleId) =>
+  `mq_tour_seen_u${userId}_m${moduleId}`;
 
 // Phase 1A: has this student ever seen the "here's your Notebook" popup
 // (shown once, the first time any subsection completes and adds a page)?
@@ -224,7 +224,7 @@ const ModulePage = () => {
 
   // ── Phase 1A: guided onboarding + first-time Notebook intro state ────────
   const isPhase1AModule = parsedId === PHASE_1A_MODULE_ID;
-  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [showGuidedTour, setShowGuidedTour] = useState(false);
   const [showNotebookIntro, setShowNotebookIntro] = useState(false);
   // Holds the "advance to next screen" function while the Notebook intro
   // popup is blocking progression, so dismissing (or opening the Notebook
@@ -249,8 +249,10 @@ const ModulePage = () => {
       });
   }, [parsedId, isInvalidId]);
 
-  // ── Phase 1A: show the guided onboarding once, right at the very start
-  // of Module 1 (screen 0, story phase) — never again after that. ────────
+  // ── Phase 1A: show the interactive guided tour once, right at the very
+  // start of Module 1 (screen 0, story phase) — never again after that.
+  // The tour renders alongside the real StoryCard (rather than hiding
+  // it) so it can spotlight the actual, live UI. ─────────────────────────
   useEffect(() => {
     if (!isPhase1AModule || !moduleData || !user) return;
     if (currentScreenIndex !== 0 || currentPhase !== "story") return;
@@ -258,12 +260,12 @@ const ModulePage = () => {
     let alreadySeen = false;
     try {
       alreadySeen =
-        localStorage.getItem(getOnboardingSeenKey(user.id, moduleId)) === "true";
+        localStorage.getItem(getTourSeenKey(user.id, moduleId)) === "true";
     } catch {
       alreadySeen = false;
     }
 
-    if (!alreadySeen) setShowOnboarding(true);
+    if (!alreadySeen) setShowGuidedTour(true);
   }, [isPhase1AModule, moduleData, user, currentScreenIndex, currentPhase, moduleId]);
 
   // ── Save local progress ───────────────────────────────────────────────────
@@ -519,13 +521,15 @@ const ModulePage = () => {
     }
   }, [showNotebook, handleNotebookClose]);
 
-  const handleOnboardingClose = useCallback(() => {
-    setShowOnboarding(false);
+  // Fires on Finish AND on Skip/Exit — either way, the tour has been
+  // shown and shouldn't interrupt this student again for this module.
+  const handleGuidedTourClose = useCallback(() => {
+    setShowGuidedTour(false);
     if (user) {
       try {
-        localStorage.setItem(getOnboardingSeenKey(user.id, moduleId), "true");
+        localStorage.setItem(getTourSeenKey(user.id, moduleId), "true");
       } catch {
-        /* non-fatal — worst case onboarding shows again next time */
+        /* non-fatal — worst case the tour shows again next time */
       }
     }
   }, [user, moduleId]);
@@ -710,7 +714,7 @@ const ModulePage = () => {
         </div>
       )}
 
-      {currentPhase === "story" && currentScreen && !showOnboarding && (
+      {currentPhase === "story" && currentScreen && (
         <StoryCard screenData={currentScreen} onComplete={handleStoryComplete} />
       )}
 
@@ -759,8 +763,11 @@ const ModulePage = () => {
         />
       )}
 
-      {/* Phase 1A: guided onboarding shown once at the very start of Module 1. */}
-      {showOnboarding && <ModuleOnboarding onClose={handleOnboardingClose} />}
+      {/* Phase 1A: interactive guided tour shown once at the very start of
+          Module 1. Renders alongside the real interface above (not in
+          place of it) so it can spotlight the actual story/quiz/notebook
+          UI rather than describing it in a generic modal. */}
+      {showGuidedTour && <ModuleGuidedTour onClose={handleGuidedTourClose} />}
     </div>
   );
 };
